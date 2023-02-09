@@ -12,6 +12,8 @@ import { Breadcrumb, Layout, Menu } from "antd";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./views/pages/home/HomePage";
 import LoginPage from "./views/pages/login/LoginPage";
+import LeftSideBar from "./views/components/LeftSideBar";
+import TopBar from "./views/components/TopBar";
 
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -38,7 +40,8 @@ const App = () => {
     return (
       <Router>
         <Layout>
-          <LoginPage></LoginPage>
+          <LeftSideBar />
+          <TopBar />
         </Layout>
       </Router>
     );
