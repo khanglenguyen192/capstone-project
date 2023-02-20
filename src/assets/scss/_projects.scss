@@ -30,18 +30,4 @@
       padding-right: 30px;
     }
   }
-
-  .project-members {
-    a{
-      margin: 0 0 10px -12px;
-      display: inline-block;
-      border: 3px solid $white;
-      border-radius: 50%;
-      box-shadow: $shadow;
-
-      &:first-of-type {
-        margin-left: 0;
-      }
-    }
-  }
 }

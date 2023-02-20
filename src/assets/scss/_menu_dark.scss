@@ -106,7 +106,7 @@
   h5{
     margin-bottom: 2px;
     a{
-      color: $bg-leftbar-menu-color;
+      color: $bg-leftbar-menu-color !important;
     }
 
   }
@@ -254,7 +254,7 @@
 }
 
 #sidebar-menu > ul > li > a.active {
-  color: $custom;
+  color: cyan;
 }
 
 .menu-title {
@@ -309,8 +309,8 @@
       padding: 15px 20px;
       min-height: 56px;
       &:hover,&:active,&:focus {
-        color: $dark;
-        background-color: $light;
+        color: #02c0ce;
+        background-color: transparent;
       }
 
       i {
@@ -454,7 +454,7 @@
 .app-search {
   position: relative;
   padding-top: 18px;
-  padding-right: 20px;
+  /*padding-right: 20px;*/
 
   button {
     position: absolute;
@@ -546,9 +546,9 @@ body.enlarged.bg-transparent {
 
     .notify-icon {
       float: left;
-      height: 36px;
-      width: 36px;
-      line-height: 36px;
+      height: 24px;
+      width: 24px;
+      line-height: 24px;
       text-align: center;
       margin-right: 10px;
       border-radius: 50%;
