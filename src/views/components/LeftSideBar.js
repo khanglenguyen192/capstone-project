@@ -12,7 +12,7 @@ const LeftSideBar = () => {
   const items = [
     {
       icon: "fi-air-play",
-      routerLink: "/labour-contract",
+      routerLink: "/home",
       title: "Trang chủ",
     },
     {
@@ -42,7 +42,7 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-calendar-today menu-icon",
-      routerLink: "/",
+      routerLink: "/day-off",
       title: "Ngày nghỉ",
     },
     {
