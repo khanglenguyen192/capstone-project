@@ -1,9 +1,16 @@
 import React from "react";
+import { Outlet, Route } from "react-router-dom";
+import LeftSideBar from "../components/LeftSideBar";
+import TopBar from "../components/TopBar";
 
 const MainLayout = () => {
   return (
     <div>
-      <h1>Main Layout</h1>
+      <LeftSideBar />
+      <div class="content-page">
+        <TopBar />
+        <Outlet />
+      </div>
     </div>
   );
 };

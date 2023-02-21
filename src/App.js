@@ -7,20 +7,20 @@ import HomePage from "./views/pages/home/HomePage";
 import LoginPage from "./views/pages/login/LoginPage";
 import LeftSideBar from "./views/components/LeftSideBar";
 import TopBar from "./views/components/TopBar";
-
-function getItem(label, key, icon, children) {
-  return { key, icon, children, label };
-}
+import MainLayout from "./views/main-layout/MainLayout";
+import DayOffPage from "./views/pages/dayoff/DayOffPage";
 
 const App = () => {
   if (true) {
     return (
       <Router>
-        <Layout>
-          <LeftSideBar />
-          <TopBar />
-          <HomePage />
-        </Layout>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route path="home" element={<HomePage />} />
+            <Route path="day-off" element={<DayOffPage />} />
+          </Route>
+          <Route path="login" element={<LoginPage />} />
+        </Routes>
       </Router>
     );
   }
