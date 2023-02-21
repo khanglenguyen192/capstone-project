@@ -1,4 +1,6 @@
 import React from "react";
+import "./LoginPage.css";
+import backgroundImage from "../../../assets/images/no-image.jpg";
 
 const LoginPage = () => {
   const background = {
@@ -21,7 +23,7 @@ const LoginPage = () => {
       <div
         className="accountbg"
         style={{
-          backgroundImage: `url(${background.backgroundImage})`,
+          backgroundImage: { backgroundImage },
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -40,7 +42,7 @@ const LoginPage = () => {
                 </h2>
               </div>
 
-              <form autoComplete="on" action="#">
+              <form autoComplete="on" action="#" style={{ margin: "25px" }}>
                 <div className="form-group m-b-20 row">
                   <div className="col-12">
                     <label htmlFor="emailaddress">Email address</label>
