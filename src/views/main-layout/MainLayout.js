@@ -3,6 +3,7 @@ import { Outlet, Route } from "react-router-dom";
 import LeftSideBar from "../components/LeftSideBar";
 import TopBar from "../components/TopBar";
 import Footer from "../components/Footer";
+import "./MainLayout.css";
 
 const MainLayout = () => {
   return (
@@ -10,7 +11,11 @@ const MainLayout = () => {
       <LeftSideBar />
       <div class="content-page">
         <TopBar />
-        <Outlet />
+        <div class="content">
+          <div class="container-fluid">
+            <Outlet />
+          </div>
+        </div>
         <Footer />
       </div>
     </div>

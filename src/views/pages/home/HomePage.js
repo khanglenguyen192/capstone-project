@@ -21,7 +21,11 @@ export default function HomePage() {
 
   const request = {};
 
-  const userIndex = {};
+  const userIndex = {
+    totalProjects: "1",
+    dayOffInYear: "1",
+    totalDayOffInYear: "11",
+  };
 
   return (
     <div class="row">
@@ -107,7 +111,7 @@ export default function HomePage() {
           <div class="ribbon ribbon-info">Danh sách tạm ứng lương</div>
           <div class="clearfix"></div>
           <div class="inbox-widget  slimscroll">
-            <div class="inbox-item" title="Lí do ứng lương: {{cash.reason}}">
+            {/* <div class="inbox-item" title="Lí do ứng lương: {{cash.reason}}">
               <p class="inbox-item-author">Tạm ứng lương</p>
               <p class="inbox-item-text">
                 Bạn đã yêu cầu tạm ứng số tiền
@@ -122,7 +126,7 @@ export default function HomePage() {
                 <span class="badge badge-danger font-13">Đã từ chối</span>
                 <span class="badge badge-warning font-13">Chờ xác nhận</span>
               </p>
-            </div>
+            </div> */}
           </div>
           <div class="inbox-widget">
             <div class="inbox-item">
@@ -165,58 +169,9 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* <div class="card-box">
+        <div class="card-box">
           <div class="card-title font-500 font-18"> Dự án đang tham gia </div>
-          <nz-table VirtualScroll>
-            <thead class="project-header">
-              <tr class="d-flex project-header-row">
-                <th>Tên dự án</th>
-                <th>Ảnh dự án</th>
-                <th>Khách hàng</th>
-                <th>Trạng thái</th>
-                <th>Thành viên</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ng-template nz-virtual-scroll let-data let-index="index">
-                <tr class="d-flex project-data-row">
-                  <td>{data.projectname}</td>
-                  <td>
-                    <app-shared-image></app-shared-image>
-                  </td>
-                  <td>{data.customerName}</td>
-                  <td>
-                    <div class="badge badge-custom font-13">
-                      <span>{data.statusmodel.Name}</span>
-                    </div>
-                    <div class="badge badge-warning font-13">
-                      <span>{data.statusmodel.Name}</span>
-                    </div>
-                    <div class="badge badge-danger font-13">
-                      <span>{data.statusmodel.Name}</span>
-                    </div>
-                    <div class="badge badge-success font-13">
-                      <span>{data.statusmodel.Name}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <div>
-                      <span>
-                        <app-shared-image></app-shared-image>
-                      </span>
-                      <i class="mdi mdi-dots-horizontal align-bottom bottom-dots"></i>
-                    </div>
-                    <div>
-                      <span>
-                        <app-shared-image></app-shared-image>
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-              </ng-template>
-            </tbody>
-          </nz-table>
-        </div> */}
+        </div>
 
         <div class="row">
           <div class="col-xs-6 col-md-6">
