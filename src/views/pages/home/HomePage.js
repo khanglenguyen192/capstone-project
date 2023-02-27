@@ -1,3 +1,4 @@
+import React, { Component }  from 'react';
 import "./HomePage.css";
 
 export default function HomePage() {
