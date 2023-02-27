@@ -8,6 +8,8 @@ import LoginPage from "./views/pages/login/LoginPage";
 import DayOffPage from "./views/pages/dayoff/DayOffPage";
 import DailyReportPage from "./views/pages/daily-report/DailyReportPage";
 import EditDailyReportPage from "./views/pages/edit-daily-report/EditDailyReportPage";
+import MeetingPage from "./views/pages/meeting/MeetingPage";
+import UsersPage from "./views/pages/user/users/UsersPage";
 
 const App = () => {
   var isLoggedIn = true;
@@ -21,6 +23,8 @@ const App = () => {
             <Route path="day-off" element={<DayOffPage />} />
             <Route path="daily-report" element={<DailyReportPage />} />
             <Route path="edit-daily-report" element={<EditDailyReportPage />} />
+            <Route path="meeting" element={<MeetingPage />} />
+            <Route path="users" element={<UsersPage />} />
           </Route>
         </Routes>
       </Router>

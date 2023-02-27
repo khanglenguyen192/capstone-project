@@ -61,7 +61,7 @@ export default function DayOffPage() {
               height={800}
               locale={viLocale}
             />
-            <div>
+            {/* <div>
               <button
                 type="button"
                 class="fc-viewListLeaving-button fc-button fc-button-primary float-right"
@@ -154,7 +154,7 @@ export default function DayOffPage() {
                   </tbody>
                 </table>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
