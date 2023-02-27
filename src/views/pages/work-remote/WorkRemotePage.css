@@ -1,0 +1,10 @@
+.fc .fc-button-primary {
+  background-color: #e3eaef;
+  border: none;
+  color: #79797a;
+}
+
+.fc .fc-button-primary:disabled {
+  background-color: #02c0ce;
+  color: #fff;
+}
