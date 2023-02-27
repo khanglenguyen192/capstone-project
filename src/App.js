@@ -10,21 +10,31 @@ import DailyReportPage from "./views/pages/daily-report/DailyReportPage";
 import EditDailyReportPage from "./views/pages/edit-daily-report/EditDailyReportPage";
 import MeetingPage from "./views/pages/meeting/MeetingPage";
 import UsersPage from "./views/pages/user/users/UsersPage";
+import WorkRemotePage from "./views/pages/work-remote/WorkRemotePage";
+import SalaryDetailPage from "./views/pages/salary-detail/SalaryDetailPage";
 
 const App = () => {
+  //TODO: Hard code data
   var isLoggedIn = true;
+  var userName = "Lê Nguyên Khang";
 
   if (isLoggedIn) {
     return (
       <Router>
         <Routes>
-          <Route path="/" element={<MainLayout />}>
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<HomePage />} />
             <Route path="home" element={<HomePage />} />
             <Route path="day-off" element={<DayOffPage />} />
             <Route path="daily-report" element={<DailyReportPage />} />
             <Route path="edit-daily-report" element={<EditDailyReportPage />} />
             <Route path="meeting" element={<MeetingPage />} />
             <Route path="users" element={<UsersPage />} />
+            <Route
+              path="work-remote"
+              element={<WorkRemotePage userName={userName} />}
+            />
+            <Route path="/salary-detail" element={<SalaryDetailPage />} />
           </Route>
         </Routes>
       </Router>

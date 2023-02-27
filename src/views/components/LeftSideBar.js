@@ -63,7 +63,7 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-file-document-box menu-icon",
-      routerLink: "/salary",
+      routerLink: "/salary-detail",
       title: "Bảng lương",
     },
   ];
