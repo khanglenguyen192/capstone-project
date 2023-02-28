@@ -3,8 +3,15 @@ import NoImage from "../../assets/images/no-image.jpg";
 import LogoLight from "../../assets/images/logo_light.png";
 import LogoSm from "../../assets/images/logo_sm.png";
 import "./LeftSideBar.css";
+import { Link, useNavigate } from "react-router-dom";
 
 const LeftSideBar = () => {
+  const navigate = useNavigate();
+
+  function viewProfile() {
+    navigate("/edit-user-profile");
+  }
+
   const user = {
     fullname: "Lê Nguyên Khang",
   };
@@ -17,27 +24,27 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-note-text menu-icon",
-      routerLink: "/labour-contract",
+      routerLink: "/daily-report",
       title: "Daily Report",
     },
     {
       icon: "mdi mdi-account-multiple menu-icon",
-      routerLink: "/labour-contract",
+      routerLink: "/users",
       title: "Đồng nghiệp",
     },
     {
       icon: "mdi mdi-note-multiple-outline menu-icon",
-      routerLink: "/",
+      routerLink: "/projects",
       title: "Dự án",
     },
     {
       icon: "mdi mdi-sitemap menu-icon",
-      routerLink: "/",
+      routerLink: "/department",
       title: "Phòng ban",
     },
     {
       icon: "mdi mdi-message-video menu-icon",
-      routerLink: "/",
+      routerLink: "/meeting",
       title: "Hội họp",
     },
     {
@@ -47,22 +54,22 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-account-network menu-icon",
-      routerLink: "/",
+      routerLink: "/work-remote",
       title: "Làm việc từ xa",
     },
     {
       icon: "mdi mdi-av-timer menu-icon",
-      routerLink: "/",
+      routerLink: "/overtime",
       title: "Tăng ca",
     },
     {
       icon: "mdi mdi-cash-multiple menu-icon",
-      routerLink: "/",
+      routerLink: "/advanced-salary",
       title: "Ứng lương",
     },
     {
       icon: "mdi mdi-file-document-box menu-icon",
-      routerLink: "/",
+      routerLink: "/salary-detail",
       title: "Bảng lương",
     },
   ];
@@ -71,7 +78,7 @@ const LeftSideBar = () => {
     <div class="left side-menu">
       <div class="slimscroll-menu" id="remove-scroll">
         <div class="topbar-left">
-          <a class="logo">
+          <a class="logo" href="/">
             <span>
               <img src={LogoLight} alt="" height="22"></img>{" "}
             </span>{" "}
@@ -80,7 +87,7 @@ const LeftSideBar = () => {
             </i>{" "}
           </a>{" "}
         </div>{" "}
-        <div class="user-box" click="viewProfile()">
+        <div class="user-box" onClick={viewProfile}>
           <div class="user-img">
             <img
               src={NoImage}
@@ -101,16 +108,16 @@ const LeftSideBar = () => {
             {" "}
             {items.map((item) => (
               <li class="menu-item">
-                <a routerLink={item.routerLink}>
+                <Link to={item.routerLink}>
                   <i class={item.icon}> </i> <span> {item.title} </span>{" "}
-                </a>{" "}
+                </Link>
               </li>
             ))}{" "}
             <li class="menu-item">
-              <a click="getLabourContract()">
+              <Link to="/home">
                 <i class="menu-icon mdi mdi-content-copy"> </i>{" "}
                 <span> Hồ sơ lao động </span>{" "}
-              </a>{" "}
+              </Link>
             </li>{" "}
           </ul>{" "}
         </div>{" "}

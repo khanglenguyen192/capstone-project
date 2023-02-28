@@ -1,0 +1,70 @@
+.table-bordered td,
+.table-bordered th {
+  border-color: black !important;
+  font-family: Roboto, sans-serif;
+}
+
+.fixed-btn-group {
+  position: fixed;
+  right: 60px;
+}
+
+.fixed-btn-group-user {
+  position: absolute;
+  right: 40px;
+  top: 20px;
+}
+
+@media (max-width: 1025px) {
+  .fixed-btn-group {
+    position: fixed;
+    right: 32px;
+  }
+}
+
+.fixed-img-name {
+  position: fixed;
+}
+
+.minus-salary {
+  color: red;
+}
+
+.salaryNameDisplay {
+  float: right;
+  text-transform: uppercase;
+}
+
+.card .card-body .alert-success + .table-layout {
+  height: 62vh;
+  overflow: auto;
+}
+
+.card .card-body .table-layout {
+  height: 69vh;
+  overflow: auto;
+}
+
+.card .card-body .table-layout-adm {
+  height: 65vh;
+  overflow: auto;
+  margin-top: 83px;
+}
+
+.header-salary {
+  float: left;
+}
+
+.approve {
+  background-color: red;
+  color: white;
+  pointer-events: none;
+}
+
+.fixed-btn-group span.badge-custom {
+  padding: 0 15px;
+}
+
+.text-dark .font-15 .text-uppercase .text-bold #salary-detail-full-name p {
+  margin-bottom: -2px !important;
+}
