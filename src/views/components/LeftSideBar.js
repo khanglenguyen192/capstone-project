@@ -3,9 +3,15 @@ import NoImage from "../../assets/images/no-image.jpg";
 import LogoLight from "../../assets/images/logo_light.png";
 import LogoSm from "../../assets/images/logo_sm.png";
 import "./LeftSideBar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LeftSideBar = () => {
+  const navigate = useNavigate();
+
+  function viewProfile() {
+    navigate("/edit-user-profile");
+  }
+
   const user = {
     fullname: "Lê Nguyên Khang",
   };
@@ -72,7 +78,7 @@ const LeftSideBar = () => {
     <div class="left side-menu">
       <div class="slimscroll-menu" id="remove-scroll">
         <div class="topbar-left">
-          <a class="logo">
+          <a class="logo" href="/">
             <span>
               <img src={LogoLight} alt="" height="22"></img>{" "}
             </span>{" "}
@@ -81,7 +87,7 @@ const LeftSideBar = () => {
             </i>{" "}
           </a>{" "}
         </div>{" "}
-        <div class="user-box" click="viewProfile()">
+        <div class="user-box" onClick={viewProfile}>
           <div class="user-img">
             <img
               src={NoImage}

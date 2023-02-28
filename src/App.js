@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./index.css";
+import "./App.css";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainLayout from "./views/main-layout/MainLayout";
@@ -12,6 +13,7 @@ import MeetingPage from "./views/pages/meeting/MeetingPage";
 import UsersPage from "./views/pages/user/users/UsersPage";
 import WorkRemotePage from "./views/pages/work-remote/WorkRemotePage";
 import SalaryDetailPage from "./views/pages/salary-detail/SalaryDetailPage";
+import EditUserProfilePage from "./views/pages/user/edit-user-profile/EditUserProfilePage";
 
 const App = () => {
   //TODO: Hard code data
@@ -35,6 +37,10 @@ const App = () => {
               element={<WorkRemotePage userName={userName} />}
             />
             <Route path="/salary-detail" element={<SalaryDetailPage />} />
+            <Route
+              path="/edit-user-profile"
+              element={<EditUserProfilePage />}
+            />
           </Route>
         </Routes>
       </Router>
