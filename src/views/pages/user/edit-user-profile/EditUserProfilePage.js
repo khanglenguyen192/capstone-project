@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import NoImage from "../../../../assets/images/no-image.jpg";
 import "./EditUserProfilePage.css";
 import { Input, Cascader, DatePicker } from "antd";
+import viVN from "antd/lib/locale/vi_VN";
 
 export default function EditUserProfilePage(props) {
-  var isAdmin = true;
-  var isSelfEditting = true;
+  const [isSelfEditting, setSelfEditing] = useState(true);
+  const [isAdmin, setAdmin] = useState(false);
 
   const genderModels = [
     {
@@ -288,8 +289,11 @@ export default function EditUserProfilePage(props) {
                         <div class="col-sm-8">
                           <div class="input-group">
                             <DatePicker
+                              locale={viVN}
+                              format="DD/MM/YYYY"
                               size="large"
                               style={{ width: "100%" }}
+                              placeholder="Ngày vào công ty"
                             ></DatePicker>
                           </div>
                         </div>
@@ -353,8 +357,11 @@ export default function EditUserProfilePage(props) {
                           <div class="col-sm-8">
                             <div class="input-group">
                               <DatePicker
+                                locale={viVN}
+                                format="DD/MM/YYYY"
                                 size="large"
                                 style={{ width: "100%" }}
+                                placeholder="Ngày sinh"
                               ></DatePicker>
                             </div>
                           </div>
@@ -401,9 +408,9 @@ export default function EditUserProfilePage(props) {
               <div class="card">
                 <div class="card-body">
                   {isSelfEditting ? (
-                    <h4 class="card-title">CẬP NHẬT THÔNG TIN CMND</h4>
+                    <h4 class="card-title">CẬP NHẬT THÔNG TIN CCCD</h4>
                   ) : (
-                    <h4 class="card-title">THÔNG TIN CMND</h4>
+                    <h4 class="card-title">THÔNG TIN CCCD</h4>
                   )}
 
                   <div class="row">
@@ -494,7 +501,7 @@ export default function EditUserProfilePage(props) {
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Số CMND</label>
+                        <label class="col-sm-4 col-form-label">Số CCCD</label>
                         <div class="col-sm-8">
                           <Input
                             size="large"
@@ -509,13 +516,16 @@ export default function EditUserProfilePage(props) {
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label">
-                          Ngày cấp CMND
+                          Ngày cấp CCCD
                         </label>
                         <div class="col-sm-8">
                           <div class="input-group">
                             <DatePicker
+                              locale={viVN}
+                              format="DD/MM/YYYY"
                               size="large"
                               style={{ width: "100%" }}
+                              placeholder="Ngày cấp CCCD"
                             ></DatePicker>
                           </div>
                         </div>
@@ -527,7 +537,7 @@ export default function EditUserProfilePage(props) {
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label">
-                          Nơi cấp CMND
+                          Nơi cấp CCCD
                         </label>
                         <div class="col-sm-8">
                           <Input
