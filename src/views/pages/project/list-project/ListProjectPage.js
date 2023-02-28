@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AddButton from "../../../components/AddButton";
 import NoImage from "../../../../assets/images/no-image.jpg";
 
 export default function ListProjectPage(props) {
+  const navigate = useNavigate();
   const [isAdmin, setAdmin] = useState(true);
 
   const hardcodeProjectEmployees = [
@@ -119,12 +121,16 @@ export default function ListProjectPage(props) {
     return projectId % 2 == 0;
   }
 
+  function goToAddProject() {
+    navigate("/add-project");
+  }
+
   return (
     <div>
       {isAdmin && (
         <div class="row">
           <div class="col-sm-4">
-            <AddButton text="Thêm dự án"></AddButton>
+            <AddButton text="Thêm dự án" onClick={goToAddProject}></AddButton>
           </div>
 
           <div class="col-sm-8">

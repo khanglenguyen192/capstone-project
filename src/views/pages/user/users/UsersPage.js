@@ -34,7 +34,7 @@ export default function UsersPage(props) {
       name: "Nguyễn Văn A",
       age: 32,
       address: "06 Lý Thương Kiệt, Quận 10",
-      status: "Trực tuyên",
+      status: "Trực tuyến",
     },
     {
       key: "2",

@@ -15,6 +15,7 @@ import WorkRemotePage from "./views/pages/work-remote/WorkRemotePage";
 import SalaryDetailPage from "./views/pages/salary-detail/SalaryDetailPage";
 import EditUserProfilePage from "./views/pages/user/edit-user-profile/EditUserProfilePage";
 import ListProjectPage from "./views/pages/project/list-project/ListProjectPage";
+import AddProjectPage from "./views/pages/project/add-project/AddProjectPage";
 
 const App = () => {
   //TODO: Hard code data
@@ -43,6 +44,7 @@ const App = () => {
               element={<EditUserProfilePage />}
             />
             <Route path="/projects" element={<ListProjectPage />} />
+            <Route path="/add-project" element={<AddProjectPage />} />
           </Route>
         </Routes>
       </Router>
