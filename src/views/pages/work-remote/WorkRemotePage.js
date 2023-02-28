@@ -6,15 +6,20 @@ import viLocale from "@fullcalendar/core/locales/vi";
 import React, { useState } from "react";
 import { Input, Table, Tag } from "antd";
 import "./WorkRemotePage.css";
+import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";
 
 export default function WorkRemotePage(props) {
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isShowList, setShowList] = useState(false);
+  const [isShowConfirmPopup, setShowConfirmPopup] = useState(false);
 
   function onViewListWorkRemote() {
     setShowList(!isShowList);
   }
 
-  function onSubmitWorkRemote() {}
+  function onSubmitWorkRemote() {
+    setShowConfirmPopup(true);
+  }
 
   const options = {
     eventLimitText: "yêu cầu",
@@ -140,6 +145,29 @@ export default function WorkRemotePage(props) {
 
   return (
     <div class="row">
+      <ConfirmDialog
+        isShow={isShowConfirmPopup}
+        title="Xin làm việc từ xa"
+        mainButtonText="Xác nhận"
+        subButtonText="Đóng"
+      >
+        <form onSubmit="submitWorkRemoteDate()" autocomplete="off">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <Input
+                    class="form-group"
+                    size="large"
+                    required="true"
+                    disabled={isAdmin}
+                  ></Input>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ConfirmDialog>
       <div class="col-12 grid-margin">
         <div class="card">
           <div class="card-body">

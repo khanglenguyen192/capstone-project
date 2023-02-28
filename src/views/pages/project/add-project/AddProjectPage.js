@@ -13,6 +13,7 @@ export default function AddProjectPage(props) {
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
+
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,

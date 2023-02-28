@@ -3,9 +3,12 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import viLocale from "@fullcalendar/core/locales/vi";
-import React from "react";
+import React, { useState } from "react";
+import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";
 
 export default function DayOffPage() {
+  const [showPopupConfirm, setshowPopupConfirm] = useState(false);
+
   const dayoff = {
     user: {},
     reason: "",
@@ -44,8 +47,17 @@ export default function DayOffPage() {
 
   const events = [{ title: "Meeting", start: new Date() }];
 
+  const onSubmitDayOff = () => {
+    setshowPopupConfirm(true);
+  };
+
   return (
     <div class="row">
+      <ConfirmDialog
+        open={showPopupConfirm}
+        title="Xin nghỉ phép"
+      ></ConfirmDialog>
+
       <div class="col-12 grid-margin">
         <div class="card">
           <div class="card-body">
