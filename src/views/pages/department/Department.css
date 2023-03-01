@@ -49,6 +49,11 @@
     scale: 0.9;
 }
 
+#add-department {
+    background-color: unset !important;
+    cursor: pointer;
+}
+
 .option {
     margin: 0.2rem 4rem;
     border: 3px solid gray;
@@ -72,4 +77,65 @@
 
 .ant-dropdown-menu {
     margin-top: -9rem !important;
+}
+
+.container-department h4, h5{
+    font-family: 'Inter', sans-serif !important;
+    margin: 0;
+}
+
+.title {
+    background-color: #313541;
+    padding: 18px;
+    font-size: 17px;
+    color: white;
+}
+
+.content-department {
+    display: flex;
+    flex-direction: column;
+    padding: 0 25px;
+}
+
+.content-department .name {
+    padding-left: 10px;
+    padding-top: 16px;
+    padding-bottom: 10px;
+    font-size: 14px;
+}
+
+#input-department {
+    height: 2.2rem;
+    border-radius: 20px;
+    border: 2px solid #313541;
+}
+
+.content-department .detail {
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 6rem;
+}
+
+.content-department .address {
+    flex: 1;
+    margin-left: 2rem;
+}
+
+.address h5 {
+    margin-bottom: 1rem;
+    margin-left: 10px;
+}
+
+.avatar-uploader {
+    width: 8rem !important;
+    margin: 0 !important;
+    border: 3px solid #B6B6B6;
+    border-radius: 5px;
+    display: flex !important;
+    justify-content: center ;
+    align-items: center;
+}
+
+.ant-upload-select {
+    margin: 0 !important;
 }
