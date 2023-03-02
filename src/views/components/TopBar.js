@@ -13,7 +13,7 @@ const TopBar = () => {
             <a
               class="nav-link dropdown-toggle arrow-none"
               data-toggle="dropdown"
-              href="#"
+              href="/notification"
               role="button"
               aria-haspopup="false"
               aria-expanded="false"
