@@ -25,6 +25,10 @@ export default function WorkRemotePage(props) {
     setShowConfirmPopup(false);
   }
 
+  function onConfirmWorkRemote() {
+    setShowConfirmPopup(false);
+  }
+
   const options = {
     eventLimitText: "yêu cầu",
     editable: false,
@@ -155,10 +159,13 @@ export default function WorkRemotePage(props) {
         onCancel={onCancelPopup}
         mainButtonText="Xác nhận"
         subButtonText="Đóng"
+        mainButtonClick={onConfirmWorkRemote}
+        subButtonClick={onCancelPopup}
       >
         <form onSubmit="submitWorkRemoteDate()" autocomplete="off">
-          <div class="modal-body">
+          <div class="modal-body" style={{ padding: "0 0 10px 0" }}>
             <div class="row">
+              <label class="col-sm-12 col-form-label">Lý do</label>
               <div class="col-sm-12">
                 <div class="form-group">
                   <Input

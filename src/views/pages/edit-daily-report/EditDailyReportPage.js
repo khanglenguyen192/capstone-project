@@ -1,9 +1,15 @@
 import React from "react";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { Input, Cascader, Table, Tag } from "antd";
+
 import "./EditDailyReportPage.css";
 
 export default function EditDailyReportPage(props) {
   var isAdd = true;
-  const currDate = "dd/MM/yyyy";
+  const currDate = "02/03/2023";
+
+  const listProject = [];
 
   return (
     <div>
@@ -14,12 +20,26 @@ export default function EditDailyReportPage(props) {
               <h4 class="header-title font-18">DAILY REPORT</h4>
               <p class="text-muted font-13 mb-3">{currDate}</p>
               <div class="form-group col-xs-6 col-md-6 col-lg-6 report-projects">
-                {/* <app-dropdown-list required class="app-text" name="projects" [data]="projects" [(ngModel)]="projectId" title="Chọn dự án">
-                            </app-dropdown-list> */}
+                <label
+                  class="col-sm-4 col-form-label"
+                  style={{ paddingLeft: "0" }}
+                >
+                  Chọn dự án
+                </label>
+                <div class="col-sm-12" style={{ paddingLeft: "0" }}>
+                  <Cascader
+                    size="large"
+                    name="projectStatusModels"
+                    style={{
+                      width: "100%",
+                    }}
+                    options={listProject}
+                  />
+                </div>
               </div>
               <div class="form-group">
                 <p class="label mb-1 text-dark">Nội dung</p>
-                <div id="summernote" class="summernote"></div>
+                <CKEditor editor={ClassicEditor}></CKEditor>
               </div>
               {!isAdd ? (
                 <div>

@@ -6,14 +6,14 @@ export default function ConfirmDialog(props) {
     <button
       class="btn btn-custom save-event waves-effect waves-light btn-fw"
       type="button"
-      onClick={props.mainActionButtonClick}
+      onClick={props.mainButtonClick}
     >
       {props.mainButtonText}
     </button>,
     <button
       class="btn btn-light waves-effect btn-fw"
       type="button"
-      onClick={props.subActionButtonClick}
+      onClick={props.subButtonClick}
     >
       {props.subButtonText}
     </button>,

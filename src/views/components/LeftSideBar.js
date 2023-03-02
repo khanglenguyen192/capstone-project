@@ -24,7 +24,7 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-note-text menu-icon",
-      routerLink: "/daily-report",
+      routerLink: "/edit-daily-report",
       title: "Daily Report",
     },
     {
