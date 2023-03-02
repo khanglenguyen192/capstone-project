@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Modal } from "antd";
 
 export default function ConfirmDialog(props) {
-  const [isShow, setShow] = useState(props.isShow);
-
   const footer = [
     <button
       class="btn btn-custom save-event waves-effect waves-light btn-fw"
@@ -21,17 +19,13 @@ export default function ConfirmDialog(props) {
     </button>,
   ];
 
-  const handleCancel = () => {
-    setShow(false);
-  };
-
   return (
     <div>
       <Modal
         title={props.title}
-        open={isShow}
+        open={props.isShow}
         footer={footer}
-        onCancel={handleCancel}
+        onCancel={props.onCancel}
       >
         {props.children}
       </Modal>

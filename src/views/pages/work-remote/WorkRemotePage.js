@@ -21,6 +21,10 @@ export default function WorkRemotePage(props) {
     setShowConfirmPopup(true);
   }
 
+  function onCancelPopup() {
+    setShowConfirmPopup(false);
+  }
+
   const options = {
     eventLimitText: "yêu cầu",
     editable: false,
@@ -148,6 +152,7 @@ export default function WorkRemotePage(props) {
       <ConfirmDialog
         isShow={isShowConfirmPopup}
         title="Xin làm việc từ xa"
+        onCancel={onCancelPopup}
         mainButtonText="Xác nhận"
         subButtonText="Đóng"
       >
