@@ -119,12 +119,11 @@ export default function AddProjectPage(props) {
                         ></input>
                         <span class="input-group-append">
                           <button
-                            class="btn-info"
+                            class="btn-info disabled"
                             disabled={ !isAdmin }
-                            style={ { width: '5rem', borderTopRightRadius: '6px', borderBottomRightRadius: '3px' } }
+                            style={ { width: '5rem', borderTopRightRadius: '6px', borderBottomRightRadius: '3px', cursor: 'pointer' } }
                             type="button"
-                            onClick="logoImageUpload.click()"
-                          >
+                            onClick="logoImageUpload.click()">
                             Tải Lên
                           </button>
                         </span>
@@ -183,11 +182,11 @@ export default function AddProjectPage(props) {
               <br />
               <div class="form-group text-right m-b-0">
                 <button class="btn btn-custom submit-btn waves-effect waves-light mr-2"
-                  style={{right: '8rem', bottom: '1.5rem'}}>
+                  style={ { right: '8rem', bottom: '1.5rem' } }>
                   Hoàn tất
                 </button>
                 <button class="btn btn-icon waves-effect waves-light btn-danger"
-                  style={{right: '2rem', bottom: '1.5rem'}}>
+                  style={ { right: '2rem', bottom: '1.5rem' } }>
                   Hủy bỏ
                 </button>
               </div>
