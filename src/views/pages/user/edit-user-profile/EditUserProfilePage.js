@@ -37,8 +37,12 @@ export default function EditUserProfilePage(props) {
   const userInfo = {
     usercode: "#123456",
     fullname: "Trần Văn A",
+    email: "example@gmail.com",
     numberOfDenpendents: 1,
-    bankAccount: "",
+    bankAccount: "XXXX-XXXX-XXXX",
+    phone: "XXXX XXX XXX",
+    linkedId: "https://www.linkedin.com/in/user",
+    facebookId: "https://www.facebook.com/profile.php?user",
     genderModel: {
       id: 1,
       name: "Nam",
@@ -145,7 +149,8 @@ export default function EditUserProfilePage(props) {
                   </div>
                 </div>
 
-                <div class="row">
+                <div class="row"
+                  style={ { height: '4rem' } }>
                   <div class="col-md-6">
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Họ và tên</label>
@@ -154,6 +159,7 @@ export default function EditUserProfilePage(props) {
                           <Input
                             size="large"
                             placeholder={ userInfo.fullname }
+                            style={ { fontWeight: '700' } }
                           ></Input>
                         </div>
                       ) : (
@@ -171,6 +177,7 @@ export default function EditUserProfilePage(props) {
                           <Input
                             size="large"
                             placeholder={ userInfo.email }
+                            style={ { fontWeight: '700' } }
                           ></Input>
                         </div>
                       ) : (
@@ -183,7 +190,8 @@ export default function EditUserProfilePage(props) {
                 </div>
 
                 { isAdmin && (
-                  <div class="row">
+                  <div class="row"
+                    style={ { height: '4rem' } }>
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label">
@@ -195,6 +203,7 @@ export default function EditUserProfilePage(props) {
                             name="genderModel"
                             style={ {
                               width: "100%",
+                              fontWeight: '700'
                             } }
                             options={ salaryTypeModels }
                             placeholder="Loại lương"
@@ -216,6 +225,7 @@ export default function EditUserProfilePage(props) {
                             <Input
                               size="large"
                               placeholder={ userInfo.numberOfDenpendents }
+                              style={ { fontWeight: '700' } }
                             ></Input>
                           </div>
                         ) }
@@ -224,7 +234,8 @@ export default function EditUserProfilePage(props) {
                   </div>
                 ) }
 
-                <div class="row">
+                <div class="row"
+                  style={ { height: '4rem' } }>
                   <div class="col-md-6">
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">
@@ -235,6 +246,7 @@ export default function EditUserProfilePage(props) {
                           <Input
                             size="large"
                             placeholder={ userInfo.bankAccount }
+                            style={ { fontWeight: '700' } }
                           ></Input>
                         </div>
                       ) : (
@@ -254,6 +266,7 @@ export default function EditUserProfilePage(props) {
                           <Input
                             size="large"
                             placeholder={ userInfo.phone }
+                            style={ { fontWeight: '700' } }
                           ></Input>
                         </div>
                       ) : (
@@ -265,7 +278,8 @@ export default function EditUserProfilePage(props) {
                   </div>
                 </div>
 
-                <div class="row">
+                <div class="row"
+                  style={ { height: '4rem' } }>
                   <div class="col-md-6">
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Giới tính</label>
@@ -279,7 +293,7 @@ export default function EditUserProfilePage(props) {
                               height: "100%",
                             } }
                             options={ genderModels }
-                            placeholder="Giới tính" />
+                            placeholder="Chọn" />
                         </div>
                       ) : (
                         <div>{ renderGenderLabel(userInfo.genderModel) }</div>
@@ -298,7 +312,7 @@ export default function EditUserProfilePage(props) {
                                 format="DD/MM/YYYY"
                                 size="large"
                                 style={ { width: "100%" } }
-                                placeholder="Ngày sinh"
+                                placeholder="DD/MM/YYYY"
                               ></DatePicker>
                             </div>
                           </div>
@@ -323,7 +337,7 @@ export default function EditUserProfilePage(props) {
                               format="DD/MM/YYYY"
                               size="large"
                               style={ { width: "100%" } }
-                              placeholder="Ngày vào công ty"
+                              placeholder="DD/MM/YYYY"
                             ></DatePicker>
                           </div>
                         </div>
@@ -332,7 +346,8 @@ export default function EditUserProfilePage(props) {
                   ) }
                 </div>
 
-                <div class="row">
+                <div class="row"
+                  style={ { height: '4rem' } }>
                   <div class="col-md-6">
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">
@@ -345,6 +360,8 @@ export default function EditUserProfilePage(props) {
                             type="text"
                             class="form-control"
                             name="linkedId"
+                            placeholder="https://www.linkedin.com/in/user/"
+                            style={ { fontWeight: '700' } }
                           />
                         </div>
                       ) : (
@@ -367,6 +384,8 @@ export default function EditUserProfilePage(props) {
                             type="text"
                             class="form-control"
                             name="facebookId"
+                            placeholder="https://www.facebook.com/profile.php?user"
+                            style={ { fontWeight: '700' } }
                           />
                         </div>
                       ) : (
@@ -379,22 +398,22 @@ export default function EditUserProfilePage(props) {
                 </div>
 
                 <div class="form-group text-right m-b-0">
-                  <button class="btn btn-custom submit-btn waves-effect waves-light mr-2">
+                  <button class="btn btn-custom submit-btn waves-effect waves-light mr-2"
+                    style={ { right: '10rem', bottom: '4rem' } }>
                     Xác Nhận
                   </button>
                   { isSelfEditting ? (
-                    <button
-                      class="btn btn-icon waves-effect waves-light btn-danger"
+                    <button class="btn btn-icon waves-effect waves-light btn-danger"
                       routerLink="/"
-                    >
-                      Hủy
+                      style={ { right: '4rem', bottom: '4rem' } }>
+                      Hủy bỏ
                     </button>
                   ) : (
                     <button
                       class="btn btn-icon waves-effect waves-light btn-danger"
                       routerLink="/users"
-                    >
-                      Hủy
+                      style={ { right: '4rem', bottom: '4rem' } }>
+                      Hủy bỏ
                     </button>
                   ) }
                 </div>
@@ -501,7 +520,8 @@ export default function EditUserProfilePage(props) {
                     </div>
                   </div>
 
-                  <div class="row">
+                  <div class="row"
+                    style={ { height: '4rem' } }>
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Số CCCD</label>
@@ -512,6 +532,8 @@ export default function EditUserProfilePage(props) {
                             class="form-control"
                             name="userIdentity"
                             disabled={ !isSelfEditting }
+                            placeholder="XXXX XXXX XXXX"
+                            style={ { fontWeight: '700' } }
                           />
                         </div>
                       </div>
@@ -519,7 +541,7 @@ export default function EditUserProfilePage(props) {
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label">
-                          Ngày cấp CCCD
+                          Ngày cấp
                         </label>
                         <div class="col-sm-8">
                           <div class="input-group">
@@ -527,8 +549,8 @@ export default function EditUserProfilePage(props) {
                               locale={ viVN }
                               format="DD/MM/YYYY"
                               size="large"
-                              style={ { width: "100%" } }
-                              placeholder="Ngày cấp CCCD"
+                              style={ { width: "100%", fontWeight: '700' } }
+                              placeholder="DD/MM/YYYY"
                             ></DatePicker>
                           </div>
                         </div>
@@ -536,11 +558,12 @@ export default function EditUserProfilePage(props) {
                     </div>
                   </div>
 
-                  <div class="row">
+                  <div class="row"
+                    style={ { height: '4rem' } }>
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label">
-                          Nơi cấp CCCD
+                          Nơi cấp
                         </label>
                         <div class="col-sm-8">
                           <Input
@@ -549,21 +572,24 @@ export default function EditUserProfilePage(props) {
                             class="form-control"
                             name="address"
                             disabled={ !isSelfEditting }
+                            placeholder="Cục trưởng cục cảnh sát quản lý hành chính về trật tự xã hội"
+                            style={ { fontWeight: '700' } }
                           />
                         </div>
                       </div>
                     </div>
                   </div>
+
                   { isSelfEditting && (
                     <div class="form-group text-right m-b-0">
-                      <button class="btn btn-custom submit-btn waves-effect waves-light mr-2">
+                      <button class="btn btn-custom submit-btn waves-effect waves-light mr-2"
+                        style={ { right: '8rem', bottom: '1.5rem' } }>
                         Xác Nhận
                       </button>
-                      <button
-                        class="btn btn-icon waves-effect waves-light btn-danger"
+                      <button class="btn btn-icon waves-effect waves-light btn-danger"
                         routerLink="/"
-                      >
-                        Hủy
+                        style={ { right: '2rem', bottom: '1.5rem' } }>
+                        Hủy bỏ
                       </button>
                     </div>
                   ) }
