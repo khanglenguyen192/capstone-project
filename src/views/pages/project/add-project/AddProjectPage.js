@@ -121,7 +121,7 @@ export default function AddProjectPage(props) {
                           <button
                             class="btn-info disabled"
                             disabled={ !isAdmin }
-                            style={ { width: '5rem', borderTopRightRadius: '6px', borderBottomRightRadius: '3px', cursor: 'pointer' } }
+                            style={ { width: '5rem', borderTopRightRadius: '6px', borderBottomRightRadius: '6px', cursor: 'pointer' } }
                             type="button"
                             onClick="logoImageUpload.click()">
                             Tải Lên

@@ -3,6 +3,7 @@ import NoImage from "../../../../assets/images/no-image.jpg";
 import "./EditUserProfilePage.css";
 import { Input, Cascader, DatePicker } from "antd";
 import viVN from "antd/lib/locale/vi_VN";
+import UploadFile from "../../../components/UploadFile";
 
 export default function EditUserProfilePage(props) {
   const [isSelfEditting, setSelfEditing] = useState(true);
@@ -116,36 +117,7 @@ export default function EditUserProfilePage(props) {
                       </div>
                     </div>
 
-                    <div class="form-group row d-flex justify-content-center align-items-center">
-                      <div class="vertical-center">
-                        <input
-                          type="file"
-                          class="img-cover file-upload-default"
-                          onChange="onChange($event)"
-                          name="uploadedFile"
-                          hidden
-                        ></input>
-                        <div class="input-group">
-                          <input
-                            type="text"
-                            value={ userInfo.imageInfo }
-                            class="form-control file-upload-info img-cover"
-                            disabled
-                            placeholder="Tải ảnh lên"
-                          ></input>
-                          <span class="input-group-append">
-                            <button
-                              class="btn-info disabled"
-                              disabled={ !isAdmin }
-                              style={ { width: '5rem', borderTopRightRadius: '6px', borderBottomRightRadius: '3px', cursor: 'pointer' } }
-                              type="button"
-                              onClick="imageUpload.click()">
-                              Tải Lên
-                            </button>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                    <UploadFile isAdmin={ isAdmin }></UploadFile>
                   </div>
                 </div>
 
@@ -437,82 +409,34 @@ export default function EditUserProfilePage(props) {
 
                   <div class="row">
                     <div class="col-md-6">
-                      <div class="form-group row d-flex justify-content-center align-items-center flex-column">
+                      <div class="form-group row d-flex justify-content-center align-items-center flex-column containerImage">
                         <img
-                          class="d-flex justify-content-center align-items-end col-form-label-lg img-cover img-fluid"
+                          class="d-flex justify-content-center align-items-end col-form-label-lg img-cover img-fluid imageId"
                           src={ NoImage }
                           altImg="image"
-                          width="250"
+                          width="200"
                         ></img>
                         <div class="col-sm-8">
                           <div class="vertical-center">
                             { isSelfEditting && (
-                              <div class="input-group">
-                                <input
-                                  type="file"
-                                  name="idFrontImageInfo"
-                                  value={ userInfo.idFrontImageInfo }
-                                  class="form-control file-upload-info"
-                                  placeholder="Tải lên ảnh mặt trước CCCD"
-                                />
-                                <span class="input-group-append">
-                                  <button
-                                    class="btn btn-info"
-                                    type="button"
-                                    onClick="idFrontImageUpload.click()"
-                                  >
-                                    Tải lên
-                                  </button>
-                                  <button
-                                    class="btn btn-danger"
-                                    type="button"
-                                    onClick="deleteIdFrontImage()"
-                                  >
-                                    Xóa
-                                  </button>
-                                </span>
-                              </div>
+                              <UploadFile isAdmin={ isAdmin }></UploadFile>
                             ) }
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="col-md-6">
-                      <div class="form-group row d-flex justify-content-center align-items-center flex-column">
+                      <div class="form-group row d-flex justify-content-center align-items-center flex-column containerImage">
                         <img
-                          class="d-flex justify-content-center align-items-end col-form-label-lg img-cover img-fluid"
+                          class="d-flex justify-content-center align-items-end col-form-label-lg img-cover img-fluid imageId"
                           src={ NoImage }
                           altImg="image"
-                          width="250"
+                          width="200"
                         ></img>
                         <div class="col-sm-8">
                           <div class="vertical-center">
                             { isSelfEditting && (
-                              <div class="input-group">
-                                <input
-                                  type="file"
-                                  name="idFrontImageInfo"
-                                  value={ userInfo.idBackImageInfo }
-                                  class="form-control file-upload-info"
-                                  placeholder="Tải lên ảnh mặt sau CCCD"
-                                />
-                                <span class="input-group-append">
-                                  <button
-                                    class="btn btn-info"
-                                    type="button"
-                                    onClick="idFrontImageUpload.click()"
-                                  >
-                                    Tải lên
-                                  </button>
-                                  <button
-                                    class="btn btn-danger"
-                                    type="button"
-                                    onClick="deleteIdFrontImage()"
-                                  >
-                                    Xóa
-                                  </button>
-                                </span>
-                              </div>
+                              <UploadFile isAdmin={ isAdmin } />
                             ) }
                           </div>
                         </div>
