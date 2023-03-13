@@ -264,6 +264,7 @@ export default function EditUserProfilePage(props) {
                               width: "100%",
                               height: "100%",
                             } }
+                            placement="bottomRight"
                             options={ genderModels }
                             placeholder="Chọn" />
                         </div>

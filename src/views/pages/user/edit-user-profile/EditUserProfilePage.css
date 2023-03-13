@@ -20,3 +20,9 @@ input[type="file"] {
 .containerImage {
     margin: 2.5rem 0;
 }
+
+.ant-cascader-menu {
+    height: fit-content !important;
+    display: block;
+    width: 20vh;
+}

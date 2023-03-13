@@ -138,9 +138,8 @@ export default function DepartmentPage() {
             </div>
           </button>
         </Col>
-        <Popup trigger={ buttonPopup } setTrigger={ setButtonPopup }>
+        <Popup trigger={ buttonPopup } setTrigger={ setButtonPopup } title="Thêm phòng ban">
           <div className='container-department'>
-            <h4 className='title'>Thêm phòng ban</h4>
             <div className='content-department'>
               <h5 className='name'>Tên phòng ban</h5>
               <Input id='input-department' placeholder="Tên phòng ban của công ty" />
@@ -159,7 +158,7 @@ export default function DepartmentPage() {
                 </Upload>
                 <div className='address'>
                   <h5>Mô tả</h5>
-                  <TextArea rows={ 6 } placeholder="Thêm phần mô tả cho chi nhánh" style={{backgroundColor: Colors.graynish}}/>
+                  <TextArea rows={ 6 } placeholder="Thêm phần mô tả cho chi nhánh" style={ { backgroundColor: Colors.graynish } } />
                 </div>
               </div>
             </div>
