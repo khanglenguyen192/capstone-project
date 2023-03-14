@@ -1,0 +1,28 @@
+.card-body .card-title input {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.card-body {
+    padding-bottom: 3rem;
+}
+
+input[type="file"] {
+    opacity: 0.7;
+}
+
+.imageId {
+    margin: 1.5rem 0;
+    padding: 0;
+    border-radius: 20px;
+}
+
+.containerImage {
+    margin: 2.5rem 0;
+}
+
+.ant-cascader-menu {
+    height: fit-content !important;
+    display: block;
+    width: 20vh;
+}

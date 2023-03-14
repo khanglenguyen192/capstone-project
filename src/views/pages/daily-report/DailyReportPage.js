@@ -21,31 +21,25 @@ export default function DailyReportPage() {
               <div class="fc-toolbar fc-header-toolbar">
                 <div class="fc-left">
                   <div class="fc-button-group">
-                    <button
-                      type="button"
+                    <button type="button"
                       class="fc-prev-button fc-button fc-button-primary"
-                      aria-label="prev"
-                    >
+                      aria-label="prev">
                       <span class="fc-icon fc-icon-chevron-left"></span>
                     </button>
-                    <button
-                      type="button"
+                    <button type="button"
+                      class="fc-today-button fc-button fc-button-primary">
+                      Hôm nay
+                    </button>
+                    <button type="button"
                       class="fc-next-button fc-button fc-button-primary"
-                      aria-label="next"
-                    >
+                      aria-label="next">
                       <span class="fc-icon fc-icon-chevron-right"></span>
                     </button>
                   </div>
-                  <button
-                    type="button"
-                    class="fc-today-button fc-button fc-button-primary"
-                  >
-                    Hôm nay
-                  </button>
                 </div>
                 <div class="fc-center">
                   <h2>
-                    Tháng {targetDate | date} năm {targetDate | date}
+                    Tháng { targetDate | date } năm { targetDate | date }
                   </h2>
                 </div>
                 <div class="fc-right">
@@ -63,26 +57,26 @@ export default function DailyReportPage() {
       </div>
 
       <div>
-        {!isAdmin ? (
+        { !isAdmin ? (
           <div class="row mb-4">
             <div class="col-12 grid-margin">
               <div class="card">
                 <div class="card-body">
                   <div class="report-header">
                     <p class="font-18">
-                      {report.created | date}
+                      { report.created | date }
                       <span class="font-18 float-right">
-                        Chỉnh sửa lúc: {report.modified | date}
+                        Chỉnh sửa lúc: { report.modified | date }
                         <button
                           type="button"
                           class="btn btn-danger ml-2"
                           disabled
                         >
-                          {report.successfully}%
+                          { report.successfully }%
                         </button>
                       </span>
                     </p>
-                    <p class="font-18">Dự án: {report.projectName}</p>
+                    <p class="font-18">Dự án: { report.projectName }</p>
                   </div>
                   <div class="report-body straight-line">
                     <p class="font-18"></p>
@@ -106,7 +100,7 @@ export default function DailyReportPage() {
                       type="button"
                       class="fc-prev-button fc-button fc-button-primary report-user-list mb-2"
                     >
-                      {employee.fullName}
+                      { employee.fullName }
                     </button>
                   </div>
                 </div>
@@ -119,15 +113,15 @@ export default function DailyReportPage() {
                     <div class="card-body">
                       <div class="report-header">
                         <p class="font-18">
-                          {report.created | date}
+                          { report.created | date }
                           <span class="font-18 float-right">
-                            Chỉnh sửa lúc: {report.modified | date}
+                            Chỉnh sửa lúc: { report.modified | date }
                             {/* <button *ngIf="report.successfully < 31" type="button" class="btn btn-danger ml-2" disabled>{{report.successfully}}%</button>
                             <button *ngIf="report.successfully > 79"type="button" class="btn btn-success ml-2" disabled>{{report.successfully}}%</button>
                             <button *ngIf="report.successfully > 30 && report.successfully < 80" type="button" class="btn btn-warning ml-2" disabled>{{report.successfully}}%</button> */}
                           </span>
                         </p>
-                        <p class="font-18">Dự án: {report.projectName}</p>
+                        <p class="font-18">Dự án: { report.projectName }</p>
                       </div>
                       <div class="report-body straight-line">
                         <p class="font-18"></p>
@@ -138,7 +132,7 @@ export default function DailyReportPage() {
               </div>
             </div>
           </div>
-        )}
+        ) }
       </div>
     </div>
   );

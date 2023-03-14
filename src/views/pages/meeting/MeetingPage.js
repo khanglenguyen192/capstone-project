@@ -4,8 +4,16 @@ import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import viLocale from "@fullcalendar/core/locales/vi";
 import React, { useState } from "react";
+import Popup from "../../components/Popup";
+
 
 export default function MeetingPage(props) {
+  const [buttonPopup, setButtonPopup] = useState(false);
+  
+  function onSubmitDayOff() {
+    return (<Popup trigger={ buttonPopup } setTrigger={ setButtonPopup } title="Thêm phòng ban"></Popup>);
+  }
+  
   const dayoff = {
     user: {},
     reason: "",
@@ -28,7 +36,7 @@ export default function MeetingPage(props) {
     customButtons: {
       submitDayOff: {
         text: "Xin nghỉ phép",
-        click: () => this.onSubmitDayOff(),
+        click: () => onSubmitDayOff(),
       },
       viewListLeaving: {
         text: "Danh sách",
