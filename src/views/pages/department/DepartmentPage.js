@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 import { Row, Col, Dropdown, Input, message, Upload } from 'antd';
 import { ReactComponent as Icon } from '../../../assets/iconfonts/mdi/icon/add-icon.svg';
 import './Department.css';
@@ -80,6 +80,7 @@ export default function DepartmentPage() {
       });
     }
   };
+
   const uploadButton = (
     <div>
       <div style={ {

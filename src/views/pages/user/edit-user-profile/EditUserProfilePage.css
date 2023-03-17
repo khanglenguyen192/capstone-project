@@ -3,8 +3,8 @@
     font-weight: 700;
 }
 
-.card-body {
-    padding-bottom: 3rem;
+.card-body .col-sm-4 {
+    max-width: 161px;
 }
 
 input[type="file"] {

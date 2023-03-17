@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Navigate } from 'react-router-dom';
 import "./index.css";
 import "./App.css";
 
@@ -28,27 +29,29 @@ const App = () => {
     return (
       <Router>
         <Routes>
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="home" element={<HomePage />} />
-            <Route path="day-off" element={<DayOffPage />} />
-            <Route path="daily-report" element={<DailyReportPage />} />
-            <Route path="edit-daily-report" element={<EditDailyReportPage />} />
-            <Route path="meeting" element={<MeetingPage />} />
-            <Route path="department" element={<DepartmentPage />} />
-            <Route path="users" element={<UsersPage />} />
+          <Route element={ <MainLayout /> }>
+            <Route path="/" element={ <Navigate to="home"/>} />
+            <Route path="login" element={ <Navigate to="../home"/>} />
+            
+            <Route path="home" element={ <HomePage /> } />
+            <Route path="day-off" element={ <DayOffPage /> } />
+            <Route path="daily-report" element={ <DailyReportPage /> } />
+            <Route path="edit-daily-report" element={ <EditDailyReportPage /> } />
+            <Route path="meeting" element={ <MeetingPage /> } />
+            <Route path="department" element={ <DepartmentPage /> } />
+            <Route path="users" element={ <UsersPage /> } />
             <Route
               path="work-remote"
-              element={<WorkRemotePage userName={userName} />}
+              element={ <WorkRemotePage userName={ userName } /> }
             />
-            <Route path="/salary-detail" element={<SalaryDetailPage />} />
+            <Route path="/salary-detail" element={ <SalaryDetailPage /> } />
             <Route
               path="/edit-user-profile"
-              element={<EditUserProfilePage />}
+              element={ <EditUserProfilePage /> }
             />
-            <Route path="/projects" element={<ListProjectPage />} />
-            <Route path="/add-project" element={<AddProjectPage />} />
-            <Route path="/notification" element={<NotificationPage />} />
+            <Route path="/projects" element={ <ListProjectPage /> } />
+            <Route path="/add-project" element={ <AddProjectPage /> } />
+            <Route path="/notification" element={ <NotificationPage /> } />
           </Route>
         </Routes>
       </Router>
@@ -57,7 +60,11 @@ const App = () => {
     return (
       <Router>
         <Routes>
-          <Route path="/*" element={<LoginPage />} />
+          <Route path="login" element={ <LoginPage /> } />
+          <Route
+            path="/*"
+            element={ <Navigate to="login" /> }
+          />
         </Routes>
       </Router>
     );

@@ -1,34 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import "./LoginPage.css";
-import backgroundImage from "../../../assets/images/no-image.jpg";
+import logo from "../../../assets/images/logo.png";
 
 const LoginPage = () => {
-  const background = {
-    backgroundImage: "../../assets/images/no-image.jpg",
+  const [form, setForm] = useState({
+    email: "",
+    password: ""
+  });
+
+  const updateField = e => {
+    setForm({
+      ...form,
+      [e.target.type]: e.target.value
+    });
   };
 
   return (
     <div
-      className="account-pages"
-      style={{
-        border: "none",
-        padding: 0,
-        margin: 0,
-        paddingBottom: "60px",
-        overflowX: "hidden",
-        fontSize: "14px",
-        backgroundColor: "#f3f6f8",
-      }}
-    >
-      <div
-        className="accountbg"
-        style={{
-          backgroundImage: { backgroundImage },
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      ></div>
+      className="login-pages">
+
+      <div className="accountbg"></div>
 
       <div className="wrapper-page account-page-full">
         <div className="card">
@@ -37,41 +28,46 @@ const LoginPage = () => {
               <div className="card-box p-5">
                 <h2 className="text-uppercase text-center pb-4">
                   <a href="/" className="text-success">
-                    <span>Logo</span>
+                    <img id="logo" src={ logo } alt="logo" />
                   </a>
                 </h2>
               </div>
 
-              <form autoComplete="on" action="#" style={{ margin: "25px" }}>
+              <form autoComplete="on" action="#" style={ { margin: "3rem" } }>
                 <div className="form-group m-b-20 row">
                   <div className="col-12">
                     <label htmlFor="emailaddress">Email address</label>
                     <input
                       className="form-control"
                       type="email"
-                      id="emailaddress"
+                      id="email-address"
                       required
+                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
                       placeholder="Enter your email"
+                      onChange={ updateField }
                     />
                   </div>
                 </div>
 
                 <div className="form-group row m-b-20">
                   <div className="col-12">
-                    <a
-                      href="page-recoverpw.html"
-                      className="text-muted float-right"
-                    >
-                      <small>Forgot your password?</small>
-                    </a>
                     <label htmlFor="password">Password</label>
                     <input
                       className="form-control"
                       type="password"
                       required
                       id="password"
+                      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                      title="Mật khẩu phải chứa ít nhất 8 kí tự, bao gồm: kí tự hoa, kí tự thường, chữ số và kí tự đặc biệt"
                       placeholder="Enter your password"
+                      onChange={ updateField }
                     />
+                    <a
+                      id="forgot-password"
+                      href="home"
+                      className="text-muted float-right">
+                      <small>Forgot your password?</small>
+                    </a>
                   </div>
                 </div>
 

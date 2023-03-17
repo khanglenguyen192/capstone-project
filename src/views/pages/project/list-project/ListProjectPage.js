@@ -142,8 +142,7 @@ export default function ListProjectPage(props) {
                       id="phase-select"
                       onChange="getProjectByStatus($event.target.value)">
                       <option value="0">
-                        Tất cả dự án(
-                        { originList?.length > 0 ? originList.length : 0 })
+                        Tất cả dự án
                       </option>
                       <option value="1">Sẵn sàng</option>
                       <option value="2">Đang hoạt động</option>
