@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";
 
 export default function DayOffPage() {
-  const [showPopupConfirm, setshowPopupConfirm] = useState(false);
+  const [showPopupConfirm, setshowPopupConfirm] = useState(true);
 
   const dayoff = {
     user: {},
@@ -54,7 +54,7 @@ export default function DayOffPage() {
   return (
     <div class="row">
       <ConfirmDialog
-        open={showPopupConfirm}
+        isShow={showPopupConfirm}
         title="Xin nghỉ phép"
       ></ConfirmDialog>
 

@@ -1,10 +1,14 @@
 import React from "react";
 import { Space, Table, Tag } from "antd";
+import { useSelector } from "react-redux";
 
 export default function UsersPage(props) {
   const employeesInformation = {};
 
-  var isAdmin = false;
+  const isAdmin = useSelector((state) => {
+    console.log(state);
+    return state.AuthReducer.isAdmin;
+  });
 
   const columns = [
     {

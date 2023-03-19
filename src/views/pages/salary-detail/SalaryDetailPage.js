@@ -1,9 +1,13 @@
 import React from "react";
 import NoImage from "../../../assets/images/no-image.jpg";
 import "./SalaryDetailPage.css";
+import { useSelector } from "react-redux";
 
 export default function SalaryDetailPage(props) {
-  var isAdmin = false;
+  const isAdmin = useSelector((state) => {
+    console.log(state);
+    return state.AuthReducer.isAdmin;
+  });
 
   var appNumber = "";
 

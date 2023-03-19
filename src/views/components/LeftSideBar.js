@@ -4,12 +4,21 @@ import LogoLight from "../../assets/images/logo_light.png";
 import LogoSm from "../../assets/images/logo_sm.png";
 import "./LeftSideBar.css";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const LeftSideBar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function viewProfile() {
     navigate("/edit-user-profile");
+  }
+
+  function logOut() {
+    console.log("log out");
+    dispatch({
+      type: "LOGOUT",
+    });
   }
 
   const user = {
@@ -120,6 +129,11 @@ const LeftSideBar = () => {
               </Link>
             </li>{" "}
           </ul>{" "}
+        </div>{" "}
+        <div class="user-box" onClick={logOut}>
+          <h5>
+            <a> Đăng xuất </a>{" "}
+          </h5>{" "}
         </div>{" "}
         <div class="clearfix"> </div>{" "}
       </div>{" "}

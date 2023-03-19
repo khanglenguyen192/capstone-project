@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import "./LoginPage.css";
 import backgroundImage from "../../../assets/images/no-image.jpg";
+import { useNavigate } from "react-router-dom";
+import AuthService from "../../../services/AuthService";
+import { useSelector, useDispatch } from "react-redux";
 
 const LoginPage = () => {
-  const background = {
-    backgroundImage: "../../assets/images/no-image.jpg",
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("root@gmail.com");
+  const [passCode, setPassCode] = useState("123456x@X");
+  const handleLogin = (e) => {
+    AuthService.login(email, passCode).then((res) => {
+      const response = res.data;
+      console.log(response);
+      if (response.status === 200) {
+        dispatch({
+          type: "LOGIN_SUCCESS",
+          payload: { user: response.payload },
+        });
+        navigate("/home");
+      }
+    });
   };
 
   return (
@@ -42,7 +59,12 @@ const LoginPage = () => {
                 </h2>
               </div>
 
-              <form autoComplete="on" action="#" style={{ margin: "25px" }}>
+              <form
+                autoComplete="on"
+                action="#"
+                style={{ margin: "25px" }}
+                onSubmit={handleLogin}
+              >
                 <div className="form-group m-b-20 row">
                   <div className="col-12">
                     <label htmlFor="emailaddress">Email address</label>
@@ -52,6 +74,8 @@ const LoginPage = () => {
                       id="emailaddress"
                       required
                       placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                 </div>
@@ -71,6 +95,8 @@ const LoginPage = () => {
                       required
                       id="password"
                       placeholder="Enter your password"
+                      value={passCode}
+                      onChange={(e) => setPassCode(e.target.value)}
                     />
                   </div>
                 </div>

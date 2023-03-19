@@ -4,10 +4,15 @@ import "./EditUserProfilePage.css";
 import { Input, Cascader, DatePicker } from "antd";
 import viVN from "antd/lib/locale/vi_VN";
 import UploadFile from "../../../components/UploadFile";
+import { useSelector } from "react-redux";
 
 export default function EditUserProfilePage(props) {
   const [isSelfEditting, setSelfEditing] = useState(true);
-  const [isAdmin, setAdmin] = useState(false);
+
+  const isAdmin = useSelector((state) => {
+    console.log(state);
+    return state.AuthReducer.isAdmin;
+  });
 
   const genderModels = [
     {
@@ -53,15 +58,15 @@ export default function EditUserProfilePage(props) {
   function renderGenderLabel(genderModel) {
     switch (genderModel.id) {
       case 1:
-        return <label class="badge badge-info ml-3">{ genderModel.name }</label>;
+        return <label class="badge badge-info ml-3">{genderModel.name}</label>;
       case 2:
         return (
-          <label class="badge-success badge ml-3">{ genderModel.name }</label>
+          <label class="badge-success badge ml-3">{genderModel.name}</label>
         );
       case 3:
       default:
         return (
-          <label class="badge-danger badge ml-3">{ genderModel.name }</label>
+          <label class="badge-danger badge ml-3">{genderModel.name}</label>
         );
     }
   }
@@ -75,30 +80,29 @@ export default function EditUserProfilePage(props) {
               <div class="card-body">
                 <h4 class="card-title">CẬP NHẬT THÔNG TIN</h4>
 
-                <div className="row"
-                  style={ { margin: '3rem 0' } }>
+                <div className="row">
                   <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
                     <div class="form-group row d-flex justify-content-center align-items-center">
                       <div class="thumb-xxl member-thumb m-b-10">
-                        { isSelfEditting ? (
+                        {isSelfEditting ? (
                           <img
-                            src={ NoImage }
+                            src={NoImage}
                             class="img-cover rounded-circle img-thumbnail no-border"
                           ></img>
                         ) : (
                           <img
-                            src={ NoImage }
+                            src={NoImage}
                             class="img-cover rounded-circle img-thumbnail no-border"
                           ></img>
-                        ) }
+                        )}
                       </div>
                     </div>
 
                     <div class="form-group row d-flex justify-content-center align-items-center">
                       <div class="row justify-content-center align-items-center">
-                        { isSelfEditting ? (
+                        {isSelfEditting ? (
                           <label class="col-form-label font-weight-bold">
-                            Mã nhân viên: { userInfo.usercode }
+                            Mã nhân viên: {userInfo.usercode}
                           </label>
                         ) : (
                           <div class="col-form-label font-weight-bold">
@@ -113,57 +117,53 @@ export default function EditUserProfilePage(props) {
                               name="usercode"
                             ></Input>
                           </div>
-                        ) }
+                        )}
                       </div>
                     </div>
 
-                    <UploadFile isAdmin={ isAdmin }></UploadFile>
+                    <UploadFile isAdmin={isAdmin}></UploadFile>
                   </div>
                 </div>
 
-                <div class="row"
-                  style={ { height: '4rem' } }>
+                <div class="row">
                   <div class="col-md-6">
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Họ và tên</label>
-                      { isSelfEditting ? (
+                      {isSelfEditting ? (
                         <div class="col-sm-8">
                           <Input
                             size="large"
-                            placeholder={ userInfo.fullname }
-                            style={ { fontWeight: '700' } }
+                            placeholder={userInfo.fullname}
                           ></Input>
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          { userInfo.fullname }
+                          {userInfo.fullname}
                         </label>
-                      ) }
+                      )}
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Email</label>
-                      { isSelfEditting ? (
+                      {isSelfEditting ? (
                         <div class="col-sm-8">
                           <Input
                             size="large"
-                            placeholder={ userInfo.email }
-                            style={ { fontWeight: '700' } }
+                            placeholder={userInfo.email}
                           ></Input>
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          { userInfo.email }
+                          {userInfo.email}
                         </label>
-                      ) }
+                      )}
                     </div>
                   </div>
                 </div>
 
-                { isAdmin && (
-                  <div class="row"
-                    style={ { height: '4rem' } }>
+                {isAdmin && (
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label">
@@ -173,11 +173,10 @@ export default function EditUserProfilePage(props) {
                           <Cascader
                             size="large"
                             name="genderModel"
-                            style={ {
+                            style={{
                               width: "100%",
-                              fontWeight: '700'
-                            } }
-                            options={ salaryTypeModels }
+                            }}
+                            options={salaryTypeModels}
                             placeholder="Loại lương"
                           />
                         </div>
@@ -188,44 +187,41 @@ export default function EditUserProfilePage(props) {
                         <label class="col-sm-4 col-form-label">
                           Số người phụ thuộc
                         </label>
-                        { isSelfEditting ? (
+                        {isSelfEditting ? (
                           <label class="col-sm-8 col-form-label font-weight-bold">
-                            { userInfo.numberOfDenpendents }
+                            {userInfo.numberOfDenpendents}
                           </label>
                         ) : (
                           <div class="col-sm-8">
                             <Input
                               size="large"
-                              placeholder={ userInfo.numberOfDenpendents }
-                              style={ { fontWeight: '700' } }
+                              placeholder={userInfo.numberOfDenpendents}
                             ></Input>
                           </div>
-                        ) }
+                        )}
                       </div>
                     </div>
                   </div>
-                ) }
+                )}
 
-                <div class="row"
-                  style={ { height: '4rem' } }>
+                <div class="row">
                   <div class="col-md-6">
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">
                         Tài khoản ngân hàng
                       </label>
-                      { isSelfEditting ? (
+                      {isSelfEditting ? (
                         <div class="form-group col-sm-8">
                           <Input
                             size="large"
-                            placeholder={ userInfo.bankAccount }
-                            style={ { fontWeight: '700' } }
+                            placeholder={userInfo.bankAccount}
                           ></Input>
                         </div>
                       ) : (
                         <label class="form-group col-sm-8 col-form-label font-weight-bold">
-                          { userInfo.bankAccount }
+                          {userInfo.bankAccount}
                         </label>
-                      ) }
+                      )}
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -233,71 +229,70 @@ export default function EditUserProfilePage(props) {
                       <label class="col-sm-4 col-form-label">
                         Số điện thoại
                       </label>
-                      { isSelfEditting ? (
+                      {isSelfEditting ? (
                         <div class="col-sm-8">
                           <Input
                             size="large"
-                            placeholder={ userInfo.phone }
-                            style={ { fontWeight: '700' } }
+                            placeholder={userInfo.phone}
                           ></Input>
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          { userInfo.phone }
+                          {userInfo.phone}
                         </label>
-                      ) }
+                      )}
                     </div>
                   </div>
                 </div>
 
-                <div class="row"
-                  style={ { height: '4rem' } }>
+                <div class="row">
                   <div class="col-md-6">
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Giới tính</label>
-                      { isSelfEditting ? (
+                      {isSelfEditting ? (
                         <div class="col-sm-8">
                           <Cascader
                             size="large"
                             name="genderModel"
-                            style={ {
+                            style={{
                               width: "100%",
                               height: "100%",
-                            } }
+                            }}
                             placement="bottomRight"
-                            options={ genderModels }
-                            placeholder="Chọn" />
+                            options={genderModels}
+                            placeholder="Chọn"
+                          />
                         </div>
                       ) : (
-                        <div>{ renderGenderLabel(userInfo.genderModel) }</div>
-                      ) }
+                        <div>{renderGenderLabel(userInfo.genderModel)}</div>
+                      )}
                     </div>
                   </div>
-                  { !isAdmin && (
+                  {!isAdmin && (
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Ngày sinh</label>
-                        { isSelfEditting ? (
+                        {isSelfEditting ? (
                           <div class="col-sm-8">
                             <div class="input-group">
                               <DatePicker
-                                locale={ viVN }
+                                locale={viVN}
                                 format="DD/MM/YYYY"
                                 size="large"
-                                style={ { width: "100%" } }
+                                style={{ width: "100%" }}
                                 placeholder="DD/MM/YYYY"
                               ></DatePicker>
                             </div>
                           </div>
                         ) : (
                           <label class="col-sm-8 col-form-label font-weight-bold">
-                            { userInfo.birthday }
+                            {userInfo.birthday}
                           </label>
-                        ) }
+                        )}
                       </div>
                     </div>
-                  ) }
-                  { isAdmin && (
+                  )}
+                  {isAdmin && (
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label">
@@ -306,27 +301,26 @@ export default function EditUserProfilePage(props) {
                         <div class="col-sm-8">
                           <div class="input-group">
                             <DatePicker
-                              locale={ viVN }
+                              locale={viVN}
                               format="DD/MM/YYYY"
                               size="large"
-                              style={ { width: "100%" } }
+                              style={{ width: "100%" }}
                               placeholder="DD/MM/YYYY"
                             ></DatePicker>
                           </div>
                         </div>
                       </div>
                     </div>
-                  ) }
+                  )}
                 </div>
 
-                <div class="row"
-                  style={ { height: '4rem' } }>
+                <div class="row">
                   <div class="col-md-6">
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">
                         Tài khoản LinkedIn
                       </label>
-                      { isSelfEditting ? (
+                      {isSelfEditting ? (
                         <div class="col-sm-8">
                           <Input
                             size="large"
@@ -334,14 +328,13 @@ export default function EditUserProfilePage(props) {
                             class="form-control"
                             name="linkedId"
                             placeholder="https://www.linkedin.com/in/user/"
-                            style={ { fontWeight: '700' } }
                           />
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          { userInfo.linkedId }
+                          {userInfo.linkedId}
                         </label>
-                      ) }
+                      )}
                     </div>
                   </div>
 
@@ -350,7 +343,7 @@ export default function EditUserProfilePage(props) {
                       <label class="col-sm-4 col-form-label">
                         Tài khoản Facebook
                       </label>
-                      { isSelfEditting ? (
+                      {isSelfEditting ? (
                         <div class="col-sm-8">
                           <Input
                             size="large"
@@ -358,37 +351,36 @@ export default function EditUserProfilePage(props) {
                             class="form-control"
                             name="facebookId"
                             placeholder="https://www.facebook.com/profile.php?user"
-                            style={ { fontWeight: '700' } }
                           />
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          { userInfo.facebookId }
+                          {userInfo.facebookId}
                         </label>
-                      ) }
+                      )}
                     </div>
                   </div>
                 </div>
 
                 <div class="form-group text-right m-b-0">
-                  <button class="btn btn-custom submit-btn waves-effect waves-light mr-2"
-                    style={ { right: '10rem', bottom: '4rem' } }>
+                  <button class="btn btn-custom submit-btn waves-effect waves-light mr-2">
                     Xác Nhận
                   </button>
-                  { isSelfEditting ? (
-                    <button class="btn btn-icon waves-effect waves-light btn-danger"
+                  {isSelfEditting ? (
+                    <button
+                      class="btn btn-icon waves-effect waves-light btn-danger"
                       routerLink="/"
-                      style={ { right: '4rem', bottom: '4rem' } }>
+                    >
                       Hủy bỏ
                     </button>
                   ) : (
                     <button
                       class="btn btn-icon waves-effect waves-light btn-danger"
                       routerLink="/users"
-                      style={ { right: '4rem', bottom: '4rem' } }>
+                    >
                       Hủy bỏ
                     </button>
-                  ) }
+                  )}
                 </div>
               </div>
             </form>
@@ -402,26 +394,26 @@ export default function EditUserProfilePage(props) {
             <form onsubmit="editUserIdentity(form)" autocomplete="on">
               <div class="card">
                 <div class="card-body">
-                  { isSelfEditting ? (
+                  {isSelfEditting ? (
                     <h4 class="card-title">CẬP NHẬT THÔNG TIN CCCD</h4>
                   ) : (
                     <h4 class="card-title">THÔNG TIN CCCD</h4>
-                  ) }
+                  )}
 
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row d-flex justify-content-center align-items-center flex-column containerImage">
                         <img
                           class="d-flex justify-content-center align-items-end col-form-label-lg img-cover img-fluid imageId"
-                          src={ NoImage }
+                          src={NoImage}
                           altImg="image"
                           width="200"
                         ></img>
                         <div class="col-sm-8">
                           <div class="vertical-center">
-                            { isSelfEditting && (
-                              <UploadFile isAdmin={ isAdmin }></UploadFile>
-                            ) }
+                            {isSelfEditting && (
+                              <UploadFile isAdmin={isAdmin}></UploadFile>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -430,23 +422,20 @@ export default function EditUserProfilePage(props) {
                       <div class="form-group row d-flex justify-content-center align-items-center flex-column containerImage">
                         <img
                           class="d-flex justify-content-center align-items-end col-form-label-lg img-cover img-fluid imageId"
-                          src={ NoImage }
+                          src={NoImage}
                           altImg="image"
                           width="200"
                         ></img>
                         <div class="col-sm-8">
                           <div class="vertical-center">
-                            { isSelfEditting && (
-                              <UploadFile isAdmin={ isAdmin } />
-                            ) }
+                            {isSelfEditting && <UploadFile isAdmin={isAdmin} />}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="row"
-                    style={ { height: '4rem' } }>
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Số CCCD</label>
@@ -456,25 +445,21 @@ export default function EditUserProfilePage(props) {
                             type="text"
                             class="form-control"
                             name="userIdentity"
-                            disabled={ !isSelfEditting }
-                            placeholder="XXXX XXXX XXXX"
-                            style={ { fontWeight: '700' } }
+                            disabled={!isSelfEditting}
                           />
                         </div>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">
-                          Ngày cấp
-                        </label>
+                        <label class="col-sm-4 col-form-label">Ngày cấp</label>
                         <div class="col-sm-8">
                           <div class="input-group">
                             <DatePicker
-                              locale={ viVN }
+                              locale={viVN}
                               format="DD/MM/YYYY"
                               size="large"
-                              style={ { width: "100%", fontWeight: '700' } }
+                              style={{ width: "100%" }}
                               placeholder="DD/MM/YYYY"
                             ></DatePicker>
                           </div>
@@ -483,41 +468,37 @@ export default function EditUserProfilePage(props) {
                     </div>
                   </div>
 
-                  <div class="row"
-                    style={ { height: '4rem' } }>
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">
-                          Nơi cấp
-                        </label>
+                        <label class="col-sm-4 col-form-label">Nơi cấp</label>
                         <div class="col-sm-8">
                           <Input
                             size="large"
                             type="text"
                             class="form-control"
                             name="address"
-                            disabled={ !isSelfEditting }
-                            placeholder="Cục trưởng cục cảnh sát quản lý hành chính về trật tự xã hội"
-                            style={ { fontWeight: '700' } }
+                            disabled={!isSelfEditting}
+                            placeholder=""
                           />
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  { isSelfEditting && (
+                  {isSelfEditting && (
                     <div class="form-group text-right m-b-0">
-                      <button class="btn btn-custom submit-btn waves-effect waves-light mr-2"
-                        style={ { right: '8rem', bottom: '1.5rem' } }>
+                      <button class="btn btn-custom submit-btn waves-effect waves-light mr-2">
                         Xác Nhận
                       </button>
-                      <button class="btn btn-icon waves-effect waves-light btn-danger"
+                      <button
+                        class="btn btn-icon waves-effect waves-light btn-danger"
                         routerLink="/"
-                        style={ { right: '2rem', bottom: '1.5rem' } }>
+                      >
                         Hủy bỏ
                       </button>
                     </div>
-                  ) }
+                  )}
                 </div>
               </div>
             </form>
