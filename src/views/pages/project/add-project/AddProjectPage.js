@@ -167,7 +167,7 @@ export default function AddProjectPage(props) {
                   <label for="descripton">Mô tả</label>
                   <textarea
                     class="form-group col-md-12 textArea"
-                    disabled={ !isAdmin }
+                    disabled={ isAdmin }
                     name="jobDescription"
                     rows="3"
                   ></textarea>

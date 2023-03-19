@@ -56,19 +56,19 @@ export default function WorkRemotePage(props) {
       title: "Nhân viên",
       dataIndex: "name",
       key: "name",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a>{ text }</a>,
     },
     {
       title: "Lý do",
       dataIndex: "reason",
       key: "reason",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a>{ text }</a>,
     },
     {
       title: "Ngày làm việc từ xa",
       dataIndex: "remoteDate",
       key: "remoteDate",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a>{ text }</a>,
     },
     {
       title: "Trạng thái",
@@ -88,8 +88,8 @@ export default function WorkRemotePage(props) {
             break;
         }
         return (
-          <Tag color={color} key={status.key}>
-            {status.value}
+          <Tag color={ color } key={ status.key }>
+            { status.value }
           </Tag>
         );
       },
@@ -99,13 +99,23 @@ export default function WorkRemotePage(props) {
       dataIndex: "id",
       key: "id",
       render: (id) => (
-        <button
-          title="Xóa"
-          class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-danger"
-          type="button"
-        >
-          <i class="mdi mdi-delete-circle"></i>
-        </button>
+        <div className="opt-button">
+          <button
+            title="Xóa"
+            class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-danger"
+            type="button"
+          >
+            <i class="mdi mdi-delete-circle"></i>
+          </button>
+
+          <button
+            title="Xóa"
+            class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-success"
+            type="button"
+          >
+            <i class="mdi mdi-delete-circle"></i>
+          </button>
+        </div>
       ),
     },
   ];
@@ -146,7 +156,7 @@ export default function WorkRemotePage(props) {
   return (
     <div class="row">
       <ConfirmDialog
-        isShow={isShowConfirmPopup}
+        isShow={ isShowConfirmPopup }
         title="Xin làm việc từ xa"
         mainButtonText="Xác nhận"
         subButtonText="Đóng"
@@ -160,7 +170,7 @@ export default function WorkRemotePage(props) {
                     class="form-group"
                     size="large"
                     required="true"
-                    disabled={isAdmin}
+                    disabled={ isAdmin }
                   ></Input>
                 </div>
               </div>
@@ -171,12 +181,12 @@ export default function WorkRemotePage(props) {
       <div class="col-12 grid-margin">
         <div class="card">
           <div class="card-body">
-            {isShowList ? (
+            { isShowList ? (
               <div>
                 <button
                   type="button"
                   class="fc-viewListLeaving-button fc-button fc-button-primary float-right"
-                  onClick={onViewListWorkRemote}
+                  onClick={ onViewListWorkRemote }
                 >
                   <i class="mdi mdi-calendar-today"></i>
                 </button>
@@ -184,30 +194,30 @@ export default function WorkRemotePage(props) {
 
                 <span class="d-flex align-items-center justify-content-end mr-0 mb-3">
                   Tìm: &nbsp;
-                  <Input type="text" placeholder="'nội dung..'"></Input>
+                  <Input type="text" placeholder="nội dung..."></Input>
                 </span>
 
                 <div class="table-data">
                   <Table
-                    columns={columns}
-                    dataSource={listOfDisplayWorkRemoteDays}
+                    columns={ columns }
+                    dataSource={ listOfDisplayWorkRemoteDays }
                   ></Table>
                 </div>
               </div>
             ) : (
               <FullCalendar
-                plugins={options.plugins}
-                events={events}
-                eventLimitText={options.eventLimitText}
-                editable={options.editable}
-                customButtons={options.customButtons}
-                buttonText={options.buttonText}
-                headerToolbar={options.header}
-                footerToolbar={options.footer}
-                height={800}
-                locale={viLocale}
+                plugins={ options.plugins }
+                events={ events }
+                eventLimitText={ options.eventLimitText }
+                editable={ options.editable }
+                customButtons={ options.customButtons }
+                buttonText={ options.buttonText }
+                headerToolbar={ options.header }
+                footerToolbar={ options.footer }
+                height={ 800 }
+                locale={ viLocale }
               />
-            )}
+            ) }
           </div>
         </div>
       </div>

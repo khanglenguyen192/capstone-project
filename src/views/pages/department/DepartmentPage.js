@@ -105,7 +105,7 @@ export default function DepartmentPage() {
             menu={ {
               items: opts,
             } }
-            trigger={ ['click'] }
+            trigger={ ['contextMenu'] }
           >
             <Col span={ 6 } onClick={ (e) => e.preventDefault() }>
               <div className="container">

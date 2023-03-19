@@ -8,3 +8,7 @@
   background-color: #02c0ce;
   color: #fff;
 }
+
+.opt-button button{
+  margin: 0 5px;
+}

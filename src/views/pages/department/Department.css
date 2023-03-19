@@ -58,7 +58,10 @@
 }
 
 .option {
-    margin: 0.2rem 4rem;
+    margin: 0.2rem 0;
+    padding: .2rem 2rem;
+    top: 10px;
+    bottom: 10px;
     border: 3px solid gray;
     border-radius: 5px;
     display: flex;
