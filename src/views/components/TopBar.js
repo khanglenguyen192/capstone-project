@@ -90,7 +90,7 @@ const TopBar = () => {
             <a
               class="nav-link dropdown-toggle nav-user"
               data-toggle="dropdown"
-              href="#"
+              href="edit-user-profile"
               role="button"
               aria-haspopup="false"
               aria-expanded="false"

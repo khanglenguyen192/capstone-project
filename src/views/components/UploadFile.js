@@ -20,7 +20,7 @@ function UploadFile(props) {
                         // value={ userInfo.imageInfo }
                         class="form-control file-upload-info img-cover"
                         disabled
-                        placeholder="Tải ảnh lên"
+                        placeholder={ props.placeholder }
                     ></input>
                     <span class="input-group-append">
                         <button

@@ -104,7 +104,7 @@ export default function UsersPage(props) {
             </div>
 
             <div class="head-action">
-              {isAdmin && (
+              {/* {isAdmin && ( */}
                 <div>
                   <button
                     type="button"
@@ -113,16 +113,16 @@ export default function UsersPage(props) {
                   >
                     <i class="mdi mdi-bank"></i>Xuất Bank
                   </button>
+
                   <button
                     routerLink="/add-user"
                     type="button"
-                    class="btn btn-success btn-fw ml-2"
-                    style="float: right"
+                    class="btn btn-success btn-fw ml-2 float-right"
                   >
                     <i class="mdi mdi-account-plus"></i>Tạo Mới
                   </button>
 
-                  <div class="btn-group dropdown ml-2" style="float: right">
+                  <div class="btn-group dropdown ml-2 float-right">
                     <a
                       href="javascript: void(0);"
                       class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-md"
@@ -147,7 +147,7 @@ export default function UsersPage(props) {
                     </div>
                   </div>
                 </div>
-              )}
+              {/* )} */}
             </div>
 
             <Table columns={columns} dataSource={employees}></Table>

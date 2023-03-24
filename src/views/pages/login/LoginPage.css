@@ -1,0 +1,34 @@
+.login-pages {
+    display: flex;
+}
+
+.login-pages .accountbg {
+    background-image: url("../../../assets/images/auth/login.jpg");
+}
+
+.account-box {
+    margin-top: 6rem;
+}
+
+.account-box .card-box {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.account-box .form-group {
+    margin: 2rem 0;
+}
+
+.account-box #forgot-password {
+    margin-top: .5rem;
+}
+
+#email-address, #password {
+    margin: .3rem 0;
+    background-color: #CFDAE2;
+    border: 2px solid #627684;
+}
+
+#logo {
+    height: 8rem;
+}
