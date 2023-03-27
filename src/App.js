@@ -22,7 +22,7 @@ import NotificationPage from "./views/pages/notification/NotificationPage";
 
 const App = () => {
   //TODO: Hard code data
-  var isLoggedIn = true;
+  var isLoggedIn = false;
   var userName = "Lê Nguyên Khang";
 
   if (isLoggedIn) {
@@ -61,6 +61,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="login" element={ <LoginPage /> } />
+          <Route path="forgot-password" element={ <LoginPage /> } />
           <Route
             path="/*"
             element={ <Navigate to="login" /> }

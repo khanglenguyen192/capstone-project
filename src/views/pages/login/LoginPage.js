@@ -1,6 +1,22 @@
 import React, { useState } from "react";
 import "./LoginPage.css";
 import logo from "../../../assets/images/logo.png";
+import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
+
+const usePasswordToggle = () => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  let Icon, InputType;
+  if (passwordVisible) {
+    Icon = <EyeOutlined id="eye-outline" onClick={ () => setPasswordVisible(passwordVisible => !passwordVisible) } />;
+    InputType = "text";
+  }
+  else {
+    Icon = <EyeInvisibleOutlined id="eye-outline" onClick={ () => setPasswordVisible(passwordVisible => !passwordVisible) } />;
+    InputType = "password";
+  }
+
+  return [Icon, InputType];
+};
 
 const LoginPage = () => {
   const [form, setForm] = useState({
@@ -14,6 +30,8 @@ const LoginPage = () => {
       [e.target.type]: e.target.value
     });
   };
+
+  const [Icon, InputType] = usePasswordToggle();
 
   return (
     <div
@@ -43,6 +61,7 @@ const LoginPage = () => {
                       id="email-address"
                       required
                       pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+                      title="Tài khoản gmail cá nhân đã được cung cấp"
                       placeholder="Enter your email"
                       onChange={ updateField }
                     />
@@ -52,19 +71,23 @@ const LoginPage = () => {
                 <div className="form-group row m-b-20">
                   <div className="col-12">
                     <label htmlFor="password">Password</label>
-                    <input
-                      className="form-control"
-                      type="password"
-                      required
-                      id="password"
-                      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                      title="Mật khẩu phải chứa ít nhất 8 kí tự, bao gồm: kí tự hoa, kí tự thường, chữ số và kí tự đặc biệt"
-                      placeholder="Enter your password"
-                      onChange={ updateField }
-                    />
+                    <div id="container-password">
+                      <input
+                        className="form-control"
+                        type={ InputType }
+                        required
+                        id="password"
+                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                        title="Mật khẩu phải chứa ít nhất 8 kí tự, bao gồm: kí tự hoa, kí tự thường, chữ số và kí tự đặc biệt"
+                        placeholder="Enter your password"
+                        onChange={ updateField }
+
+                      />
+                      { Icon }
+                    </div>
                     <a
                       id="forgot-password"
-                      href="home"
+                      href="forgot-password"
                       className="text-muted float-right">
                       <small>Forgot your password?</small>
                     </a>
@@ -74,6 +97,7 @@ const LoginPage = () => {
                 <div className="form-group row text-center m-t-10">
                   <div className="col-12">
                     <button
+                      id="button-sign-up"
                       className="btn btn-block btn-custom waves-effect waves-light"
                       type="submit"
                     >

@@ -7,7 +7,7 @@
 }
 
 .account-box {
-    margin-top: 6rem;
+    margin-top: 4rem;
 }
 
 .account-box .card-box {
@@ -23,12 +23,38 @@
     margin-top: .5rem;
 }
 
-#email-address, #password {
+#email-address {
     margin: .3rem 0;
     background-color: #CFDAE2;
     border: 2px solid #627684;
 }
 
+#password {
+    background-color: #CFDAE2;
+}
+
 #logo {
     height: 8rem;
+}
+
+.login-pages #container-password {
+    margin: .3rem 0;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #CFDAE2;
+    border: 2px solid #627684;
+    border-radius: 4px;
+}
+
+.login-pages #container-password #eye-outline {
+    display: flex;
+    scale: 1.4;
+    margin-right: 1rem;
+    color: #627684;
+}
+
+.login-pages #button-sign-up {
+    margin-top: 2rem;
 }
