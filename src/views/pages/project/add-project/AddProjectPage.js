@@ -9,7 +9,6 @@ export default function AddProjectPage(props) {
   const projectLogo = "";
 
   const isAdmin = useSelector((state) => {
-    console.log(state);
     return state.AuthReducer.isAdmin;
   });
 

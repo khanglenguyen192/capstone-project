@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 export default function DailyReportPage() {
   const isAdmin = useSelector((state) => {
-    console.log(state);
     return state.AuthReducer.isAdmin;
   });
 

@@ -14,7 +14,6 @@ export default function WorkRemotePage(props) {
   const [isShowConfirmPopup, setShowConfirmPopup] = useState(false);
 
   const isAdmin = useSelector((state) => {
-    console.log(state);
     return state.AuthReducer.isAdmin;
   });
 

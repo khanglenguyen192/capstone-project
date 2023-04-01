@@ -22,12 +22,10 @@ import NotificationPage from "./views/pages/notification/NotificationPage";
 
 const App = () => {
   const isLoggedIn = useSelector((state) => {
-    console.log(state);
     return state.AuthReducer.isLoggedIn;
   });
 
   const userName = useSelector((state) => {
-    console.log(state);
     return state.AuthReducer.fullName;
   });
 

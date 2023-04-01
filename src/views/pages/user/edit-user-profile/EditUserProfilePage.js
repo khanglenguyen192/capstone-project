@@ -10,7 +10,6 @@ export default function EditUserProfilePage(props) {
   const [isSelfEditting, setSelfEditing] = useState(true);
 
   const isAdmin = useSelector((state) => {
-    console.log(state);
     return state.AuthReducer.isAdmin;
   });
 

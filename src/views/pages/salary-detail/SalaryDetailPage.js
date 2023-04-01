@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 export default function SalaryDetailPage(props) {
   const isAdmin = useSelector((state) => {
-    console.log(state);
     return state.AuthReducer.isAdmin;
   });
 

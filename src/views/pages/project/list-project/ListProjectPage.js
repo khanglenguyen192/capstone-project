@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 export default function ListProjectPage(props) {
   const navigate = useNavigate();
   const isAdmin = useSelector((state) => {
-    console.log(state);
     return state.AuthReducer.isAdmin;
   });
 

@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";
 
 export default function DayOffPage() {
-  const [showPopupConfirm, setshowPopupConfirm] = useState(true);
+  const [showPopupConfirm, setshowPopupConfirm] = useState(false);
 
   const dayoff = {
     user: {},
