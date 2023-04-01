@@ -2,6 +2,19 @@
   font-weight: 700 !important;
 }
 
+.user-box {
+  padding-top: 70px !important;
+}
+
 .user-box h5 a {
   color: #7c8e9a !important;
+}
+
+#logout {
+  padding: 12px 20px !important;
+}
+
+.menu-item a {
+  padding-top: 8px !important;
+  padding-bottom: 10px !important;
 }

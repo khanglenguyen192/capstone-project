@@ -89,54 +89,53 @@ const LeftSideBar = () => {
         <div class="topbar-left">
           <a class="logo" href="/">
             <span>
-              <img src={LogoLight} alt="" height="22"></img>{" "}
-            </span>{" "}
+              <img src={ LogoLight } alt="" height="22"></img>{ " " }
+            </span>{ " " }
             <i>
-              <img src={LogoSm} alt="" height="28"></img>{" "}
-            </i>{" "}
-          </a>{" "}
-        </div>{" "}
-        <div class="user-box" onClick={viewProfile}>
+              <img src={ LogoSm } alt="" height="28"></img>{ " " }
+            </i>{ " " }
+          </a>{ " " }
+        </div>{ " " }
+        <div class="user-box" onClick={ viewProfile }>
           <div class="user-img">
             <img
-              src={NoImage}
+              src={ NoImage }
               alt="user-img"
               class="rounded-circle img-fluid"
-              style={{
+              style={ {
                 height: "48px",
                 width: "48px",
-              }}
-            ></img>{" "}
-          </div>{" "}
+              } }
+            ></img>{ " " }
+          </div>{ " " }
           <h5>
-            <a> {user.fullname} </a>{" "}
-          </h5>{" "}
-        </div>{" "}
+            <a> { user.fullname } </a>{ " " }
+          </h5>{ " " }
+        </div>{ " " }
         <div id="sidebar-menu">
           <ul class="metismenu">
-            {" "}
-            {items.map((item) => (
+            { " " }
+            { items.map((item) => (
               <li class="menu-item">
-                <Link to={item.routerLink}>
-                  <i class={item.icon}> </i> <span> {item.title} </span>{" "}
+                <Link to={ item.routerLink }>
+                  <i class={ item.icon }> </i> <span> { item.title } </span>{ " " }
                 </Link>
               </li>
-            ))}{" "}
+            )) }{ " " }
             <li class="menu-item">
               <Link to="/home">
-                <i class="menu-icon mdi mdi-content-copy"> </i>{" "}
-                <span> Hồ sơ lao động </span>{" "}
+                <i class="menu-icon mdi mdi-content-copy"> </i>{ " " }
+                <span> Hồ sơ lao động </span>{ " " }
               </Link>
-            </li>{" "}
-          </ul>{" "}
-        </div>{" "}
-        <div class="user-box" onClick={logOut}>
-          <h5>
-            <a> Đăng xuất </a>{" "}
-          </h5>{" "}
-        </div>{" "}
-        <div class="clearfix"> </div>{" "}
-      </div>{" "}
+            </li>{ " " }
+            <div class="user-box" id="logout" onClick={ logOut }>
+              <h5>
+                <a> Đăng xuất </a>{ " " }
+              </h5>{ " " }
+            </div>{ " " }
+          </ul>{ " " }
+        </div>{ " " }
+      </div>{ " " }
     </div>
   );
 };
