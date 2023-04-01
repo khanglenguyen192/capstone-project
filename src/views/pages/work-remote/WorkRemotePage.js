@@ -7,11 +7,15 @@ import React, { useState } from "react";
 import { Input, Table, Tag } from "antd";
 import "./WorkRemotePage.css";
 import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";
+import { useSelector } from "react-redux";
 
 export default function WorkRemotePage(props) {
-  const [isAdmin, setIsAdmin] = useState(false);
   const [isShowList, setShowList] = useState(false);
   const [isShowConfirmPopup, setShowConfirmPopup] = useState(false);
+
+  const isAdmin = useSelector((state) => {
+    return state.AuthReducer.isAdmin;
+  });
 
   function onViewListWorkRemote() {
     setShowList(!isShowList);

@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import NoImage from "../../../../assets/images/no-image.jpg";
 import { Input, Cascader, Table, Tag } from "antd";
+import { useSelector } from "react-redux";
 
 export default function AddProjectPage(props) {
-  const [isAdmin, setAdmin] = useState(true);
   const [enableEditEmployees, setEnableEditEmployees] = useState(true);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const projectLogo = "";
+
+  const isAdmin = useSelector((state) => {
+    return state.AuthReducer.isAdmin;
+  });
 
   const projectStatusModels = [];
 
@@ -29,7 +33,7 @@ export default function AddProjectPage(props) {
       title: "Họ và tên",
       dataIndex: "name",
       key: "name",
-      render: (text) => <a>{ text }</a>,
+      render: (text) => <a>{text}</a>,
     },
     {
       title: "Vị trí",
@@ -43,8 +47,8 @@ export default function AddProjectPage(props) {
       render: (status) => {
         let color = status.length % 2 == 0 ? "green" : "red";
         return (
-          <Tag color={ color } key={ status }>
-            { status }
+          <Tag color={color} key={status}>
+            {status}
           </Tag>
         );
       },
@@ -86,17 +90,17 @@ export default function AddProjectPage(props) {
                 <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
                   <div class="form-group row d-flex justify-content-center align-items-center">
                     <div class="thumb-xxl member-thumb m-b-10">
-                      { projectLogo ? (
+                      {projectLogo ? (
                         <img
-                          src={ NoImage }
+                          src={NoImage}
                           class="img-cover rounded-circle img-thumbnail no-border"
                         ></img>
                       ) : (
                         <img
-                          src={ NoImage }
+                          src={NoImage}
                           class="img-cover rounded-circle img-thumbnail no-border"
                         ></img>
-                      ) }
+                      )}
                     </div>
                   </div>
 
@@ -120,10 +124,16 @@ export default function AddProjectPage(props) {
                         <span class="input-group-append">
                           <button
                             class="btn-info disabled"
-                            disabled={ !isAdmin }
-                            style={ { width: '5rem', borderTopRightRadius: '6px', borderBottomRightRadius: '6px', cursor: 'pointer' } }
+                            disabled={!isAdmin}
+                            style={{
+                              width: "5rem",
+                              borderTopRightRadius: "6px",
+                              borderBottomRightRadius: "6px",
+                              cursor: "pointer",
+                            }}
                             type="button"
-                            onClick="logoImageUpload.click()">
+                            onClick="logoImageUpload.click()"
+                          >
                             Tải Lên
                           </button>
                         </span>
@@ -153,10 +163,10 @@ export default function AddProjectPage(props) {
                       <Cascader
                         size="large"
                         name="projectStatusModels"
-                        style={ {
+                        style={{
                           width: "100%",
-                        } }
-                        options={ projectStatusModels }
+                        }}
+                        options={projectStatusModels}
                       />
                     </div>
                   </div>
@@ -175,18 +185,22 @@ export default function AddProjectPage(props) {
               </div>
               <Table
                 size="large"
-                rowSelection={ enableEditEmployees ? rowSelection : null }
-                columns={ columns }
-                dataSource={ employees }
+                rowSelection={enableEditEmployees ? rowSelection : null}
+                columns={columns}
+                dataSource={employees}
               ></Table>
               <br />
               <div class="form-group text-right m-b-0">
-                <button class="btn btn-custom submit-btn waves-effect waves-light mr-2"
-                  style={ { right: '8rem', bottom: '1.5rem' } }>
+                <button
+                  class="btn btn-custom submit-btn waves-effect waves-light mr-2"
+                  style={{ right: "8rem", bottom: "1.5rem" }}
+                >
                   Hoàn tất
                 </button>
-                <button class="btn btn-icon waves-effect waves-light btn-danger"
-                  style={ { right: '2rem', bottom: '1.5rem' } }>
+                <button
+                  class="btn btn-icon waves-effect waves-light btn-danger"
+                  style={{ right: "2rem", bottom: "1.5rem" }}
+                >
                   Hủy bỏ
                 </button>
               </div>

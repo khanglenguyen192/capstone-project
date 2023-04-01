@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddButton from "../../../components/AddButton";
 import NoImage from "../../../../assets/images/no-image.jpg";
-import { ReactComponent as Icon } from '../../../../assets/iconfonts/mdi/icon/add-icon.svg';
-import Colors from '../../../../common/constants/Colors';
+import { ReactComponent as Icon } from "../../../../assets/iconfonts/mdi/icon/add-icon.svg";
+import Colors from "../../../../common/constants/Colors";
+import { useSelector } from "react-redux";
 
 export default function ListProjectPage(props) {
   const navigate = useNavigate();
-  const [isAdmin, setAdmin] = useState(true);
+  const isAdmin = useSelector((state) => {
+    return state.AuthReducer.isAdmin;
+  });
 
   const hardcodeProjectEmployees = [
     {
@@ -130,7 +133,10 @@ export default function ListProjectPage(props) {
   return (
     <div>
       { isAdmin && (
-        <div class="row" style={ { margin: '2rem 0', position: 'relative', left: '20rem' } }>
+        <div
+          class="row"
+          style={ { margin: "2rem 0", position: "relative", left: "20rem" } }
+        >
           <div class="col-sm-8">
             <div class="project-sort float-right">
               <div class="project-sort-item">
@@ -140,7 +146,8 @@ export default function ListProjectPage(props) {
                     <select
                       class="form-control ml-2 form-control-sm"
                       id="phase-select"
-                      onChange="getProjectByStatus($event.target.value)">
+                      onChange="getProjectByStatus($event.target.value)"
+                    >
                       <option value="0">
                         Tất cả dự án
                       </option>
@@ -155,7 +162,8 @@ export default function ListProjectPage(props) {
                     <select
                       class="form-control ml-2 form-control-sm"
                       id="sort-select"
-                      onChange="sortListProject($event.target.value)">
+                      onChange="sortListProject($event.target.value)"
+                    >
                       <option value="byProjectName">Tên dự án</option>
                       <option value="byStatus">Trạng thái</option>
                       <option value="byCustomerName">Khách hàng</option>
@@ -228,7 +236,8 @@ export default function ListProjectPage(props) {
                         aria-labelledby="btnGroupDrop1"
                       >
                         <a class="dropdown-item" href="/view-project">
-                          <span class="mdi mdi-information-outline"></span> Xem thông tin
+                          <span class="mdi mdi-information-outline"></span> Xem
+                          thông tin
                         </a>
                         <a class="dropdown-item">
                           <span class="mdi mdi-timetable"></span> Rooms
@@ -296,16 +305,20 @@ export default function ListProjectPage(props) {
               </div>
             );
           }) }
-          <div class="col-md-6 col-lg-4"
+          <div
+            class="col-md-6 col-lg-4"
             style={ {
-              display: 'flex',
-              justifyContent: 'center'
-            } }>
-            <button id='add-department' onClick={ goToAddProject }>
-              <div className="add-icon" style={ { height: '200px' } }>
-                <Icon style={ {
-                  fill: Colors.quite_blue
-                } } />
+              display: "flex",
+              justifyContent: "center",
+            } }
+          >
+            <button id="add-department" onClick={ goToAddProject }>
+              <div className="add-icon" style={ { height: "200px" } }>
+                <Icon
+                  style={ {
+                    fill: Colors.quite_blue,
+                  } }
+                />
               </div>
             </button>
           </div>
@@ -317,7 +330,8 @@ export default function ListProjectPage(props) {
           <div class="text-center mb-3">
             <a
               class="btn btn-info btn-lg waves-effect waves-light"
-              onClick="loadMoreProjects()">
+              onClick="loadMoreProjects()"
+            >
               <i class="mdi mdi-refresh"></i>Tải thêm dự án
             </a>
           </div>

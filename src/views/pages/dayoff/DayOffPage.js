@@ -54,7 +54,7 @@ export default function DayOffPage() {
   return (
     <div class="row">
       <ConfirmDialog
-        open={showPopupConfirm}
+        isShow={showPopupConfirm}
         title="Xin nghỉ phép"
       ></ConfirmDialog>
 

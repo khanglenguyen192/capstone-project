@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import "./LoginPage.css";
 import logo from "../../../assets/images/logo.png";
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
+import backgroundImage from "../../../assets/images/no-image.jpg";
+import { useNavigate } from "react-router-dom";
+import AuthService from "../../../services/AuthService";
+import { useSelector, useDispatch } from "react-redux";
 
 const usePasswordToggle = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -31,6 +35,24 @@ const LoginPage = () => {
     });
   };
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("root@gmail.com");
+  const [passCode, setPassCode] = useState("123456x@X");
+  const handleLogin = (e) => {
+    AuthService.login(email, passCode).then((res) => {
+      const response = res.data;
+      console.log(response);
+      if (response.status === 200) {
+        dispatch({
+          type: "LOGIN_SUCCESS",
+          payload: { user: response.payload },
+        });
+        navigate("/home");
+      }
+    });
+  };
+
   const [Icon, InputType] = usePasswordToggle();
 
   return (
@@ -51,7 +73,12 @@ const LoginPage = () => {
                 </h2>
               </div>
 
-              <form autoComplete="on" action="#" style={ { margin: "3rem" } }>
+              <form
+                autoComplete="on"
+                action="#"
+                style={{ margin: "3rem" }}
+                onSubmit={handleLogin}
+              >
                 <div className="form-group m-b-20 row">
                   <div className="col-12">
                     <label htmlFor="emailaddress">Email address</label>
@@ -63,7 +90,8 @@ const LoginPage = () => {
                       pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
                       title="Tài khoản gmail cá nhân đã được cung cấp"
                       placeholder="Enter your email"
-                      onChange={ updateField }
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                 </div>
@@ -80,8 +108,8 @@ const LoginPage = () => {
                         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                         title="Mật khẩu phải chứa ít nhất 8 kí tự, bao gồm: kí tự hoa, kí tự thường, chữ số và kí tự đặc biệt"
                         placeholder="Enter your password"
-                        onChange={ updateField }
-
+                        value={passCode}
+                        onChange={(e) => setPassCode(e.target.value)}
                       />
                       { Icon }
                     </div>

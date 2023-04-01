@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Navigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
 import "./index.css";
 import "./App.css";
 
@@ -21,9 +22,13 @@ import AddProjectPage from "./views/pages/project/add-project/AddProjectPage";
 import NotificationPage from "./views/pages/notification/NotificationPage";
 
 const App = () => {
-  //TODO: Hard code data
-  var isLoggedIn = false;
-  var userName = "Lê Nguyên Khang";
+  const isLoggedIn = useSelector((state) => {
+    return state.AuthReducer.isLoggedIn;
+  });
+
+  const userName = useSelector((state) => {
+    return state.AuthReducer.fullName;
+  });
 
   if (isLoggedIn) {
     return (
