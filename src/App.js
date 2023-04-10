@@ -20,6 +20,7 @@ import ListProjectPage from "./views/pages/project/list-project/ListProjectPage"
 import DepartmentPage from "./views/pages/department/DepartmentPage";
 import AddProjectPage from "./views/pages/project/add-project/AddProjectPage";
 import NotificationPage from "./views/pages/notification/NotificationPage";
+import OvertimePage from "./views/pages/overtime/OvertimePage";
 
 const App = () => {
   const isLoggedIn = useSelector((state) => {
@@ -43,6 +44,7 @@ const App = () => {
             <Route path="daily-report" element={ <DailyReportPage /> } />
             <Route path="edit-daily-report" element={ <EditDailyReportPage /> } />
             <Route path="meeting" element={ <MeetingPage /> } />
+            <Route path="overtime" element={ <OvertimePage /> } />
             <Route path="department" element={ <DepartmentPage /> } />
             <Route path="users" element={ <UsersPage /> } />
             <Route

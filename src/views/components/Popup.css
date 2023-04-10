@@ -4,6 +4,7 @@
 
 .popup {
     position: fixed;
+    z-index: 500;
     top: 0;
     left: 0;
     width: 100%;
@@ -16,6 +17,7 @@
 
 .popup-inner {
     position: relative;
+    min-height: 10rem;
     width: 100%;
     max-width: 40rem;
     background-color: #ffffff;

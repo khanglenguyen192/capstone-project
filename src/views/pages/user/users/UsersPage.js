@@ -6,6 +6,7 @@ export default function UsersPage(props) {
   const employeesInformation = {};
 
   const isAdmin = useSelector((state) => {
+    console.log(state.AuthReducer);
     return state.AuthReducer.isAdmin;
   });
 
@@ -107,7 +108,7 @@ export default function UsersPage(props) {
             </div>
 
             <div class="head-action">
-              {/* {isAdmin && ( */}
+              {isAdmin && (
                 <div>
                   <button
                     type="button"
@@ -150,7 +151,7 @@ export default function UsersPage(props) {
                     </div>
                   </div>
                 </div>
-              {/* )} */}
+              )}
             </div>
 
             <Table columns={columns} dataSource={employees}></Table>
