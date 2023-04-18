@@ -100,7 +100,7 @@
 .content-department {
     display: flex;
     flex-direction: column;
-    padding: 0 25px;
+    padding: 0 30px;
 }
 
 .content-department .name {
@@ -122,6 +122,12 @@
     margin-bottom: 6rem;
 }
 
+.content-department .detail #upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .content-department .address {
     flex: 1;
     margin-left: 2rem;
@@ -134,6 +140,7 @@
 
 .avatar-uploader {
     width: 8rem !important;
+    height: 10rem !important;
     margin: 0 !important;
     border: 3px solid #B6B6B6;
     border-radius: 5px;

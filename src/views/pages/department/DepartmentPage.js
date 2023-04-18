@@ -80,7 +80,7 @@ export default function DepartmentPage() {
       });
     }
   };
-  
+
   const uploadButton = (
     <div>
       <div style={ {
@@ -145,21 +145,23 @@ export default function DepartmentPage() {
               <h5 className='name'>Tên phòng ban</h5>
               <Input id='input-department' placeholder="Tên phòng ban của công ty" />
               <div className='detail'>
-                <Upload
-                  name="avatar"
-                  listType="picture-card"
-                  className="avatar-uploader"
-                  showUploadList={ false }
-                  // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                  beforeUpload={ beforeUpload }
-                  onChange={ handleChange }>
-                  { imageUrl ? (
-                    <img src={ imageUrl } alt="avatar" style={ { width: '100%', } } />
-                  ) : (uploadButton) }
-                </Upload>
+                <div id='upload'>
+                  <Upload
+                    name="avatar"
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={ false }
+                    // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    beforeUpload={ beforeUpload }
+                    onChange={ handleChange }>
+                    { imageUrl ? (
+                      <img src={ imageUrl } alt="avatar" style={ { width: '100%', } } />
+                    ) : (uploadButton) }
+                  </Upload>
+                </div>
                 <div className='address'>
                   <h5>Mô tả</h5>
-                  <TextArea rows={ 6 } placeholder="Thêm phần mô tả cho chi nhánh" style={ { backgroundColor: Colors.graynish } } />
+                  <TextArea rows={ 6 } placeholder="Thêm phần mô tả cho chi nhánh" style={ { backgroundColor: Colors.graynish, maxHeight: "calc(100vh - 28rem)" } } />
                 </div>
               </div>
             </div>

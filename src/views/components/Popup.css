@@ -18,6 +18,7 @@
 .popup-inner {
     position: relative;
     min-height: 10rem;
+    max-height: calc(100vh - 10rem);
     width: 100%;
     max-width: 40rem;
     background-color: #ffffff;
