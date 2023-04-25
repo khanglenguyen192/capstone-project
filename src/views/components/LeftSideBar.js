@@ -33,7 +33,7 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-note-text menu-icon",
-      routerLink: "/edit-daily-report",
+      routerLink: "/create-ticket",
       title: "Daily Report",
     },
     {
@@ -84,58 +84,58 @@ const LeftSideBar = () => {
   ];
 
   return (
-    <div class="left side-menu">
-      <div class="slimscroll-menu" id="remove-scroll">
-        <div class="topbar-left">
-          <a class="logo" href="/">
+    <div className="left side-menu">
+      <div className="slimscroll-menu" id="remove-scroll">
+        <div className="topbar-left">
+          <a className="logo" href="/">
             <span>
-              <img src={ LogoLight } alt="" height="22"></img>{ " " }
-            </span>{ " " }
+              <img src={LogoLight} alt="" height="22"></img>{" "}
+            </span>{" "}
             <i>
-              <img src={ LogoSm } alt="" height="28"></img>{ " " }
-            </i>{ " " }
-          </a>{ " " }
-        </div>{ " " }
-        <div class="user-box" onClick={ viewProfile }>
-          <div class="user-img">
+              <img src={LogoSm} alt="" height="28"></img>{" "}
+            </i>{" "}
+          </a>{" "}
+        </div>{" "}
+        <div className="user-box" onClick={viewProfile}>
+          <div className="user-img">
             <img
-              src={ NoImage }
+              src={NoImage}
               alt="user-img"
-              class="rounded-circle img-fluid"
-              style={ {
+              className="rounded-circle img-fluid"
+              style={{
                 height: "48px",
                 width: "48px",
-              } }
-            ></img>{ " " }
-          </div>{ " " }
+              }}
+            ></img>{" "}
+          </div>{" "}
           <h5>
-            <a> { user.fullname } </a>{ " " }
-          </h5>{ " " }
-        </div>{ " " }
+            <a> {user.fullname} </a>{" "}
+          </h5>{" "}
+        </div>{" "}
         <div id="sidebar-menu">
-          <ul class="metismenu">
-            { " " }
-            { items.map((item) => (
-              <li class="menu-item">
-                <Link to={ item.routerLink }>
-                  <i class={ item.icon }> </i> <span> { item.title } </span>{ " " }
+          <ul className="metismenu">
+            {" "}
+            {items.map((item) => (
+              <li key={item.title} className="menu-item">
+                <Link to={item.routerLink}>
+                  <i className={item.icon}> </i> <span> {item.title} </span>{" "}
                 </Link>
               </li>
-            )) }{ " " }
-            <li class="menu-item">
+            ))}{" "}
+            <li className="menu-item">
               <Link to="/home">
-                <i class="menu-icon mdi mdi-content-copy"> </i>{ " " }
-                <span> Hồ sơ lao động </span>{ " " }
+                <i className="menu-icon mdi mdi-content-copy"> </i>{" "}
+                <span> Hồ sơ lao động </span>{" "}
               </Link>
-            </li>{ " " }
-            <div class="user-box" id="logout" onClick={ logOut }>
+            </li>{" "}
+            <div className="user-box" id="logout" onClick={logOut}>
               <h5>
-                <a> Đăng xuất </a>{ " " }
-              </h5>{ " " }
-            </div>{ " " }
-          </ul>{ " " }
-        </div>{ " " }
-      </div>{ " " }
+                <a> Đăng xuất </a>{" "}
+              </h5>{" "}
+            </div>{" "}
+          </ul>{" "}
+        </div>{" "}
+      </div>{" "}
     </div>
   );
 };

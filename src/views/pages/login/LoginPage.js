@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./LoginPage.css";
 import logo from "../../../assets/images/logo.png";
-import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import backgroundImage from "../../../assets/images/no-image.jpg";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../../../services/AuthService";
@@ -11,11 +11,24 @@ const usePasswordToggle = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   let Icon, InputType;
   if (passwordVisible) {
-    Icon = <EyeOutlined id="eye-outline" onClick={ () => setPasswordVisible(passwordVisible => !passwordVisible) } />;
+    Icon = (
+      <EyeOutlined
+        id="eye-outline"
+        onClick={() =>
+          setPasswordVisible((passwordVisible) => !passwordVisible)
+        }
+      />
+    );
     InputType = "text";
-  }
-  else {
-    Icon = <EyeInvisibleOutlined id="eye-outline" onClick={ () => setPasswordVisible(passwordVisible => !passwordVisible) } />;
+  } else {
+    Icon = (
+      <EyeInvisibleOutlined
+        id="eye-outline"
+        onClick={() =>
+          setPasswordVisible((passwordVisible) => !passwordVisible)
+        }
+      />
+    );
     InputType = "password";
   }
 
@@ -25,13 +38,13 @@ const usePasswordToggle = () => {
 const LoginPage = () => {
   const [form, setForm] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
-  const updateField = e => {
+  const updateField = (e) => {
     setForm({
       ...form,
-      [e.target.type]: e.target.value
+      [e.target.type]: e.target.value,
     });
   };
 
@@ -56,9 +69,7 @@ const LoginPage = () => {
   const [Icon, InputType] = usePasswordToggle();
 
   return (
-    <div
-      className="login-pages">
-
+    <div className="login-pages">
       <div className="accountbg"></div>
 
       <div className="wrapper-page account-page-full">
@@ -68,7 +79,7 @@ const LoginPage = () => {
               <div className="card-box p-5">
                 <h2 className="text-uppercase text-center pb-4">
                   <a href="/" className="text-success">
-                    <img id="logo" src={ logo } alt="logo" />
+                    <img id="logo" src={logo} alt="logo" />
                   </a>
                 </h2>
               </div>
@@ -102,7 +113,7 @@ const LoginPage = () => {
                     <div id="container-password">
                       <input
                         className="form-control"
-                        type={ InputType }
+                        type={InputType}
                         required
                         id="password"
                         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
@@ -111,12 +122,13 @@ const LoginPage = () => {
                         value={passCode}
                         onChange={(e) => setPassCode(e.target.value)}
                       />
-                      { Icon }
+                      {Icon}
                     </div>
                     <a
                       id="forgot-password"
                       href="forgot-password"
-                      className="text-muted float-right">
+                      className="text-muted float-right"
+                    >
                       <small>Forgot your password?</small>
                     </a>
                   </div>

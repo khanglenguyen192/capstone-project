@@ -1,7 +1,8 @@
 import React from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Input, Cascader, Table, Tag } from "antd";
+import { Input, Cascader, Table, Tag, Upload, Button } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 
 import "./EditDailyReportPage.css";
 
@@ -17,7 +18,7 @@ export default function EditDailyReportPage(props) {
         <div class="col-12 grid-margin">
           <div class="card">
             <div class="card-body">
-              <h4 class="header-title font-18">DAILY REPORT</h4>
+              <h4 class="header-title font-18">Tạo công việc</h4>
               <p class="text-muted font-13 mb-3">{currDate}</p>
               <div class="form-group col-xs-6 col-md-6 col-lg-6 report-projects">
                 <label
@@ -40,6 +41,11 @@ export default function EditDailyReportPage(props) {
               <div class="form-group">
                 <p class="label mb-1 text-dark">Nội dung</p>
                 <CKEditor editor={ClassicEditor}></CKEditor>
+              </div>
+              <div class="form-group">
+                <Upload listType="picture" className="upload-list-inline">
+                  <Button icon={<UploadOutlined />}>Thêm tài liệu</Button>
+                </Upload>
               </div>
               {!isAdd ? (
                 <div>

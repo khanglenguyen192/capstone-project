@@ -1,4 +1,4 @@
-const user = {};
+const user = null;
 const initialState = user
   ? { isLoggedIn: true, isAdmin: false, user }
   : { isLoggedIn: false, isAdmin: false, user: null };
