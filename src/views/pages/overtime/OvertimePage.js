@@ -40,12 +40,6 @@ export default function OvertimePage(props) {
       right: "viewListLeaving",
     },
     customButtons: {
-      // submitDayOff: {
-      //   text: "Xin nghỉ phép",
-      //   click: () => {
-      //     setButtonPopup((buttonPopup) => !buttonPopup);
-      //   },
-      // },
       viewListLeaving: {
         text: "Danh sách",
         icon: "mdi mdi mdi-format-line-style",
@@ -113,8 +107,8 @@ export default function OvertimePage(props) {
         alignItems: "center",
         backgroundColor: Colors.quite_blue
       } }>
-        <b style={ { paddingRight: "6px" } }>{ formatTimeString(eventInfo.timeText) }</b>
-        <i>{ eventInfo.event.title }</i>
+        <b className="text-light" style={ { paddingRight: "6px" } }>{ formatTimeString(eventInfo.timeText) }</b>
+        <i className="text-light">{ eventInfo.event.title }</i>
       </div>
     );
   };
