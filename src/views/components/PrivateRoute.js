@@ -1,26 +1,19 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, Route } from "react-router-dom";
+import { Navigate, Route } from "react-router-dom";
+import MainLayout from "../main-layout/MainLayout";
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRoute = (props) => {
+  console.log("PrivateRoute");
   const isLoggedIn = useSelector((state) => {
     console.log(state.AuthReducer);
     return state.AuthReducer.isLoggedIn;
   });
 
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        isLoggedIn ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{ pathname: "/login", state: { from: props.location } }}
-          />
-        )
-      }
-    />
+  return isLoggedIn ? (
+    <Route element={<MainLayout />}>{props.children}</Route>
+  ) : (
+    <Navigate to="/login" />
   );
 };
 

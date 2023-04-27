@@ -15,7 +15,6 @@ const LeftSideBar = () => {
   }
 
   function logOut() {
-    console.log("log out");
     dispatch({
       type: "LOGOUT",
     });
@@ -33,8 +32,8 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-note-text menu-icon",
-      routerLink: "/create-ticket",
-      title: "Daily Report",
+      routerLink: "/tickets",
+      title: "Công việc",
     },
     {
       icon: "mdi mdi-account-multiple menu-icon",

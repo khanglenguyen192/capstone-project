@@ -12,6 +12,25 @@ const createTicket = (formData, token) => {
   });
 };
 
+const searchTicket = (body, token) => {
+  return axios.post(TICKERT_URL + "/search", body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const getTicket = (ticketId, token) => {
+  return axios.get(TICKERT_URL + "/get-ticket", {
+    params: { ticketId: ticketId },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export default {
   createTicket,
+  searchTicket,
+  getTicket,
 };

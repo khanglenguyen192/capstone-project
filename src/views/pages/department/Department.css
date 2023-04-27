@@ -1,147 +1,138 @@
 * {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 0;
-    border: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 .department-card {
-    padding: 40px 0;
-    border-radius: 5px;
+  padding: 40px 0;
+  border-radius: 5px;
 }
 
 .container {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    scale: 0.8;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  scale: 0.8;
+  cursor: pointer;
 }
 
 .container p {
-    font-size: 1rem;
-    margin: 0;
-    padding: 10px 0;
-    text-align: center;
-    font-weight: bold;
-}
-
-@font-face {
-    font-family: 'Inter';
-    src: url('/src/assets/fonts/Inter-SemiBold.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-size: 1rem;
+  margin: 0;
+  padding: 10px 0;
+  text-align: center;
+  font-weight: bold;
 }
 
 .department-title {
-    margin: 0;
-    font-size: 1.5rem;
-    padding-bottom: 2rem;
-    font-family: 'Inter', sans-serif;
-    text-align: center;
-    font-weight: bold;
+  margin: 0;
+  font-size: 1.5rem;
+  padding-bottom: 2rem;
+  text-align: center;
+  font-weight: bold;
 }
 
 .add-icon {
-    padding: 1.8rem 3.4rem;
-    border: 4px solid #627684;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    scale: 0.9;
-    cursor: pointer;
+  padding: 1.8rem 3.4rem;
+  border: 4px solid #627684;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scale: 0.9;
+  cursor: pointer;
 }
 
 #add-department {
-    background-color: unset !important;
+  background-color: unset !important;
 }
 
 .option {
-    margin: 0.2rem 0;
-    padding: .2rem 2rem;
-    top: 10px;
-    bottom: 10px;
-    border: 3px solid gray;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  margin: 0.2rem 0;
+  padding: 0.2rem 2rem;
+  top: 10px;
+  bottom: 10px;
+  border: 3px solid gray;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .ant-dropdown {
-    padding-top: -3rem;
+  padding-top: -3rem;
 }
 
-.ant-dropdown-menu, .ant-dropdown-menu-item {
-    font-family: 'Inter', sans-serif !important;
-    font-weight: bold !important;
-    padding: 0 !important;
-    min-width: unset !important;
-    box-shadow: unset !important;
+.ant-dropdown-menu,
+.ant-dropdown-menu-item {
+  font-weight: bold !important;
+  padding: 0 !important;
+  min-width: unset !important;
+  box-shadow: unset !important;
 }
 
 .ant-dropdown-menu {
-    margin-top: -9rem !important;
+  margin-top: -9rem !important;
 }
 
-.container-department h4, h5{
-    font-family: 'Inter', sans-serif !important;
-    margin: 0;
+.container-department h4,
+h5 {
+  margin: 0;
 }
 
 .title {
-    background-color: #313541;
-    padding: 18px;
-    font-size: 17px;
-    color: white;
+  background-color: #313541;
+  padding: 18px;
+  font-size: 17px;
+  color: white;
 }
 
 .content-department {
-    display: flex;
-    flex-direction: column;
-    padding: 0 25px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 25px;
 }
 
 .content-department .name {
-    padding-left: 10px;
-    padding-top: 16px;
-    padding-bottom: 10px;
-    font-size: 14px;
+  padding-left: 10px;
+  padding-top: 16px;
+  padding-bottom: 10px;
+  font-size: 14px;
 }
 
 #input-department {
-    height: 2.2rem;
-    border-radius: 20px;
-    border: 2px solid #313541;
+  height: 2.2rem;
+  border-radius: 20px;
+  border: 2px solid #313541;
 }
 
 .content-department .detail {
-    display: flex;
-    margin-top: 30px;
-    margin-bottom: 6rem;
+  display: flex;
+  margin-top: 30px;
+  margin-bottom: 6rem;
 }
 
 .content-department .address {
-    flex: 1;
-    margin-left: 2rem;
+  flex: 1;
+  margin-left: 2rem;
 }
 
 .address h5 {
-    margin-bottom: 1rem;
-    margin-left: 10px;
+  margin-bottom: 1rem;
+  margin-left: 10px;
 }
 
 .avatar-uploader {
-    width: 8rem !important;
-    margin: 0 !important;
-    border: 3px solid #B6B6B6;
-    border-radius: 5px;
-    display: flex !important;
-    justify-content: center ;
-    align-items: center;
+  width: 8rem !important;
+  margin: 0 !important;
+  border: 3px solid #b6b6b6;
+  border-radius: 5px;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
 }
 
 .ant-upload-select {
-    margin: 0 !important;
+  margin: 0 !important;
 }

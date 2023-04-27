@@ -23,11 +23,11 @@ import DepartmentPage from "./views/pages/department/DepartmentPage";
 import AddProjectPage from "./views/pages/project/add-project/AddProjectPage";
 import NotificationPage from "./views/pages/notification/NotificationPage";
 import DepartmentUsersPage from "./views/pages/department/DepartmentUsersPage";
-import CreateTicketPage from "./views/pages/create-ticket/CreateTicketPage";
+import CreateTicketPage from "./views/pages/ticket/CreateTicketPage";
+import ManageTicketPage from "./views/pages/ticket/ManageTicketPage";
 
 const App = () => {
   const isLoggedIn = useSelector((state) => {
-    console.log(state.AuthReducer);
     return state.AuthReducer.isLoggedIn;
   });
 
@@ -39,39 +39,52 @@ const App = () => {
 
   if (isLoggedIn) {
     return (
-      <Router>
-        <Routes>
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<Navigate to="home" />} />
-            <Route path="login" element={<Navigate to="../home" />} />
-
-            <Route path="home" element={<HomePage />} />
-            <Route path="day-off" element={<DayOffPage />} />
-            <Route path="daily-report" element={<DailyReportPage />} />
-            <Route path="edit-daily-report" element={<EditDailyReportPage />} />
-            <Route path="meeting" element={<MeetingPage />} />
-            <Route path="department" element={<DepartmentPage />} />
-            <Route path="users" element={<UsersPage />} />
-            <Route
-              path="work-remote"
-              element={<WorkRemotePage userName={userName} />}
-            />
-            <Route path="/salary-detail" element={<SalaryDetailPage />} />
-            <Route
-              path="/edit-user-profile"
-              element={<EditUserProfilePage />}
-            />
-            <Route path="/projects" element={<ListProjectPage />} />
-            <Route path="/add-project" element={<AddProjectPage />} />
-            <Route path="/notification" element={<NotificationPage />} />
-            <Route
-              path="/department-users/:departmentId"
-              element={<DepartmentUsersPage />}
-            />
-            <Route path="/create-ticket" element={<CreateTicketPage />} />
-          </Route>
-        </Routes>
-      </Router>
+      <div>
+        <Router>
+          <Routes>
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Navigate to="home" />} />
+              <Route path="login" element={<Navigate to="../home" />} />
+              <Route path="home" element={<HomePage />} />
+              <Route path="day-off" element={<DayOffPage />} />
+              <Route path="daily-report" element={<DailyReportPage />} />
+              <Route
+                path="edit-daily-report"
+                element={<EditDailyReportPage />}
+              />
+              <Route path="meeting" element={<MeetingPage />} />
+              <Route path="department" element={<DepartmentPage />} />
+              <Route path="users" element={<UsersPage />} />
+              <Route
+                path="work-remote"
+                element={<WorkRemotePage userName={userName} />}
+              />
+              <Route path="/salary-detail" element={<SalaryDetailPage />} />
+              <Route
+                path="/edit-user-profile"
+                element={<EditUserProfilePage />}
+              />
+              <Route path="/projects" element={<ListProjectPage />} />
+              <Route path="/add-project" element={<AddProjectPage />} />
+              <Route path="/notification" element={<NotificationPage />} />
+              <Route
+                path="/department-users/:departmentId"
+                element={<DepartmentUsersPage />}
+              />
+              <Route path="/create-ticket" element={<CreateTicketPage />} />
+              <Route
+                path="/department/:departmentId/user/:userId"
+                element={<CreateTicketPage />}
+              />
+              <Route
+                path="/edit-ticket/:ticketId"
+                element={<CreateTicketPage />}
+              />
+              <Route path="/tickets" element={<ManageTicketPage />} />
+            </Route>
+          </Routes>
+        </Router>
+      </div>
     );
   } else {
     return (

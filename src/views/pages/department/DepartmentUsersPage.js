@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import NoImage from "../../../assets/images/no-image.jpg";
 import { Input, Cascader, Table, Tag } from "antd";
 import { useSelector } from "react-redux";
@@ -7,6 +7,8 @@ import DepartmentService from "../../../services/DepartmentService";
 import Utils from "../../../common/utils/Utils";
 
 export default function DepartmentUsersPage(props) {
+  const params = useParams();
+  const navigate = useNavigate();
   const user = useSelector((state) => {
     return state.AuthReducer.user;
   });
@@ -20,7 +22,10 @@ export default function DepartmentUsersPage(props) {
     return state.AuthReducer.isAdmin;
   });
 
-  const params = useParams();
+  const handleAddTicketUser = (userId) => {
+    console.log(userId);
+    navigate("/department/" + params.departmentId + "/user/" + userId);
+  };
 
   useEffect(() => {
     getDepartmentUsers();
@@ -100,6 +105,7 @@ export default function DepartmentUsersPage(props) {
             title="Giao công việc"
             class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-success"
             type="button"
+            onClick={() => handleAddTicketUser(id)}
           >
             <i class="mdi mdi-note-text menu-icon"></i>
           </button>

@@ -47,21 +47,19 @@ const LoginPage = () => {
       [e.target.type]: e.target.value,
     });
   };
-
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("root@gmail.com");
   const [passCode, setPassCode] = useState("123456x@X");
   const handleLogin = (e) => {
     AuthService.login(email, passCode).then((res) => {
       const response = res.data;
-      console.log(response);
       if (response.status === 200) {
+        console.log("LOGIN_SUCCESS");
+        console.log(response.payload);
         dispatch({
           type: "LOGIN_SUCCESS",
           payload: { user: response.payload },
         });
-        navigate("/home");
       }
     });
   };
@@ -84,12 +82,7 @@ const LoginPage = () => {
                 </h2>
               </div>
 
-              <form
-                autoComplete="on"
-                action="#"
-                style={{ margin: "3rem" }}
-                onSubmit={handleLogin}
-              >
+              <div className="form-group" style={{ margin: "3rem" }}>
                 <div className="form-group m-b-20 row">
                   <div className="col-12">
                     <label htmlFor="emailaddress">Email address</label>
@@ -139,13 +132,13 @@ const LoginPage = () => {
                     <button
                       id="button-sign-up"
                       className="btn btn-block btn-custom waves-effect waves-light"
-                      type="submit"
+                      onClick={handleLogin}
                     >
                       Sign In
                     </button>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
