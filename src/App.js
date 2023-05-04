@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import "./index.css";
 import "./App.css";
 
-import PrivateRoute from "./views/components/PrivateRoute";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainLayout from "./views/main-layout/MainLayout";
 import HomePage from "./views/pages/home/HomePage";
@@ -25,9 +23,11 @@ import NotificationPage from "./views/pages/notification/NotificationPage";
 import DepartmentUsersPage from "./views/pages/department/DepartmentUsersPage";
 import CreateTicketPage from "./views/pages/ticket/CreateTicketPage";
 import ManageTicketPage from "./views/pages/ticket/ManageTicketPage";
+import CreateReportPage from "./views/pages/report/CreateReportPage";
 
 const App = () => {
   const isLoggedIn = useSelector((state) => {
+    console.log(state.AuthReducer);
     return state.AuthReducer.isLoggedIn;
   });
 
@@ -81,6 +81,11 @@ const App = () => {
                 element={<CreateTicketPage />}
               />
               <Route path="/tickets" element={<ManageTicketPage />} />
+              <Route
+                path="/ticket/:ticketId/create-report"
+                element={<CreateReportPage />}
+              />
+              <Route path="/report/:reportId" element={<CreateReportPage />} />
             </Route>
           </Routes>
         </Router>

@@ -54,7 +54,6 @@ const LoginPage = () => {
     AuthService.login(email, passCode).then((res) => {
       const response = res.data;
       if (response.status === 200) {
-        console.log("LOGIN_SUCCESS");
         console.log(response.payload);
         dispatch({
           type: "LOGIN_SUCCESS",

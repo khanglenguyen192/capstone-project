@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import NoImage from "../../../assets/images/no-image.jpg";
 import TicketService from "../../../services/TicketService";
 import { useNavigate } from "react-router-dom";
+import dateFormat from "dateformat";
 
 export default function ManageTicketPage(props) {
   const isAdmin = useSelector((state) => {
@@ -54,7 +55,6 @@ export default function ManageTicketPage(props) {
   const [selectedTicketId, setSelectedTicketId] = useState();
 
   const onMenuItemClick = function ({ key }) {
-    console.log("selectedTicketId: " + selectedTicketId);
     switch (key) {
       case "view":
         if (selectedTicketId != null) {
@@ -65,6 +65,10 @@ export default function ManageTicketPage(props) {
         break;
       case "remove":
         break;
+      case "create-report":
+        if (selectedTicketId != null) {
+          navigate("/ticket/" + selectedTicketId + "/create-report");
+        }
     }
   };
 
@@ -86,6 +90,12 @@ export default function ManageTicketPage(props) {
         <div class="dropdown-item" id="ticket-menu-id-3">
           <i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>
           Remove Ticket
+        </div>
+      </Menu.Item>
+      <Menu.Item key="create-report">
+        <div class="dropdown-item" id="ticket-menu-id-3">
+          <i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>
+          Create Report
         </div>
       </Menu.Item>
     </Menu>
@@ -110,7 +120,7 @@ export default function ManageTicketPage(props) {
       dataIndex: "assignorName",
       render: (assignorName) => {
         return (
-          <a>
+          <div>
             <img
               src={NoImage}
               alt="contact-img"
@@ -118,7 +128,7 @@ export default function ManageTicketPage(props) {
               class="rounded-circle"
             />
             <span class="ml-2">{assignorName}</span>
-          </a>
+          </div>
         );
       },
     },
@@ -127,7 +137,7 @@ export default function ManageTicketPage(props) {
       dataIndex: "assigneeName",
       key: "assigneeName",
       render: (assigneeName) => (
-        <a href="/edit-user-profile">
+        <div>
           <img
             src={NoImage}
             alt="contact-img"
@@ -135,7 +145,7 @@ export default function ManageTicketPage(props) {
             class="rounded-circle"
           />
           <span class="ml-2">{assigneeName}</span>
-        </a>
+        </div>
       ),
     },
     {
@@ -162,7 +172,7 @@ export default function ManageTicketPage(props) {
       title: "Ngày khởi tạo",
       dataIndex: "created",
       key: "created",
-      render: (created) => <div>{created}</div>,
+      render: (created) => <div>{dateFormat(created, "dd/mm/yyyy")}</div>,
     },
     {
       title: "Thao tác",
@@ -239,12 +249,11 @@ export default function ManageTicketPage(props) {
             </div>
 
             <div className="row">
-              <div className="col-sm-12 col-md-6"></div>
               <div className="col-sm-12 col-md-6">
                 <div
                   id="datatable_filter"
                   className="dataTables_filter"
-                  style={{ textAlign: "right" }}
+                  style={{ textAlign: "left" }}
                 >
                   <label
                     style={{
@@ -260,6 +269,14 @@ export default function ManageTicketPage(props) {
                     />
                   </label>
                 </div>
+              </div>
+              <div className="col-sm-12 col-md-6">
+                <button
+                  type="button"
+                  class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
+                >
+                  <i class="mdi mdi-plus-circle"></i> Create Ticket
+                </button>
               </div>
             </div>
 
