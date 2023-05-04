@@ -24,12 +24,33 @@ export default function ManageTicketPage(props) {
       assignorId: user.userId,
     };
 
+    searchTicket(searchCondition);
+  }, []);
+
+  const searchTicket = (searchCondition) => {
     TicketService.searchTicket(searchCondition, user.token).then((res) => {
       var response = res.data;
       if (response != null && response.status == 200) {
         setTotalTicket(response.payload.totalSize);
         if (response.payload.data != null) {
+          var totalPending = 0;
+          var totalInProgress = 0;
+          var totalCompleted = 0;
           var ticketModels = response.payload.data.map((item) => {
+            switch (item.ticketStatus) {
+              case 0:
+              case 1:
+              case 2:
+                totalInProgress += 1;
+                break;
+              case 3:
+                totalCompleted += 1;
+                break;
+              case 4:
+                totalPending += 1;
+                break;
+            }
+
             return {
               id: item.id,
               status: item.ticketStatus,
@@ -39,18 +60,22 @@ export default function ManageTicketPage(props) {
               created: item.created,
             };
           });
+
+          setTotalInProgress(totalInProgress);
+          setTotalPending(totalPending);
+          setTotalClose(totalCompleted);
           setTickets(ticketModels);
         }
       }
     });
-  }, []);
+  };
 
   const navigate = useNavigate();
 
-  const [totalTicket, setTotalTicket] = useState(20);
-  const [totalInProgress, setTotalInProgress] = useState(10);
-  const [totalPending, setTotalPending] = useState(5);
-  const [totalClose, setTotalClose] = useState(5);
+  const [totalTicket, setTotalTicket] = useState(0);
+  const [totalInProgress, setTotalInProgress] = useState(0);
+  const [totalPending, setTotalPending] = useState(0);
+  const [totalClose, setTotalClose] = useState(0);
   const [tickets, setTickets] = useState([]);
   const [selectedTicketId, setSelectedTicketId] = useState();
 
