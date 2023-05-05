@@ -43,7 +43,7 @@ export default function DepartmentUsersPage(props) {
         var users = response.payload.map((item) => {
           return {
             id: item.id,
-            employeeCode: "#" + item.userCode,
+            employeeCode: "#" + item.id,
             name: item.fullName,
             role: Utils.getDepartmentRoleString(item.departmentRole),
             status: "Trực tuyến",
@@ -219,6 +219,17 @@ export default function DepartmentUsersPage(props) {
                     name="jobDescription"
                     rows="3"
                   ></textarea>
+                </div>
+              </div>
+
+              <div class="row">
+                <div className="col-12">
+                  <button
+                    type="button"
+                    class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
+                  >
+                    <i class="mdi mdi-plus-circle"></i> Thêm nhân viên
+                  </button>
                 </div>
               </div>
               <Table

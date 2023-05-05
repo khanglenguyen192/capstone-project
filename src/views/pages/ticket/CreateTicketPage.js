@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Input, Upload, Button, message } from "antd";
+import { Input, Upload, Button, Cascader, message } from "antd";
 import TextEditor from "../../components/TextEditor";
 import TicketService from "../../../services/TicketService";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,8 @@ import "./CreateTicketPage.css";
 import Utils from "../../../common/utils/Utils";
 import IconFile from "../../../assets/images/file_icons/icons8-file.svg";
 import dateFormat from "dateformat";
+import UserService from "../../../services/UserService";
+import Constants from "../../../common/constants/Constants";
 
 export default function CreateTicketPage(props) {
   const params = useParams();
@@ -19,36 +21,17 @@ export default function CreateTicketPage(props) {
       setEnableEdit(true);
       setAssigneeId(params.userId);
       setDepartmentId(params.departmentId);
-    } else if (params.ticketId !== undefined) {
-      setIsCreateTicket(false);
-      TicketService.getTicket(params.ticketId, user.token).then((res) => {
+      setTicketStatus(0);
+      UserService.getUser(params.userId, user.token).then((res) => {
         var response = res.data;
-        if (response !== undefined && response.payload !== undefined) {
-          var ticket = response.payload;
-          setTitle(ticket.title);
-          setContent(ticket.content);
-          setAssigneeId(ticket.assigneeId);
-          setAssigneeName(ticket.assigneeName);
-          setDepartmentId(ticket.departmentId);
-          setEnableEdit(false);
 
-          if (ticket.ticketFiles != null) {
-            var ticketFilesModel = ticket.ticketFiles.map((file) => {
-              return {
-                id: file.id,
-                name: file.displayName,
-                fileName: file.fileName,
-                size: file.size,
-              };
-            });
-            setFilesDisplay(ticketFilesModel);
-          }
-
-          if (ticket.reports != null) {
-            setReports(ticket.reports);
-          }
+        if (response != null && response.payload != null) {
+          setAssigneeName(response.payload.fullName);
         }
       });
+    } else if (params.ticketId !== undefined) {
+      setIsCreateTicket(false);
+      fetchTicket(params.ticketId);
     } else {
       console.log("developmentMode");
     }
@@ -60,15 +43,55 @@ export default function CreateTicketPage(props) {
 
   const [content, setContent] = useState();
   const [title, setTitle] = useState();
+  const [ticketStatus, setTicketStatus] = useState();
   const [enableEdit, setEnableEdit] = useState(false);
   const [assigneeId, setAssigneeId] = useState();
   const [assigneeName, setAssigneeName] = useState();
   const [departmentId, setDepartmentId] = useState();
   const [isCreateTicket, setIsCreateTicket] = useState(true);
+  const [isSelfEdit, setIsSelfEdit] = useState(false);
 
   const [filesDisplay, setFilesDisplay] = useState([]);
   const [filesUpload, setFilesUpload] = useState([]);
   const [reports, setReports] = useState([]);
+
+  const fetchTicket = (ticketId) => {
+    TicketService.getTicket(ticketId, user.token).then((res) => {
+      var response = res.data;
+      if (response !== undefined && response.payload !== undefined) {
+        var ticket = response.payload;
+        setTitle(ticket.title);
+        setContent(ticket.content);
+        setAssigneeId(ticket.assigneeId);
+        setAssigneeName(ticket.assigneeName);
+        setDepartmentId(ticket.departmentId);
+        setTicketStatus(ticket.ticketStatus);
+        setEnableEdit(false);
+
+        if (ticket.assignorId != user.userId) {
+          setIsSelfEdit(false);
+        } else {
+          setIsSelfEdit(true);
+        }
+
+        if (ticket.ticketFiles != null) {
+          var ticketFilesModel = ticket.ticketFiles.map((file) => {
+            return {
+              id: file.id,
+              name: file.displayName,
+              fileName: file.fileName,
+              size: file.size,
+            };
+          });
+          setFilesDisplay(ticketFilesModel);
+        }
+
+        if (ticket.reports != null) {
+          setReports(ticket.reports);
+        }
+      }
+    });
+  };
 
   const handleFileChange = (e) => {
     console.log(
@@ -118,7 +141,7 @@ export default function CreateTicketPage(props) {
     formData.append("assigneeId", assigneeId);
     formData.append("title", title);
     formData.append("content", content);
-    formData.append("ticketStatus", 0);
+    formData.append("ticketStatus", ticketStatus);
     formData.append("departmentId", departmentId);
 
     for (var i = 0; i < filesUpload.length; i++) {
@@ -153,6 +176,14 @@ export default function CreateTicketPage(props) {
     setEnableEdit(false);
   };
 
+  const handleCancelClick = () => {
+    if (isCreateTicket || params.ticketId == null) {
+      return;
+    }
+
+    fetchTicket(params.ticketId);
+  };
+
   const handleCreateReport = () => {
     if (isCreateTicket) {
       return;
@@ -163,6 +194,10 @@ export default function CreateTicketPage(props) {
 
   const handleViewReport = (reportId) => {
     navigate("/report/" + reportId);
+  };
+
+  const handleSelectTicketStatus = (value, selectedOption) => {
+    setTicketStatus(value);
   };
 
   return (
@@ -216,12 +251,19 @@ export default function CreateTicketPage(props) {
                     Trạng thái
                   </label>
                   <div class="col-sm-12" style={{ paddingLeft: "0" }}>
-                    <Input
-                      class="app-text"
+                    <Cascader
                       size="large"
-                      name="title"
-                      placeholder={assigneeName}
-                      disabled
+                      name="ticketStatus"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                      }}
+                      placement="bottomRight"
+                      placeholder="Chọn"
+                      options={Constants.ticketStatusModels}
+                      onChange={handleSelectTicketStatus}
+                      value={Utils.getTicketStatusLabel(ticketStatus)}
+                      disabled={!enableEdit}
                     />
                   </div>
                 </div>
@@ -357,57 +399,86 @@ export default function CreateTicketPage(props) {
               </div>
 
               <div class="row">
-                <button
-                  class="btn btn-custom waves-effect waves-light float-right mt-2"
-                  onClick={isCreateTicket ? handleUploadClick : handleEditClick}
-                >
-                  {isCreateTicket
-                    ? "Tạo công việc"
-                    : enableEdit
-                    ? "Hoàn tất"
-                    : "Chỉnh sửa"}
-                </button>
-              </div>
-
-              <div class="row">
-                <div class="col-sm-12 col-md-6">
-                  <h4 class="header-title font-18">BÁO CÁO</h4>
-                </div>
-                <div class="col-sm-12 col-md-6">
+                <div class="col-md-12">
+                  {!isCreateTicket && enableEdit && (
+                    <button
+                      style={{ marginLeft: "10px" }}
+                      class="btn btn-custom waves-effect waves-light btn-danger float-right mt-2"
+                      onClick={handleCancelClick}
+                    >
+                      Hủy bỏ
+                    </button>
+                  )}
                   <button
                     class="btn btn-custom waves-effect waves-light float-right mt-2"
-                    onClick={handleCreateReport}
+                    onClick={
+                      isCreateTicket ? handleUploadClick : handleEditClick
+                    }
                   >
-                    <span>
-                      <i class="mdi mdi-plus-circle"></i>
-                      Tạo báo cáo
-                    </span>
+                    {isCreateTicket
+                      ? "Tạo công việc"
+                      : enableEdit
+                      ? "Hoàn tất"
+                      : "Chỉnh sửa"}
                   </button>
                 </div>
               </div>
-              <div class="row">
-                {reports.map((report) => (
-                  <div class="col-sm-6">
-                    <div
-                      class="card m-b-30 card-body"
-                      style={{ background: "rgba(158,207,250,.3)" }}
-                    >
-                      <h5 class="card-title">{report.title}</h5>
-                      <p class="card-text">
-                        Ngày tạo: {dateFormat(report.created, "dd/mm/yyyy")}
-                      </p>
-                      <button
-                        class="btn btn-custom waves-effect waves-light"
-                        onClick={() => {
-                          handleViewReport(report.id);
-                        }}
-                      >
-                        Xem báo cáo
-                      </button>
+
+              {!isCreateTicket && (
+                <div>
+                  <br />
+                  <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                      <h4 class="header-title font-18">BÁO CÁO</h4>
                     </div>
+                    {!isSelfEdit && (
+                      <div class="col-sm-12 col-md-6">
+                        <button
+                          class="btn btn-custom btn-rounded waves-effect waves-light float-right float-start mt-2"
+                          onClick={handleCreateReport}
+                        >
+                          <span>
+                            <i class="mdi mdi-plus-circle"></i>
+                            Tạo báo cáo
+                          </span>
+                        </button>
+                      </div>
+                    )}
                   </div>
-                ))}
-              </div>
+                  <div class="row">
+                    {reports.length == 0 ? (
+                      <div class="col-12">
+                        <p class="text-muted font-18">
+                          Hiện tại không có báo cáo !!!
+                        </p>
+                      </div>
+                    ) : (
+                      reports.map((report) => (
+                        <div class="col-sm-6">
+                          <div
+                            class="card m-b-30 card-body"
+                            style={{ background: "rgba(158,207,250,.3)" }}
+                          >
+                            <h5 class="card-title">{report.title}</h5>
+                            <p class="card-text">
+                              Ngày tạo:{" "}
+                              {dateFormat(report.created, "HH:mm dd/mm/yyyy")}
+                            </p>
+                            <button
+                              class="btn btn-custom waves-effect waves-light"
+                              onClick={() => {
+                                handleViewReport(report.id);
+                              }}
+                            >
+                              Xem báo cáo
+                            </button>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

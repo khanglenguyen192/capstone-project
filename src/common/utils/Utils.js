@@ -1,3 +1,5 @@
+import Constants from "../constants/Constants";
+
 const getDepartmentRoleString = (roleId) => {
   switch (roleId) {
     case 1:
@@ -32,7 +34,18 @@ function getFileSizeFromBytes(bytes, decimals = 2) {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 }
 
+function getTicketStatusLabel(ticketStatus) {
+  for (var i = 0; i < Constants.ticketStatusModels.length; i++) {
+    if (ticketStatus == Constants.ticketStatusModels[i].value) {
+      return Constants.ticketStatusModels[i].label;
+    }
+  }
+
+  return "None";
+}
+
 export default {
   getDepartmentRoleString,
   getFileSizeFromBytes,
+  getTicketStatusLabel,
 };

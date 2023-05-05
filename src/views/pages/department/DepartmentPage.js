@@ -220,6 +220,9 @@ export default function DepartmentPage(props) {
                       titleImg={item.name}
                     ></img>
                   </span>
+                  <span class="projectNameDisplay mt-4">
+                    <p class="text-dark font-15 text-bold">{item.name}</p>
+                  </span>
                 </p>
 
                 <p
