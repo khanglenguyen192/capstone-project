@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./LoginPage.css";
 import logo from "../../../assets/images/logo.png";
-import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import backgroundImage from "../../../assets/images/no-image.jpg";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../../../services/AuthService";
@@ -11,11 +11,24 @@ const usePasswordToggle = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   let Icon, InputType;
   if (passwordVisible) {
-    Icon = <EyeOutlined id="eye-outline" onClick={ () => setPasswordVisible(passwordVisible => !passwordVisible) } />;
+    Icon = (
+      <EyeOutlined
+        id="eye-outline"
+        onClick={() =>
+          setPasswordVisible((passwordVisible) => !passwordVisible)
+        }
+      />
+    );
     InputType = "text";
-  }
-  else {
-    Icon = <EyeInvisibleOutlined id="eye-outline" onClick={ () => setPasswordVisible(passwordVisible => !passwordVisible) } />;
+  } else {
+    Icon = (
+      <EyeInvisibleOutlined
+        id="eye-outline"
+        onClick={() =>
+          setPasswordVisible((passwordVisible) => !passwordVisible)
+        }
+      />
+    );
     InputType = "password";
   }
 
@@ -25,30 +38,27 @@ const usePasswordToggle = () => {
 const LoginPage = () => {
   const [form, setForm] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
-  const updateField = e => {
+  const updateField = (e) => {
     setForm({
       ...form,
-      [e.target.type]: e.target.value
+      [e.target.type]: e.target.value,
     });
   };
-
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("root@gmail.com");
   const [passCode, setPassCode] = useState("123456x@X");
   const handleLogin = (e) => {
     AuthService.login(email, passCode).then((res) => {
       const response = res.data;
-      console.log(response);
       if (response.status === 200) {
+        console.log(response.payload);
         dispatch({
           type: "LOGIN_SUCCESS",
           payload: { user: response.payload },
         });
-        navigate("/home");
       }
     });
   };
@@ -56,9 +66,7 @@ const LoginPage = () => {
   const [Icon, InputType] = usePasswordToggle();
 
   return (
-    <div
-      className="login-pages">
-
+    <div className="login-pages">
       <div className="accountbg"></div>
 
       <div className="wrapper-page account-page-full">
@@ -68,17 +76,12 @@ const LoginPage = () => {
               <div className="card-box p-5">
                 <h2 className="text-uppercase text-center pb-4">
                   <a href="/" className="text-success">
-                    <img id="logo" src={ logo } alt="logo" />
+                    <img id="logo" src={logo} alt="logo" />
                   </a>
                 </h2>
               </div>
 
-              <form
-                autoComplete="on"
-                action="#"
-                style={{ margin: "3rem" }}
-                onSubmit={handleLogin}
-              >
+              <div className="form-group" style={{ margin: "3rem" }}>
                 <div className="form-group m-b-20 row">
                   <div className="col-12">
                     <label htmlFor="emailaddress">Email address</label>
@@ -102,7 +105,7 @@ const LoginPage = () => {
                     <div id="container-password">
                       <input
                         className="form-control"
-                        type={ InputType }
+                        type={InputType}
                         required
                         id="password"
                         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
@@ -111,12 +114,13 @@ const LoginPage = () => {
                         value={passCode}
                         onChange={(e) => setPassCode(e.target.value)}
                       />
-                      { Icon }
+                      {Icon}
                     </div>
                     <a
                       id="forgot-password"
                       href="forgot-password"
-                      className="text-muted float-right">
+                      className="text-muted float-right"
+                    >
                       <small>Forgot your password?</small>
                     </a>
                   </div>
@@ -127,13 +131,13 @@ const LoginPage = () => {
                     <button
                       id="button-sign-up"
                       className="btn btn-block btn-custom waves-effect waves-light"
-                      type="submit"
+                      onClick={handleLogin}
                     >
                       Sign In
                     </button>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
