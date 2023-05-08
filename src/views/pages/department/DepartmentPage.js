@@ -77,7 +77,7 @@ export default function DepartmentPage(props) {
   };
 
   const menuItems = (
-    <Menu onClick={onMenuItemClick}>
+    <Menu onClick={ onMenuItemClick }>
       <Menu.Item key="infor">
         <div class="dropdown-item" id="ticket-menu-id-1">
           <i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>
@@ -131,17 +131,17 @@ export default function DepartmentPage(props) {
   const uploadButton = (
     <div>
       <div
-        style={{
+        style={ {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-        }}
+        } }
       >
         <Icon
-          style={{
+          style={ {
             fill: Colors.quite_gray,
             scale: "0.6",
-          }}
+          } }
         />
       </div>
     </div>
@@ -167,7 +167,7 @@ export default function DepartmentPage(props) {
   };
 
   return (
-    <div>
+    <div className="department-page">
       <div clas="row">
         <div class="row">
           <div className="col-6">
@@ -178,7 +178,7 @@ export default function DepartmentPage(props) {
             <button
               type="button"
               class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
-              onClick={() => setShowDepartmentPopup(true)}
+              onClick={ () => setShowDepartmentPopup(true) }
             >
               <i class="mdi mdi-plus-circle"></i> Thêm phòng ban
             </button>
@@ -187,21 +187,21 @@ export default function DepartmentPage(props) {
       </div>
 
       <div class="row">
-        {departmentList.length != 0 ? (
+        { departmentList.length != 0 ? (
           departmentList.map((item) => (
             <div
               class="col-md-6 col-lg-4"
-              onClick={() => {
+              onClick={ () => {
                 setSelectedDepartmentId(item.id);
-              }}
+              } }
             >
               <div class="card-box project-box ribbon-box">
                 <div class="dropdown float-right">
                   <Dropdown
-                    placement={"bottom"}
-                    trigger={["click"]}
-                    overlay={menuItems}
-                    onClick={() => setSelectedDepartmentId(item.id)}
+                    placement={ "bottom" }
+                    trigger={ ["click"] }
+                    overlay={ menuItems }
+                    onClick={ () => setSelectedDepartmentId(item.id) }
                   >
                     <div class="dropdown-toggle card-drop arrow-none">
                       <h3 class="m-0 text-muted">
@@ -214,22 +214,22 @@ export default function DepartmentPage(props) {
                 <p class="project-hide-overflow ml-3">
                   <span class="thumb-lg member-thumb mr-15 m-b-10 d-inline-block">
                     <img
-                      src={NoImage}
+                      src={ NoImage }
                       class="rounded-circle img-thumbnail"
                       altImg="friend"
-                      titleImg={item.name}
+                      titleImg={ item.name }
                     ></img>
                   </span>
                   <span class="projectNameDisplay mt-4">
-                    <p class="text-dark font-15 text-bold">{item.name}</p>
+                    <p class="text-dark font-15 text-bold">{ item.name }</p>
                   </span>
                 </p>
 
                 <p
                   class="text-dark font-13 description-hide-overflow"
-                  title={item.description}
+                  title={ item.description }
                 >
-                  {"item.description"}
+                  { "item.description" }
                 </p>
 
                 <div class="project-members mt-4 memnber-hide-overflow">
@@ -238,13 +238,13 @@ export default function DepartmentPage(props) {
                     <a
                       data-toggle="tooltip"
                       data-placement="top"
-                      style={{
+                      style={ {
                         marginRight: "5px",
-                      }}
+                      } }
                     >
                       <div class="thumb-md member-thumb">
                         <img
-                          src={NoImage}
+                          src={ NoImage }
                           class="img-thumbnail project-leader-mark rounded-circle"
                           alt="friend"
                         ></img>
@@ -262,20 +262,20 @@ export default function DepartmentPage(props) {
               Hiện tại không có phòng ban nào !!!
             </p>
           </div>
-        )}
+        ) }
 
         <ConfirmDialog
-          isShow={isShowDepartmentPopup}
+          isShow={ isShowDepartmentPopup }
           title="Thêm phòng ban"
-          onCancel={() => {
+          onCancel={ () => {
             setShowDepartmentPopup(false);
-          }}
+          } }
           mainButtonText="Xác nhận"
           subButtonText="Đóng"
-          mainButtonClick={handleAddDepartment}
-          subButtonClick={() => {
+          mainButtonClick={ handleAddDepartment }
+          subButtonClick={ () => {
             setShowDepartmentPopup(false);
-          }}
+          } }
         >
           <div className="container-department">
             <div className="row">
@@ -284,19 +284,19 @@ export default function DepartmentPage(props) {
                   name="avatar"
                   listType="picture-card"
                   className="avatar-uploader"
-                  showUploadList={false}
-                  beforeUpload={beforeUpload}
-                  onChange={handleChange}
+                  showUploadList={ false }
+                  beforeUpload={ beforeUpload }
+                  onChange={ handleChange }
                 >
-                  {imageUrl ? (
+                  { imageUrl ? (
                     <img
-                      src={imageUrl}
+                      src={ imageUrl }
                       alt="avatar"
-                      style={{ width: "100%" }}
+                      style={ { width: "100%" } }
                     />
                   ) : (
                     uploadButton
-                  )}
+                  ) }
                 </Upload>
               </div>
               <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
@@ -308,14 +308,12 @@ export default function DepartmentPage(props) {
               </div>
 
               <div className="detail">
-                <div className="address">
-                  <h5>Mô tả</h5>
-                  <TextArea
-                    rows={6}
-                    placeholder="Thêm phần mô tả cho chi nhánh"
-                    style={{ backgroundColor: Colors.graynish }}
-                  />
-                </div>
+                <h5>Mô tả</h5>
+                <TextArea
+                  rows={ 6 }
+                  placeholder="Thêm phần mô tả cho chi nhánh"
+                  style={ { backgroundColor: Colors.graynish } }
+                />
               </div>
             </div>
           </div>

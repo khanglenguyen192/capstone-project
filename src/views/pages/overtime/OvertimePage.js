@@ -75,13 +75,32 @@ export default function OvertimePage(props) {
     let calendarApi = info.view.calendar;
 
     calendarApi.unselect();
-    
+
     if (info) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title: overtime.projects,
-        start: new Date(`${info.startStr} ${overtime.startTime.$H}:${overtime.startTime.$m}:00`)
-      });
+      const currentDate = new Date(info.start);
+      const endDate = new Date(info.end);
+      
+      while (currentDate < endDate) {
+        if (overtime.startTime == null) {
+          currentDate.setHours(overtime.startTime.$H);
+          currentDate.setMinutes(overtime.startTime.$m);
+        }
+        else {
+          currentDate.setHours(0);
+          currentDate.setMinutes(0);
+        }
+
+        if (overtime.projects != null && overtime.projects.length != 0)
+        {
+          calendarApi.addEvent({
+            id: createEventId(),
+            title: overtime.projects,
+            start: currentDate
+          });
+        }
+
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
     }
   };
 
@@ -157,11 +176,11 @@ export default function OvertimePage(props) {
                       multiple
                       maxTagCount="responsive"
                       placeholder="Chọn dự án"
-                      onChange={ (value) => { overtime.projects = value } }
+                      onChange={ (value) => { overtime.projects = value; } }
                     />
                     <Space wrap>
                       <TimePicker use12Hours format="h:mm a"
-                        onChange={ (value) => { overtime.startTime = value } }
+                        onChange={ (value) => { overtime.startTime = value; } }
                       />
                     </Space>
                   </div>

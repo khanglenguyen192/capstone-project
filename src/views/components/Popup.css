@@ -9,15 +9,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.popup-inner {
+  }
+  
+  .popup .popup-inner {
     position: relative;
     min-height: 10rem;
     max-height: calc(100vh - 10rem);
     width: 100%;
     max-width: 40rem;
+    border-radius: 10px;
     background-color: #ffffff;
+}
+
+.popup .popup-inner .title {
+  display: flex;
+  align-items: center;
+  padding: 10px 10px 10px 24px;
+  color: #FFFFFF;
+  border-radius: 8px 8px 0 0;
+  background-color: #627684;
 }
 
 .popup .btn {
@@ -26,7 +36,7 @@
   right: 1rem;
 }
 
-.btn #btn-cancel {
+.popup .btn #btn-cancel {
   color: #f1556c;
   --c: #f1556c;
   border-radius: 10px;
@@ -41,7 +51,7 @@
   transition: background-size 0.3s, background-position 0s 0.3s;
 }
 
-.btn #btn-accept {
+.popup .btn #btn-accept {
   color: #0ce1eb;
   --c: #0ce1eb;
   border-radius: 10px;
@@ -56,27 +66,27 @@
   transition: background-size 0.3s, background-position 0s 0.3s;
 }
 
-.btn #btn-cancel:hover,
+.popup .btn #btn-cancel:hover,
 #btn-accept:hover {
   color: whitesmoke;
   --_p: 100%;
   transition: background-position 0.3s, background-size 0s;
 }
 
-.btn #btn-cancel:active,
+.popup .btn #btn-cancel:active,
 #btn-accept:active {
   box-shadow: 0 0 9e9Q inset rgba(72, 49, 49, 0.388);
   background-color: var(--c);
   color: #fffb00;
 }
 
-.btn #btn-cancel,
+.popup .btn #btn-cancel,
 #btn-accept {
   width: 8rem;
   font-size: 1rem;
   cursor: pointer;
   padding: 0.5em 0.6em;
-  font-weight: bold;
+  font-weight: bolder !important;
   border: none;
   margin-left: 1rem;
 }

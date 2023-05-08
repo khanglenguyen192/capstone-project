@@ -6,8 +6,8 @@
 }
 
 .container-overtime h5{
-    font-family: 'Inter', sans-serif !important;
     margin: 0;
+    font-weight: 500 !important;
 }
 
 .content-overtime {
@@ -20,7 +20,6 @@
     padding-left: 10px;
     padding-top: 16px;
     padding-bottom: 10px;
-    font-size: 14px;
 }
 
 .wrap-overtime {

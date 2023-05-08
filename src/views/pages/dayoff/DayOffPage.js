@@ -5,17 +5,31 @@ import listPlugin from "@fullcalendar/list";
 import viLocale from "@fullcalendar/core/locales/vi";
 import React, { useState } from "react";
 import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";
+import COLORS from "../../../common/constants/Colors";
+import Popup from "../../components/Popup";
+import TextArea from "rc-textarea";
+import { createEventId } from "../../../common/utils/Utils";
+import './DayOff.css';
+import { Checkbox } from "antd";
 
 export default function DayOffPage() {
+  const [buttonPopup, setButtonPopup] = useState(false);
+  const [info, setInfo] = useState(null);
   const [showPopupConfirm, setshowPopupConfirm] = useState(false);
+
+  const INITIAL_EVENTS = [
+    // {
+    //   user: {},
+    //   reason: "",
+    //   start: "",
+    // }
+  ];
 
   const dayoff = {
     user: {},
     reason: "",
     dateTime: "",
   };
-
-  const date = "19/02/2023";
 
   const options = {
     eventLimitText: "yêu cầu",
@@ -31,7 +45,7 @@ export default function DayOffPage() {
     customButtons: {
       submitDayOff: {
         text: "Xin nghỉ phép",
-        click: () => this.onSubmitDayOff(),
+        click: (info) => this.popupHandle(info),
       },
       viewListLeaving: {
         text: "Danh sách",
@@ -45,7 +59,81 @@ export default function DayOffPage() {
     plugins: [dayGridPlugin, interactionPlugin, listPlugin],
   };
 
-  const events = [{ title: "Meeting", start: new Date() }];
+  const popupHandle = (info) => {
+    setButtonPopup(true);
+    setInfo(info);
+
+    // const selectedEvent = {
+    //   title: 'New Event',
+    //   start: info.start,
+    //   end: info.end,
+    //   backgroundColor: 'yellow', // change the background color here
+    //   textColor: 'black' // change the text color here
+    // };
+    // setEvents([...events, selectedEvent]);
+    // console.log(info);
+  };
+
+  const onSubmit = () => {
+    let calendarApi = info.view.calendar;
+    // calendarApi.unselect();
+
+    if (info) {
+      const currentDate = new Date(info.start);
+      const endDate = new Date(info.end);
+
+      console.log("Type: ", info)
+      while (currentDate < endDate) {
+        calendarApi.addEvent({
+          id: createEventId(),
+          start: currentDate,
+          allDay: false,
+        });
+        
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+    }
+  };
+
+  function formatTimeString(timeString) {
+    if (timeString.length === 1) {
+      timeString = `0${timeString}:00`;
+    } else if (timeString.length === 2) {
+      timeString = `${timeString}:00`;
+    } else if (timeString.length === 4) {
+      timeString = `0${timeString}`;
+    }
+    return timeString;
+  }
+
+  const renderEventContent = (eventInfo) => {
+    // how to set value red for backgroundColor of eventInfo
+    // console.log(eventInfo);
+    return (
+      <div style={ {
+        display: "flex",
+        width: "-webkit-fill-available",
+        borderRadius: "2px",
+        padding: "1px 10px",
+        margin: "0 5px",
+        alignItems: "center",
+        backgroundColor: COLORS.quite_blue
+      } }>
+        <b className="text-light" style={ { paddingRight: "6px" } }>{ formatTimeString(eventInfo.timeText) }</b>
+        <i className="text-light">{ eventInfo.event.title }</i>
+      </div>
+    );
+  };
+
+  const handleEventClick = (clickInfo) => {
+    if (!alert(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+      clickInfo.event.remove();
+    }
+  };
+
+  const onChange = (e) => {
+    console.log(`checked = ${e.target.checked}`);
+  };
 
   const onSubmitDayOff = () => {
     setshowPopupConfirm(true);
@@ -54,14 +142,14 @@ export default function DayOffPage() {
   return (
     <div class="row">
       <ConfirmDialog
-        isShow={showPopupConfirm}
+        isShow={ showPopupConfirm }
         title="Xin nghỉ phép"
       ></ConfirmDialog>
 
       <div class="col-12 grid-margin">
         <div class="card">
           <div class="card-body">
-            <FullCalendar
+            {/* <FullCalendar
               plugins={options.plugins}
               events={events}
               eventLimitText={options.eventLimitText}
@@ -72,7 +160,46 @@ export default function DayOffPage() {
               footerToolbar={options.footer}
               height={800}
               locale={viLocale}
+            /> */}
+
+            <FullCalendar
+              plugins={ options.plugins }
+              headerToolbar={ options.header }
+              footerToolbar={ options.footer }
+              eventLimitText={ options.eventLimitText }
+              editable={ options.editable }
+              selectable={ true }
+              selectMirror={ true }
+              dayMaxEvents={ true }
+              weekends={ true }
+              initialEvents={ INITIAL_EVENTS }
+              select={ popupHandle }
+              customButtons={ options.customButtons }
+              buttonText={ options.buttonText }
+              eventContent={ renderEventContent } // custom render function
+              eventClick={ handleEventClick }
+              // eventsSet={ this.handleEvents }
+              height={ 800 }
+              locale={ viLocale }
             />
+
+            <Popup trigger={ buttonPopup } setTrigger={ setButtonPopup } onSubmit={ onSubmit } title="Xin nghỉ phép">
+              <div className='container-dayoff'>
+                <div className='content-dayoff'>
+                  <div className='reason'>
+                    <h5>Lý do</h5>
+                    <TextArea rows={ 6 } placeholder="Lý do xin nghỉ phép"
+                      style={ { backgroundColor: COLORS.graynish, maxHeight: "calc(100vh - 28rem)" } }
+                      onChange={ (value) => { dayoff.contents = value; } }
+                    />
+                    <div className="float-right">
+                      <Checkbox onChange={ onChange }>Xin nghỉ khẩn cấp</Checkbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Popup>
+
             {/* <div>
               <button
                 type="button"

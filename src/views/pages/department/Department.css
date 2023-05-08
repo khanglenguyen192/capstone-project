@@ -1,15 +1,14 @@
-/* * {
-  margin: 0;
-  padding: 0;
-  border: 0;
+.container-department .detail {
+  margin: 15px;
+  width: 30rem;
 }
 
-.department-card {
+/* .department-page .department-card {
   padding: 40px 0;
   border-radius: 5px;
 }
 
-.container {
+.department-page .container {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -17,7 +16,7 @@
   cursor: pointer;
 }
 
-.container p {
+.department-page .container p {
   font-size: 1rem;
   margin: 0;
   padding: 10px 0;
@@ -25,7 +24,7 @@
   font-weight: bold;
 }
 
-.department-title {
+.department-page .department-title {
   margin: 0;
   font-size: 1.5rem;
   padding-bottom: 2rem;
@@ -33,7 +32,7 @@
   font-weight: bold;
 }
 
-.add-icon {
+.department-page .add-icon {
   padding: 1.8rem 3.4rem;
   border: 4px solid #627684;
   border-radius: 5px;
@@ -44,11 +43,11 @@
   cursor: pointer;
 }
 
-#add-department {
+.department-page #add-department {
   background-color: unset !important;
 }
 
-.option {
+.department-page .option {
   margin: 0.2rem 0;
   padding: 0.2rem 2rem;
   top: 10px;
@@ -60,11 +59,11 @@
   align-items: center;
 }
 
-.ant-dropdown {
+.department-page .ant-dropdown {
   padding-top: -3rem;
 }
 
-.ant-dropdown-menu,
+.department-page .ant-dropdown-menu,
 .ant-dropdown-menu-item {
   font-weight: bold !important;
   padding: 0 !important;
@@ -72,64 +71,64 @@
   box-shadow: unset !important;
 }
 
-.ant-dropdown-menu {
+.department-page .ant-dropdown-menu {
   margin-top: -9rem !important;
 }
 
-.container-department h4,
+.department-page .container-department h4,
 h5 {
   margin: 0;
 }
 
-.title {
+.department-page .title {
   background-color: #313541;
   padding: 18px;
   font-size: 17px;
   color: white;
 }
 
-.content-department {
+.department-page .content-department {
     display: flex;
     flex-direction: column;
     padding: 0 30px;
 }
 
-.content-department .name {
+.department-page .content-department .name {
   padding-left: 10px;
   padding-top: 16px;
   padding-bottom: 10px;
   font-size: 14px;
 }
 
-#input-department {
+.department-page #input-department {
   height: 2.2rem;
   border-radius: 20px;
   border: 2px solid #313541;
 }
 
-.content-department .detail {
+.department-page .content-department .row .detail {
   display: flex;
   margin-top: 30px;
   margin-bottom: 6rem;
 }
 
-.content-department .detail #upload {
+.department-page .content-department .detail #upload {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.content-department .address {
+.department-page .content-department .address {
   flex: 1;
   margin-left: 2rem;
 }
 
-.address h5 {
+.department-page .address h5 {
   margin-bottom: 1rem;
   margin-left: 10px;
 }
 
-.avatar-uploader {
+.department-page .avatar-uploader {
     width: 8rem !important;
     height: 10rem !important;
     margin: 0 !important;
@@ -140,6 +139,6 @@ h5 {
     align-items: center;
 }
 
-.ant-upload-select {
+.department-page .ant-upload-select {
   margin: 0 !important;
 } */
