@@ -18,6 +18,7 @@ const COLORS = {
     yellow_green: '#EEFF88',
     white_background: '#F3F6F8',
     white_content: '#FFFFFF',
+    quite_orange: 'rgb(200 137 21)',
 }
 
 export default COLORS;

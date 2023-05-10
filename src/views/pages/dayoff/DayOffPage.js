@@ -11,6 +11,10 @@ import TextArea from "rc-textarea";
 import { createEventId } from "../../../common/utils/Utils";
 import './DayOff.css';
 import { Checkbox } from "antd";
+import { cA } from "@fullcalendar/core/internal-common";
+import { event } from "jquery";
+import { current } from "@reduxjs/toolkit";
+import { typeDayOff } from "../../../common/constants/Constants";
 
 export default function DayOffPage() {
   const [buttonPopup, setButtonPopup] = useState(false);
@@ -45,7 +49,7 @@ export default function DayOffPage() {
     customButtons: {
       submitDayOff: {
         text: "Xin nghỉ phép",
-        click: (info) => this.popupHandle(info),
+        click: () => { console.log("info: ", info); },
       },
       viewListLeaving: {
         text: "Danh sách",
@@ -59,18 +63,48 @@ export default function DayOffPage() {
     plugins: [dayGridPlugin, interactionPlugin, listPlugin],
   };
 
-  const popupHandle = (info) => {
-    setButtonPopup(true);
-    setInfo(info);
+  const selectHandle = (event) => {
+    let calendarApi = event.view.calendar;
+    calendarApi.unselect();
 
-    // const selectedEvent = {
-    //   title: 'New Event',
-    //   start: info.start,
-    //   end: info.end,
-    //   backgroundColor: 'yellow', // change the background color here
-    //   textColor: 'black' // change the text color here
-    // };
-    // setEvents([...events, selectedEvent]);
+    if (event) {
+      const currentDate = new Date(event.start);
+      const endDate = new Date(event.end);
+
+      while (currentDate < endDate) {
+        let events = calendarApi.getEvents();
+        let dates = events.filter(e => {
+          return e.start.getTime() === currentDate.getTime();
+        });
+        
+        if (dates.length > 0) {
+          if (dates[0].title === 'AM-OFF') {
+            dates[0].setProp('title', 'PM-OFF');
+            console.log("info check:", info.find(e => e.start.getTime() === dates[0].start.getTime()));
+          }
+          else if (dates[0].title === 'PM-OFF') {
+            dates[0].setProp('title', 'DAY-OFF');
+          }
+          else {
+            dates[0].remove();
+          }
+        }
+        else {
+          calendarApi.addEvent({
+            id: createEventId(),
+            start: currentDate,
+            title: "AM-OFF"
+          });
+
+          if (!info) {
+            setInfo([event]);
+          } else {
+            setInfo([...info, event]);
+          }
+        }
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+    }
     // console.log(info);
   };
 
@@ -78,49 +112,37 @@ export default function DayOffPage() {
     let calendarApi = info.view.calendar;
     // calendarApi.unselect();
 
-    if (info) {
-      const currentDate = new Date(info.start);
-      const endDate = new Date(info.end);
+    // if (info) {
+    //   const currentDate = new Date(info.start);
+    //   const endDate = new Date(info.end);
 
-      console.log("Type: ", info)
-      while (currentDate < endDate) {
-        calendarApi.addEvent({
-          id: createEventId(),
-          start: currentDate,
-          allDay: false,
-        });
-        
-        currentDate.setDate(currentDate.getDate() + 1);
-      }
-    }
+    //   console.log("Type: ", info);
+    //   while (currentDate < endDate) {
+    //     calendarApi.addEvent({
+    //       id: createEventId(),
+    //       start: currentDate,
+    //       allDay: false,
+    //     });
+
+    //     currentDate.setDate(currentDate.getDate() + 1);
+    //   }
+    // }
   };
 
-  function formatTimeString(timeString) {
-    if (timeString.length === 1) {
-      timeString = `0${timeString}:00`;
-    } else if (timeString.length === 2) {
-      timeString = `${timeString}:00`;
-    } else if (timeString.length === 4) {
-      timeString = `0${timeString}`;
-    }
-    return timeString;
-  }
-
   const renderEventContent = (eventInfo) => {
-    // how to set value red for backgroundColor of eventInfo
-    // console.log(eventInfo);
+    let color = typeDayOff.find(e => e.type === eventInfo.event.title);
     return (
       <div style={ {
         display: "flex",
         width: "-webkit-fill-available",
         borderRadius: "2px",
-        padding: "1px 10px",
+        padding: "8px 10px",
         margin: "0 5px",
         alignItems: "center",
-        backgroundColor: COLORS.quite_blue
+        justifyContent: "center",
+        backgroundColor: color.bgColor
       } }>
-        <b className="text-light" style={ { paddingRight: "6px" } }>{ formatTimeString(eventInfo.timeText) }</b>
-        <i className="text-light">{ eventInfo.event.title }</i>
+        <i className="text-light text-center">{ eventInfo.event.title }</i>
       </div>
     );
   };
@@ -149,19 +171,6 @@ export default function DayOffPage() {
       <div class="col-12 grid-margin">
         <div class="card">
           <div class="card-body">
-            {/* <FullCalendar
-              plugins={options.plugins}
-              events={events}
-              eventLimitText={options.eventLimitText}
-              editable={options.editable}
-              customButtons={options.customButtons}
-              buttonText={options.buttonText}
-              headerToolbar={options.header}
-              footerToolbar={options.footer}
-              height={800}
-              locale={viLocale}
-            /> */}
-
             <FullCalendar
               plugins={ options.plugins }
               headerToolbar={ options.header }
@@ -172,13 +181,11 @@ export default function DayOffPage() {
               selectMirror={ true }
               dayMaxEvents={ true }
               weekends={ true }
-              initialEvents={ INITIAL_EVENTS }
-              select={ popupHandle }
+              select={ selectHandle }
               customButtons={ options.customButtons }
               buttonText={ options.buttonText }
               eventContent={ renderEventContent } // custom render function
               eventClick={ handleEventClick }
-              // eventsSet={ this.handleEvents }
               height={ 800 }
               locale={ viLocale }
             />
