@@ -12,6 +12,15 @@ const getUser = (userId, token) => {
   });
 };
 
+const createUser = (body, token) => {
+  return axios.post(USER_URL + "/create-user", body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export default {
   getUser,
+  createUser,
 };

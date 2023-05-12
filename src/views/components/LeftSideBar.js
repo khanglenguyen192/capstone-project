@@ -37,7 +37,7 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-account-multiple menu-icon",
-      routerLink: "/users",
+      routerLink: "/add-user",
       title: "Đồng nghiệp",
     },
     {

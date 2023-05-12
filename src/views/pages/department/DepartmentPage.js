@@ -47,22 +47,20 @@ export default function DepartmentPage(props) {
   }, []);
 
   const getUserDepartments = () => {
-    DepartmentService.getDepartmentsForEmployee(user.userId, user.token).then(
-      (res) => {
-        const response = res.data;
+    DepartmentService.getRootDepartments(user.token).then((res) => {
+      const response = res.data;
 
-        if (response.payload != null) {
-          var deparments = response.payload.map((item) => {
-            return {
-              id: item.id,
-              name: item.departmentName,
-              color: Colors.quite_blue,
-            };
-          });
-          setDepartmentList(deparments);
-        }
+      if (response.payload != null) {
+        var deparments = response.payload.map((item) => {
+          return {
+            id: item.id,
+            name: item.departmentName,
+            color: Colors.quite_blue,
+          };
+        });
+        setDepartmentList(deparments);
       }
-    );
+    });
   };
 
   const onMenuItemClick = function ({ key }) {

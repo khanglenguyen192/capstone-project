@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Space, Table, Tag, Dropdown, Menu, message } from "antd";
+import { Table, Tag, Dropdown, Menu, message } from "antd";
 import { useSelector } from "react-redux";
 import NoImage from "../../../assets/images/no-image.jpg";
 import TicketService from "../../../services/TicketService";

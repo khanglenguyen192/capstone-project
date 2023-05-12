@@ -1,8 +1,64 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
-const TopBar = () => {
-  const user = {
-    fullname: "Le Nguyen Khang",
+const TopBar = (props) => {
+  const location = useLocation();
+
+  useEffect(() => {}, []);
+
+  const user = useSelector((state) => {
+    return state.AuthReducer.user;
+  });
+
+  const [title, setTitle] = useState("");
+
+  const setPageTitle = (pathName) => {
+    if (pathName.includes("home")) {
+      setTitle("Trang chủ");
+    } else if (pathName.includes("day-off")) {
+      setTitle("Ngày nghỉ");
+    } else if (pathName.includes("/daily-report")) {
+      setTitle("Báo cáo hằng ngày");
+    } else if (pathName.includes("edit-daily-report")) {
+      setTitle("Báo cáo hằng ngày");
+    } else if (pathName.includes("meeting")) {
+      setTitle("Hội họp");
+    } else if (pathName.includes("department")) {
+      setTitle("Phòng ban");
+    } else if (pathName.includes("users")) {
+      setTitle("Nhân viên");
+    } else if (pathName.includes("work-remote")) {
+      setTitle("Làm việc từ xa");
+    } else if (pathName.includes("salary-detail")) {
+      setTitle("Bảng lương");
+    } else if (pathName.includes("/edit-user-profile")) {
+      setTitle("Thông tin");
+    } else if (pathName.includes("/projects")) {
+      setTitle("Dự án");
+    } else if (pathName.includes("/add-project")) {
+      setTitle("Thêm dự án");
+    } else if (pathName.includes("notification")) {
+      setTitle("Thông báo");
+    } else if (pathName.includes("department-users")) {
+      setTitle("Thông tin phòng ban");
+    } else if (pathName.includes("edit-ticket")) {
+      setTitle("Công việc");
+    } else if (pathName.includes("tickets")) {
+      setTitle("Công việc");
+    } else if (pathName.includes("create-report")) {
+      setTitle("Báo cáo công việc");
+    } else if (pathName.includes("report/")) {
+      setTitle("Báo cáo công việc");
+    } else if (pathName.includes("add-user")) {
+      setTitle("Thêm nhân viên");
+    } else if (pathName.includes("")) {
+      setTitle("");
+    } else if (pathName.includes("")) {
+      setTitle("");
+    } else if (pathName.includes("")) {
+      setTitle("");
+    }
   };
 
   return (
@@ -96,7 +152,7 @@ const TopBar = () => {
               aria-expanded="false"
             >
               <span class="ml-1">
-                {user.fullname}
+                {user.fullName}
                 <i class="mdi mdi-chevron-down"></i>{" "}
               </span>
             </a>
@@ -140,7 +196,7 @@ const TopBar = () => {
           </li>
           <li>
             <div class="page-title-box">
-              <h4 class="page-title">TITLE</h4>
+              <h4 class="page-title">{title}</h4>
             </div>
           </li>
         </ul>

@@ -24,6 +24,7 @@ import DepartmentUsersPage from "./views/pages/department/DepartmentUsersPage";
 import CreateTicketPage from "./views/pages/ticket/CreateTicketPage";
 import ManageTicketPage from "./views/pages/ticket/ManageTicketPage";
 import CreateReportPage from "./views/pages/report/CreateReportPage";
+import AddUserPage from "./views/pages/user/AddUserPage";
 
 const App = () => {
   const isLoggedIn = useSelector((state) => {
@@ -86,6 +87,7 @@ const App = () => {
                 element={<CreateReportPage />}
               />
               <Route path="/report/:reportId" element={<CreateReportPage />} />
+              <Route path="/add-user" element={<AddUserPage />} />
             </Route>
           </Routes>
         </Router>

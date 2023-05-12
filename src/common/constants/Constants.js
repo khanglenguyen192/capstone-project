@@ -21,6 +21,25 @@ const ticketStatusModels = [
   },
 ];
 
+const genders = [
+  {
+    value: 1,
+    label: "Nam",
+    id: 1,
+  },
+  {
+    value: 2,
+    label: "Nữ",
+    id: 2,
+  },
+  {
+    value: 3,
+    label: "Khác",
+    id: 3,
+  },
+];
+
 export default {
   ticketStatusModels,
+  genders,
 };
