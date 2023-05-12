@@ -25,14 +25,13 @@ import CreateTicketPage from "./views/pages/ticket/CreateTicketPage";
 import ManageTicketPage from "./views/pages/ticket/ManageTicketPage";
 import CreateReportPage from "./views/pages/report/CreateReportPage";
 import AddUserPage from "./views/pages/user/AddUserPage";
+import AddDepartmentUserPage from "./views/pages/department/AddDepartmentUser";
 
 const App = () => {
   const isLoggedIn = useSelector((state) => {
     console.log(state.AuthReducer);
     return state.AuthReducer.isLoggedIn;
   });
-
-  // const isLoggedIn = true;
 
   const userName = useSelector((state) => {
     return state.AuthReducer.fullName;
@@ -54,7 +53,11 @@ const App = () => {
                 element={<EditDailyReportPage />}
               />
               <Route path="meeting" element={<MeetingPage />} />
-              <Route path="department" element={<DepartmentPage />} />
+              <Route path="departments" element={<DepartmentPage />} />
+              <Route
+                path="departments/:departmentId"
+                element={<DepartmentPage />}
+              />
               <Route path="users" element={<UsersPage />} />
               <Route
                 path="work-remote"
@@ -88,6 +91,10 @@ const App = () => {
               />
               <Route path="/report/:reportId" element={<CreateReportPage />} />
               <Route path="/add-user" element={<AddUserPage />} />
+              <Route
+                path="department/:departmentId/add-users"
+                element={<AddDepartmentUserPage />}
+              />
             </Route>
           </Routes>
         </Router>

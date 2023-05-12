@@ -46,10 +46,29 @@ const getChildren = (departmentId, token) => {
   });
 };
 
+const getUsersToAdd = (departmentId, token) => {
+  return axios.get(DEPARTMENT_URL + "/get-users-to-add", {
+    params: { departmentId: departmentId },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const addUsersToDepartment = (body, token) => {
+  return axios.post(DEPARTMENT_URL + "/add-department-users", body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export default {
   createDepartment,
   getDepartmentsForEmployee,
   getDepartmentEmployees,
   getChildren,
   getRootDepartments,
+  getUsersToAdd,
+  addUsersToDepartment,
 };

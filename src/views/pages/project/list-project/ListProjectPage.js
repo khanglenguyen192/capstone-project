@@ -138,7 +138,7 @@ export default function ListProjectPage(props) {
             class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4"
             onClick={goToAddProject}
           >
-            <i class="mdi mdi-plus-circle"></i> Thêm phòng ban
+            <i class="mdi mdi-plus-circle"></i> Thêm dự án
           </button>
         </div>
         <div class="col-sm-8">

@@ -27,6 +27,7 @@ export default function CreateReportPage(props) {
           var report = response.payload;
           setTitle(report.title);
           setContent(report.content);
+
           if (report.reportFiles != null) {
             var reportFilesModel = report.reportFiles.map((file) => {
               return {
@@ -48,6 +49,7 @@ export default function CreateReportPage(props) {
   const [title, setTitle] = useState();
   const [enableEdit, setEnableEdit] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
+  const [isSelfEdit, setIsSelfEdit] = useState(true);
 
   const [filesDisplay, setFilesDisplay] = useState([]);
   const [filesUpload, setFilesUpload] = useState([]);
@@ -281,12 +283,18 @@ export default function CreateReportPage(props) {
                 ))
               )}
             </div>
-            <button
-              class="btn btn-custom waves-effect waves-light float-right mt-2"
-              onClick={isCreate ? handleUploadClick : handleEditClick}
-            >
-              {isCreate ? "Tạo báo cáo" : enableEdit ? "Hoàn tất" : "Chỉnh sửa"}
-            </button>
+            {isSelfEdit && (
+              <button
+                class="btn btn-custom waves-effect waves-light float-right mt-2"
+                onClick={isCreate ? handleUploadClick : handleEditClick}
+              >
+                {isCreate
+                  ? "Tạo báo cáo"
+                  : enableEdit
+                  ? "Hoàn tất"
+                  : "Chỉnh sửa"}
+              </button>
+            )}
           </div>
         </div>
       </div>

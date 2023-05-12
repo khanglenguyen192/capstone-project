@@ -23,7 +23,6 @@ export default function DepartmentUsersPage(props) {
   });
 
   const handleAddTicketUser = (userId) => {
-    console.log(userId);
     navigate("/department/" + params.departmentId + "/user/" + userId);
   };
 
@@ -52,6 +51,10 @@ export default function DepartmentUsersPage(props) {
         setEmployees(users);
       }
     });
+  };
+
+  const handleAddUserClick = () => {
+    navigate("/department/" + params.departmentId + "/add-users/");
   };
 
   const projectStatusModels = ["Active"];
@@ -132,17 +135,10 @@ export default function DepartmentUsersPage(props) {
                 <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
                   <div class="form-group row d-flex justify-content-center align-items-center">
                     <div class="thumb-xxl member-thumb m-b-10">
-                      {projectLogo ? (
-                        <img
-                          src={NoImage}
-                          class="img-cover rounded-circle img-thumbnail no-border"
-                        ></img>
-                      ) : (
-                        <img
-                          src={NoImage}
-                          class="img-cover rounded-circle img-thumbnail no-border"
-                        ></img>
-                      )}
+                      <img
+                        src={NoImage}
+                        class="img-cover rounded-circle img-thumbnail no-border"
+                      ></img>
                     </div>
                   </div>
 
@@ -227,6 +223,7 @@ export default function DepartmentUsersPage(props) {
                   <button
                     type="button"
                     class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
+                    onClick={handleAddUserClick}
                   >
                     <i class="mdi mdi-plus-circle"></i> Thêm nhân viên
                   </button>

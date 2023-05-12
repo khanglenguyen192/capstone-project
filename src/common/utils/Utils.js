@@ -44,8 +44,21 @@ function getTicketStatusLabel(ticketStatus) {
   return "None";
 }
 
+function getGenderString(genderId) {
+  var gender = Number(genderId);
+  switch (gender) {
+    case 1:
+      return "Nam";
+    case 2:
+      return "Nữ";
+    case 3:
+      return "Khác";
+  }
+}
+
 export default {
   getDepartmentRoleString,
   getFileSizeFromBytes,
   getTicketStatusLabel,
+  getGenderString,
 };
