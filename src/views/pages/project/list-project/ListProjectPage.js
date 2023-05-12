@@ -8,9 +8,10 @@ import { useSelector } from "react-redux";
 
 export default function ListProjectPage(props) {
   const navigate = useNavigate();
-  const isAdmin = useSelector((state) => {
-    return state.AuthReducer.isAdmin;
-  });
+  // const isAdmin = useSelector((state) => {
+  //   return state.AuthReducer.isAdmin;
+  // });
+  const isAdmin = true;
 
   const hardcodeProjectEmployees = [
     {
@@ -90,33 +91,31 @@ export default function ListProjectPage(props) {
     },
   ];
 
-  const originList = [];
-
   function renderProjectStatus(statusModel) {
     switch (statusModel.id) {
       case 1:
         return (
           <div class="ribbon-two ribbon-two-custom">
-            <span>{ statusModel.name }</span>
+            <span>{statusModel.name}</span>
           </div>
         );
       case 2:
         return (
           <div class="ribbon-two ribbon-two-warning">
-            <span>{ statusModel.name }</span>
+            <span>{statusModel.name}</span>
           </div>
         );
       case 3:
         return (
           <div class="ribbon-two ribbon-two-danger">
-            <span>{ statusModel.name }</span>
+            <span>{statusModel.name}</span>
           </div>
         );
       case 4:
       default:
         return (
           <div class="ribbon-two ribbon-two-success">
-            <span>{ statusModel.name }</span>
+            <span>{statusModel.name}</span>
           </div>
         );
     }
@@ -132,64 +131,66 @@ export default function ListProjectPage(props) {
 
   return (
     <div>
-      { isAdmin && (
-        <div
-          class="row"
-          style={ { margin: "2rem 0", position: "relative", left: "20rem" } }
-        >
-          <div class="col-sm-8">
-            <div class="project-sort float-right">
-              <div class="project-sort-item">
-                <form class="form-inline">
-                  <div class="form-group">
-                    <label for="phase-select">Tình trạng :</label>
-                    <select
-                      class="form-control ml-2 form-control-sm"
-                      id="phase-select"
-                      onChange="getProjectByStatus($event.target.value)"
-                    >
-                      <option value="0">
-                        Tất cả dự án
-                      </option>
-                      <option value="1">Sẵn sàng</option>
-                      <option value="2">Đang hoạt động</option>
-                      <option value="3">Đang kiểm thử</option>
-                      <option value="4">Hoàn thành</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="sort-select">Sắp xếp :</label>
-                    <select
-                      class="form-control ml-2 form-control-sm"
-                      id="sort-select"
-                      onChange="sortListProject($event.target.value)"
-                    >
-                      <option value="byProjectName">Tên dự án</option>
-                      <option value="byStatus">Trạng thái</option>
-                      <option value="byCustomerName">Khách hàng</option>
-                    </select>
-                  </div>
-                </form>
-              </div>
+      <div class="row">
+        <div className="col-sm-4">
+          <button
+            type="button"
+            class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4"
+            onClick={goToAddProject}
+          >
+            <i class="mdi mdi-plus-circle"></i> Thêm phòng ban
+          </button>
+        </div>
+        <div class="col-sm-8">
+          <div class="project-sort float-right">
+            <div class="project-sort-item">
+              <form class="form-inline">
+                <div class="form-group">
+                  <label for="phase-select">Tình trạng :</label>
+                  <select
+                    class="form-control ml-2 form-control-sm"
+                    id="phase-select"
+                    onChange="getProjectByStatus($event.target.value)"
+                  >
+                    <option value="0">Tất cả dự án</option>
+                    <option value="1">Sẵn sàng</option>
+                    <option value="2">Đang hoạt động</option>
+                    <option value="3">Đang kiểm thử</option>
+                    <option value="4">Hoàn thành</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="sort-select">Sắp xếp :</label>
+                  <select
+                    class="form-control ml-2 form-control-sm"
+                    id="sort-select"
+                    onChange="sortListProject($event.target.value)"
+                  >
+                    <option value="byProjectName">Tên dự án</option>
+                    <option value="byStatus">Trạng thái</option>
+                    <option value="byCustomerName">Khách hàng</option>
+                  </select>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      ) }
+      </div>
 
-      { projects.length == 0 && (
+      {projects.length == 0 && (
         <div class="row">
           <p class="text-muted font-18">Hiện tại không có dự án nào !!!</p>
         </div>
-      ) }
+      )}
 
-      { projects && (
+      {projects && (
         <div class="row">
-          { projects.map((proj) => {
+          {projects.map((proj) => {
             return (
               <div class="col-md-6 col-lg-4">
                 <div class="card-box project-box ribbon-box">
-                  { renderProjectStatus(proj.statusModel) }
-                  { isAllowModify(proj.id) ? (
+                  {renderProjectStatus(proj.statusModel)}
+                  {isAllowModify(proj.id) ? (
                     <div class="dropdown float-right">
                       <a
                         class="dropdown-toggle card-drop arrow-none"
@@ -210,14 +211,14 @@ export default function ListProjectPage(props) {
                         <a class="dropdown-item">
                           <span class="mdi mdi-timetable"></span> Rooms
                         </a>
-                        { isAdmin && (
+                        {isAdmin && (
                           <a
                             class="dropdown-item"
                             onClick="deleteProject(proj.id)"
                           >
                             <span class="mdi mdi-delete-circle"></span> Xóa
                           </a>
-                        ) }
+                        )}
                       </div>
                     </div>
                   ) : (
@@ -244,35 +245,35 @@ export default function ListProjectPage(props) {
                         </a>
                       </div>
                     </div>
-                  ) }
+                  )}
 
                   <p class="project-hide-overflow ml-3">
                     <span class="thumb-lg member-thumb mr-15 m-b-10 d-inline-block">
                       <img
-                        src={ NoImage }
+                        src={NoImage}
                         class="rounded-circle img-thumbnail"
                         altImg="friend"
-                        titleImg={ proj.name }
+                        titleImg={proj.name}
                       ></img>
                     </span>
                     <span class="projectNameDisplay mt-4">
-                      <p class="text-dark font-15 text-bold">{ proj.name }</p>
+                      <p class="text-dark font-15 text-bold">{proj.name}</p>
                       <p class="text-dark font-13 text-uppercase">
-                        { proj.customerName }
+                        {proj.customerName}
                       </p>
                     </span>
                   </p>
 
                   <p
                     class="text-dark font-13 description-hide-overflow"
-                    title={ proj.description }
+                    title={proj.description}
                   >
-                    { proj.description }
+                    {proj.description}
                   </p>
 
                   <div class="project-members mt-4 memnber-hide-overflow">
                     <label class="mr-3">Leader: </label>
-                    { proj.employees.map((employee) => {
+                    {proj.employees.map((employee) => {
                       if (employee.isLeader) {
                         return (
                           <div>
@@ -280,52 +281,35 @@ export default function ListProjectPage(props) {
                               href="/user-profile"
                               data-toggle="tooltip"
                               data-placement="top"
-                              title={ employee.fullName }
-                              style={ {
+                              title={employee.fullName}
+                              style={{
                                 marginRight: "5px",
-                              } }
+                              }}
                             >
                               <div class="thumb-md member-thumb">
                                 <img
-                                  src={ employee.avatar }
+                                  src={employee.avatar}
                                   class="img-thumbnail project-leader-mark rounded-circle"
                                   alt="friend"
                                 ></img>
                               </div>
                             </a>
-                            { employee.fullName }
+                            {employee.fullName}
                           </div>
                         );
                       } else {
                         return <div></div>;
                       }
-                    }) }
+                    })}
                   </div>
                 </div>
               </div>
             );
-          }) }
-          <div
-            class="col-md-6 col-lg-4"
-            style={ {
-              display: "flex",
-              justifyContent: "center",
-            } }
-          >
-            <button id="add-department" onClick={ goToAddProject }>
-              <div className="add-icon" style={ { height: "200px" } }>
-                <Icon
-                  style={ {
-                    fill: Colors.quite_blue,
-                  } }
-                />
-              </div>
-            </button>
-          </div>
+          })}
         </div>
-      ) }
+      )}
 
-      <div class="row">
+      {/* <div class="row">
         <div class="col-12">
           <div class="text-center mb-3">
             <a
@@ -336,7 +320,7 @@ export default function ListProjectPage(props) {
             </a>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

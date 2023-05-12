@@ -55,6 +55,10 @@ export default function AddUserPage(props) {
     });
   };
 
+  const handleCancel = () => {
+    navigate("/home");
+  };
+
   return (
     <div class="row" id="edit-user-profile">
       <div class="col-12 grid-margin stretch-card">
@@ -175,7 +179,10 @@ export default function AddUserPage(props) {
             >
               Xác Nhận
             </button>
-            <button class="btn btn-icon waves-effect waves-light btn-danger">
+            <button
+              class="btn btn-icon waves-effect waves-light btn-danger"
+              onClick={handleCancel}
+            >
               Hủy bỏ
             </button>
           </div>
