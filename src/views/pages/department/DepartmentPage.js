@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Input, message, Upload, Dropdown, Menu, Switch } from "antd";
+import { Input, message, Upload, Dropdown, Menu } from "antd";
 import { ReactComponent as Icon } from "../../../assets/iconfonts/mdi/icon/add-icon.svg";
 import "./Department.css";
 import Colors from "../../../common/constants/Colors";
@@ -75,12 +75,23 @@ export default function DepartmentPage(props) {
   const onMenuItemClick = function ({ key }) {
     switch (key) {
       case "infor":
-        navigate("/department-users/" + selectedDepartmentId);
+        DepartmentService.getAccess(selectedDepartmentId, user.token).then(
+          (res) => {
+            var response = res.data;
+            if (response != null && response.status == 200) {
+              navigate("/department-users/" + selectedDepartmentId);
+            } else {
+              message.warning("Bạn không có quyền truy cập phòng ban này", 1.5);
+            }
+          }
+        );
+
         break;
       case "detail":
         getChildDepartments(selectedDepartmentId);
+        setNewDepartmentName("");
+        setNewDepartmentDescription("");
         navigate("/departments/" + selectedDepartmentId);
-        window.location.reload();
         break;
     }
   };
@@ -179,15 +190,17 @@ export default function DepartmentPage(props) {
             <h4 class="card-title">Danh sách phòng ban</h4>
           </div>
 
-          <div className="col-6">
-            <button
-              type="button"
-              class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
-              onClick={() => setShowDepartmentPopup(true)}
-            >
-              <i class="mdi mdi-plus-circle"></i> Thêm phòng ban
-            </button>
-          </div>
+          {user.userId == 1 && (
+            <div className="col-6">
+              <button
+                type="button"
+                class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
+                onClick={() => setShowDepartmentPopup(true)}
+              >
+                <i class="mdi mdi-plus-circle"></i> Thêm phòng ban
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

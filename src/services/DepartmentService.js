@@ -63,6 +63,40 @@ const addUsersToDepartment = (body, token) => {
   });
 };
 
+const getAccess = (departmentId, token) => {
+  return axios.get(DEPARTMENT_URL + "/get-access", {
+    params: { departmentId: departmentId },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const updateUser = (body, token) => {
+  return axios.post(DEPARTMENT_URL + "/update-user", body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const removeUser = (body, token) => {
+  return axios.post(DEPARTMENT_URL + "/remove-user", body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const getDepartment = (departmentId, token) => {
+  return axios.get(DEPARTMENT_URL + "/get-department", {
+    params: { departmentId: departmentId },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export default {
   createDepartment,
   getDepartmentsForEmployee,
@@ -71,4 +105,8 @@ export default {
   getRootDepartments,
   getUsersToAdd,
   addUsersToDepartment,
+  getAccess,
+  updateUser,
+  getDepartment,
+  removeUser,
 };

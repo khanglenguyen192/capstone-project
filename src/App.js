@@ -86,6 +86,10 @@ const App = () => {
               />
               <Route path="/tickets" element={<ManageTicketPage />} />
               <Route
+                path="department/:departmentId/tickets"
+                element={<ManageTicketPage />}
+              />
+              <Route
                 path="/ticket/:ticketId/create-report"
                 element={<CreateReportPage />}
               />
@@ -96,6 +100,7 @@ const App = () => {
                 element={<AddDepartmentUserPage />}
               />
             </Route>
+            {/* <Route path="/test" element={<LoginPage />}></Route> */}
           </Routes>
         </Router>
       </div>

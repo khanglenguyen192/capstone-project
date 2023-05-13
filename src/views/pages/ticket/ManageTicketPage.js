@@ -3,7 +3,7 @@ import { Table, Tag, Dropdown, Menu, message } from "antd";
 import { useSelector } from "react-redux";
 import NoImage from "../../../assets/images/no-image.jpg";
 import TicketService from "../../../services/TicketService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import dateFormat from "dateformat";
 
 export default function ManageTicketPage(props) {
@@ -11,8 +11,21 @@ export default function ManageTicketPage(props) {
     return state.AuthReducer.user;
   });
 
+  const params = useParams();
+
   useEffect(() => {
     if (user == null) return;
+
+    if (params.departmentId != undefined) {
+      var searchCondition = {
+        pageIndex: 0,
+        pageSize: 100,
+        departmentId: params.departmentId,
+      };
+      setShowButton(false);
+      searchTicket(searchCondition);
+      return;
+    }
 
     var searchCondition = {
       pageIndex: 0,
@@ -75,6 +88,7 @@ export default function ManageTicketPage(props) {
   const [tickets, setTickets] = useState([]);
   const [selectedTicketId, setSelectedTicketId] = useState();
   const [showAssignTickets, setShowAssignTickets] = useState(false);
+  const [showButton, setShowButton] = useState(true);
 
   const onMenuItemClick = function ({ key }) {
     switch (key) {
@@ -308,18 +322,20 @@ export default function ManageTicketPage(props) {
                   </label>
                 </div>
               </div>
-              <div className="col-sm-12 col-md-6">
-                <button
-                  type="button"
-                  class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
-                  onClick={changeTicketList}
-                  style={{ width: "170px" }}
-                >
-                  {!showAssignTickets
-                    ? "Công việc của tôi"
-                    : "Công việc được giao"}
-                </button>
-              </div>
+              {showButton && (
+                <div className="col-sm-12 col-md-6">
+                  <button
+                    type="button"
+                    class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
+                    onClick={changeTicketList}
+                    style={{ width: "170px" }}
+                  >
+                    {!showAssignTickets
+                      ? "Công việc của tôi"
+                      : "Công việc được giao"}
+                  </button>
+                </div>
+              )}
             </div>
 
             <Table

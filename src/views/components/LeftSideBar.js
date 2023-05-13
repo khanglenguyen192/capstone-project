@@ -62,12 +62,12 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-av-timer menu-icon",
-      routerLink: "/overtime",
+      routerLink: "/",
       title: "Tăng ca",
     },
     {
       icon: "mdi mdi-cash-multiple menu-icon",
-      routerLink: "/advanced-salary",
+      routerLink: "/",
       title: "Ứng lương",
     },
     {

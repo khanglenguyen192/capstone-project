@@ -3,12 +3,12 @@ import Constants from "../constants/Constants";
 const getDepartmentRoleString = (roleId) => {
   switch (roleId) {
     case 1:
-      return "Administrator";
+      return "Quản trị viên";
     case 2:
-      return "Manager";
+      return "Quản lý";
     case 3:
     default:
-      return "Member";
+      return "Nhân viên";
   }
 };
 
