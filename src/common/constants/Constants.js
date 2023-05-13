@@ -182,4 +182,6 @@ export default {
   genders,
   roles,
   salaryTypes,
+  userMenu,
+  rootMenu,
 };

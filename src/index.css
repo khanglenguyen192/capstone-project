@@ -243,3 +243,7 @@ a.fc-more {
   padding-left: 0px;
   padding-right: 0px;
 }
+
+th {
+  font-weight: bold !important;
+}

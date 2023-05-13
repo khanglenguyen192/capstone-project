@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import NoImage from "../../../assets/images/no-image.jpg";
-import { Input, Cascader, Table, Tag } from "antd";
+import { Input, Cascader, Table, Tag, Menu, Dropdown } from "antd";
 import { useSelector } from "react-redux";
 import DepartmentService from "../../../services/DepartmentService";
 import Utils from "../../../common/utils/Utils";
@@ -13,62 +13,20 @@ export default function DepartmentUsersPage(props) {
     return state.AuthReducer.user;
   });
 
-  const [enableEditEmployees, setEnableEditEmployees] = useState(false);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [employees, setEmployees] = useState([]);
-  const projectLogo = "";
-
-  const isAdmin = useSelector((state) => {
-    return state.AuthReducer.isAdmin;
-  });
-
-  const handleAddTicketUser = (userId) => {
-    navigate("/department/" + params.departmentId + "/user/" + userId);
-  };
-
   useEffect(() => {
+    if (user.userId == 1) {
+      setIsAdmin(true);
+      setColumns(adminColumns);
+    }
+
     getDepartmentUsers();
   }, []);
 
-  const getDepartmentUsers = () => {
-    DepartmentService.getDepartmentEmployees(
-      params.departmentId,
-      user.token
-    ).then((res) => {
-      console.log(res);
-      const response = res.data;
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [employees, setEmployees] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState();
 
-      if (response.payload != null) {
-        var users = response.payload.map((item) => {
-          return {
-            id: item.id,
-            employeeCode: "#" + item.id,
-            name: item.fullName,
-            role: Utils.getDepartmentRoleString(item.departmentRole),
-            status: "Trực tuyến",
-          };
-        });
-        setEmployees(users);
-      }
-    });
-  };
-
-  const handleAddUserClick = () => {
-    navigate("/department/" + params.departmentId + "/add-users/");
-  };
-
-  const projectStatusModels = ["Active"];
-
-  const onSelectChange = (newSelectedRowKeys) => {
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-  };
-
-  const columns = [
+  const adminColumns = [
     {
       title: "Mã nhân viên",
       dataIndex: "employeeCode",
@@ -84,6 +42,11 @@ export default function DepartmentUsersPage(props) {
       title: "Vị trí",
       dataIndex: "role",
       key: "role",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
     },
     {
       title: "Trạng thái",
@@ -103,27 +66,131 @@ export default function DepartmentUsersPage(props) {
       dataIndex: "id",
       key: "id",
       render: (id) => (
-        <div className="opt-button">
-          <button
-            title="Giao công việc"
-            class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-success"
-            type="button"
-            onClick={() => handleAddTicketUser(id)}
-          >
-            <i class="mdi mdi-note-text menu-icon"></i>
-          </button>
-
-          <button
-            title="Xóa nhân viên"
-            class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-danger"
-            type="button"
-          >
-            <i class="mdi mdi-delete-circle"></i>
-          </button>
-        </div>
+        <Dropdown
+          trigger={["click"]}
+          overlay={itemMenu}
+          onClick={() => setSelectedEmployee(id)}
+        >
+          <div class="btn-group dropdown">
+            <div class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm">
+              <i class="mdi mdi-dots-horizontal"></i>
+            </div>
+          </div>
+        </Dropdown>
       ),
     },
   ];
+
+  const handleAddTicketUser = (userId) => {
+    navigate("/department/" + params.departmentId + "/user/" + userId);
+  };
+
+  const getDepartmentUsers = () => {
+    DepartmentService.getDepartmentEmployees(
+      params.departmentId,
+      user.token
+    ).then((res) => {
+      const response = res.data;
+
+      if (response.payload != null) {
+        var users = response.payload.map((item) => {
+          if (
+            item.id == user.userId &&
+            (item.departmentRole == 1 || item.departmentRole == 2)
+          ) {
+            setIsAdmin(true);
+            setColumns(adminColumns);
+          }
+
+          var model = {
+            id: item.id,
+            employeeCode: "#" + item.id,
+            name: item.fullName,
+            role: Utils.getDepartmentRoleString(item.departmentRole),
+            status: "Trực tuyến",
+            email: item.email,
+          };
+
+          return model;
+        });
+        setEmployees(users);
+      }
+    });
+  };
+
+  const handleAddUserClick = () => {
+    navigate("/department/" + params.departmentId + "/add-users/");
+  };
+
+  const projectStatusModels = ["Active"];
+
+  const [columns, setColumns] = useState([
+    {
+      title: "Mã nhân viên",
+      dataIndex: "employeeCode",
+      key: "employeeCode",
+    },
+    {
+      title: "Họ và tên",
+      dataIndex: "name",
+      key: "name",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Vị trí",
+      dataIndex: "role",
+      key: "role",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Trạng thái",
+      key: "status",
+      dataIndex: "status",
+      render: (status) => {
+        let color = status.length % 2 == 0 ? "green" : "red";
+        return (
+          <Tag color={color} key={status}>
+            {status}
+          </Tag>
+        );
+      },
+    },
+  ]);
+
+  const onItemMenuClick = ({ key }) => {
+    switch (key) {
+      case "add-ticket":
+        handleAddTicketUser(selectedEmployee);
+        break;
+    }
+  };
+
+  const itemMenu = (
+    <Menu onClick={onItemMenuClick}>
+      <Menu.Item key="add-ticket">
+        <div class="dropdown-item" id="ticket-menu-id-1">
+          <i class=" mdi mdi-note-text menu-icon mr-2 text-muted font-18 vertical-middle"></i>
+          Công việc
+        </div>
+      </Menu.Item>
+      <Menu.Item key="view-request">
+        <div class="dropdown-item" id="ticket-menu-id-1">
+          <i class=" mdi mdi-calendar-today menu-icon mr-2 text-muted font-18 vertical-middle"></i>
+          Yêu cầu
+        </div>
+      </Menu.Item>
+      <Menu.Item key="remove">
+        <div class="dropdown-item" id="ticket-menu-id-1">
+          <i class=" mdi mdi-close-circle-outline menu-icon mr-2 text-muted font-18 vertical-middle"></i>
+          Xóa
+        </div>
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <div class="row">
@@ -161,7 +228,6 @@ export default function DepartmentUsersPage(props) {
                         <span class="input-group-append">
                           <button
                             class="btn-info disabled"
-                            disabled={!isAdmin}
                             style={{
                               width: "5rem",
                               borderTopRightRadius: "6px",
@@ -211,27 +277,48 @@ export default function DepartmentUsersPage(props) {
                   <label for="descripton">Mô tả</label>
                   <textarea
                     class="form-group col-md-12 textArea"
-                    disabled={!isAdmin}
                     name="jobDescription"
                     rows="3"
                   ></textarea>
                 </div>
               </div>
 
-              <div class="row">
-                <div className="col-12">
-                  <button
-                    type="button"
-                    class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
-                    onClick={handleAddUserClick}
-                  >
-                    <i class="mdi mdi-plus-circle"></i> Thêm nhân viên
-                  </button>
+              {isAdmin && (
+                <div class="row">
+                  <div className="col-12">
+                    <div class="head-action">
+                      <button
+                        class=" arrow-none btn btn-light btn-md ml-2 float-right"
+                        type="button"
+                      >
+                        <i class="mdi mdi-calendar-today"></i>Yêu cầu
+                      </button>
+
+                      <button
+                        type="button"
+                        class="btn btn-custom btn-fw ml-2 float-right"
+                      >
+                        <i class="mdi mdi-note-text menu-icon"></i>Công việc
+                      </button>
+
+                      <button
+                        type="button"
+                        class="btn btn-success btn-fw ml-2 float-right"
+                        onClick={handleAddUserClick}
+                      >
+                        <i class="mdi mdi-account-plus"></i> Thêm mới
+                      </button>
+                    </div>
+                  </div>
                 </div>
+              )}
+
+              <div class="row">
+                <br />
               </div>
+
               <Table
                 size="large"
-                rowSelection={enableEditEmployees ? rowSelection : null}
                 columns={columns}
                 dataSource={employees}
               ></Table>

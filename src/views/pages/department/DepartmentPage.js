@@ -89,13 +89,13 @@ export default function DepartmentPage(props) {
     <Menu onClick={onMenuItemClick}>
       <Menu.Item key="infor">
         <div class="dropdown-item" id="ticket-menu-id-1">
-          <i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>
+          <i class="mdi mdi-home-outline mr-2 text-muted font-18 vertical-middle"></i>
           Thông tin
         </div>
       </Menu.Item>
       <Menu.Item key="detail">
         <div class="dropdown-item" id="ticket-menu-id-2">
-          <i class="mdi mdi-check-all mr-2 text-muted font-18 vertical-middle"></i>
+          <i class="mdi mdi-sitemap menu-icon mr-2 text-muted font-18 vertical-middle"></i>
           Chi tiết
         </div>
       </Menu.Item>
