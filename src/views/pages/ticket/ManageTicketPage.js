@@ -16,22 +16,32 @@ export default function ManageTicketPage(props) {
   useEffect(() => {
     if (user == null) return;
 
-    if (params.departmentId != undefined) {
-      var searchCondition = {
+    let searchCondition;
+
+    if (params.departmentId != undefined && params.userId != undefined) {
+      searchCondition = {
+        pageIndex: 0,
+        pageSize: 100,
+        departmentId: params.departmentId,
+        assigneeId: params.userId,
+      };
+      setShowToggle(false);
+      setShowAddButton(true);
+      searchTicket(searchCondition);
+    } else if (params.departmentId != undefined) {
+      searchCondition = {
         pageIndex: 0,
         pageSize: 100,
         departmentId: params.departmentId,
       };
-      setShowButton(false);
-      searchTicket(searchCondition);
-      return;
+      setShowToggle(false);
+    } else {
+      searchCondition = {
+        pageIndex: 0,
+        pageSize: 100,
+        assigneeId: user.userId,
+      };
     }
-
-    var searchCondition = {
-      pageIndex: 0,
-      pageSize: 100,
-      assigneeId: user.userId,
-    };
 
     searchTicket(searchCondition);
   }, []);
@@ -88,7 +98,20 @@ export default function ManageTicketPage(props) {
   const [tickets, setTickets] = useState([]);
   const [selectedTicketId, setSelectedTicketId] = useState();
   const [showAssignTickets, setShowAssignTickets] = useState(false);
-  const [showButton, setShowButton] = useState(true);
+  const [showToggle, setShowToggle] = useState(true);
+  const [showAddButton, setShowAddButton] = useState(false);
+
+  const handleAddTicketUser = () => {
+    if (params.departmentId != undefined && params.userId != undefined) {
+      navigate(
+        "/department/" +
+          params.departmentId +
+          "/user/" +
+          params.userId +
+          "/add-ticket"
+      );
+    }
+  };
 
   const onMenuItemClick = function ({ key }) {
     switch (key) {
@@ -322,19 +345,32 @@ export default function ManageTicketPage(props) {
                   </label>
                 </div>
               </div>
-              {showButton && (
+              {showAddButton ? (
                 <div className="col-sm-12 col-md-6">
                   <button
                     type="button"
                     class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
-                    onClick={changeTicketList}
+                    onClick={handleAddTicketUser}
                     style={{ width: "170px" }}
                   >
-                    {!showAssignTickets
-                      ? "Công việc của tôi"
-                      : "Công việc được giao"}
+                    <i class="mdi mdi-plus-circle"></i>Tạo công việc
                   </button>
                 </div>
+              ) : (
+                showToggle && (
+                  <div className="col-sm-12 col-md-6">
+                    <button
+                      type="button"
+                      class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
+                      onClick={changeTicketList}
+                      style={{ width: "170px" }}
+                    >
+                      {!showAssignTickets
+                        ? "Công việc của tôi"
+                        : "Công việc được giao"}
+                    </button>
+                  </div>
+                )
               )}
             </div>
 

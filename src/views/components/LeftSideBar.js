@@ -111,7 +111,8 @@ const LeftSideBar = () => {
             {items.map((item) => (
               <li key={item.title} className="menu-item">
                 <Link to={item.routerLink}>
-                  <i className={item.icon}> </i> <span> {item.title} </span>
+                  <i className={item.icon}> </i>
+                  <span>{item.title}</span>
                 </Link>
               </li>
             ))}

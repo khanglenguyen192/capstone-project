@@ -31,7 +31,15 @@ export default function DepartmentUsersPage(props) {
   const [ownerName, setOwnerName] = useState("Lê Nguyên Khang");
 
   const handleAddTicketUser = (userId) => {
-    navigate("/department/" + params.departmentId + "/user/" + userId);
+    navigate(
+      "/department/" + params.departmentId + "/user/" + userId + "/add-ticket"
+    );
+  };
+
+  const handleViewTicketsUser = (userId) => {
+    navigate(
+      "/department/" + params.departmentId + "/user/" + userId + "/tickets"
+    );
   };
 
   const getDepartmentUsers = () => {
@@ -196,6 +204,9 @@ export default function DepartmentUsersPage(props) {
       case "add-ticket":
         handleAddTicketUser(selectedEmployeeId);
         break;
+      case "view-tickets":
+        handleViewTicketsUser(selectedEmployeeId);
+        break;
       case "add-permission":
         if (user.userId != 1) {
           return;
@@ -257,10 +268,16 @@ export default function DepartmentUsersPage(props) {
 
   const itemMenu = (
     <Menu onClick={onItemMenuClick}>
+      <Menu.Item key="view-tickets">
+        <div class="dropdown-item" id="ticket-menu-id-1">
+          <i class="mdi mdi-note-text menu-icon mr-2 text-muted font-18 vertical-middle"></i>
+          Công việc
+        </div>
+      </Menu.Item>
       <Menu.Item key="add-ticket">
         <div class="dropdown-item" id="ticket-menu-id-1">
-          <i class=" mdi mdi-note-text menu-icon mr-2 text-muted font-18 vertical-middle"></i>
-          Công việc
+          <i class="mdi mdi-plus-circle menu-icon mr-2 text-muted font-18 vertical-middle"></i>
+          Tạo công việc
         </div>
       </Menu.Item>
       <Menu.Item key="view-request">

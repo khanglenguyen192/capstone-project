@@ -54,7 +54,7 @@ const App = () => {
                 element={<EditDailyReportPage />}
               />
               <Route path="meeting" element={<MeetingPage />} />
-              <Route path="overtime" element={ <OvertimePage /> } />
+              <Route path="overtime" element={<OvertimePage />} />
               <Route path="department" element={<DepartmentPage />} />
               <Route path="departments" element={<DepartmentPage />} />
               <Route
@@ -80,7 +80,7 @@ const App = () => {
               />
               <Route path="/create-ticket" element={<CreateTicketPage />} />
               <Route
-                path="/department/:departmentId/user/:userId"
+                path="/department/:departmentId/user/:userId/add-ticket"
                 element={<CreateTicketPage />}
               />
               <Route
@@ -90,6 +90,10 @@ const App = () => {
               <Route path="/tickets" element={<ManageTicketPage />} />
               <Route
                 path="department/:departmentId/tickets"
+                element={<ManageTicketPage />}
+              />
+              <Route
+                path="department/:departmentId/user/:userId/tickets"
                 element={<ManageTicketPage />}
               />
               <Route
