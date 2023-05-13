@@ -394,6 +394,7 @@ export default function DayOffPage() {
                 customButtons={ options.customButtons }
                 buttonText={ options.buttonText }
                 eventContent={ renderEventContent } // custom render function
+                eventClick={ handleEventClick }
                 height={ 800 }
                 locale={ viLocale }
               />
