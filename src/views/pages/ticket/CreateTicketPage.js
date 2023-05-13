@@ -153,8 +153,12 @@ export default function CreateTicketPage(props) {
     TicketService.createTicket(formData, user.token).then((res) => {
       var response = res.data;
       if (response !== undefined && response.status == 200) {
-        message.info("Create ticket successfully");
-        navigate("/tickets");
+        message.info("Tạo công việc thành công");
+        if (params.departmentId != undefined) {
+          navigate("/department/" + params.departmentId + "/tickets");
+        } else {
+          navigate("/tickets");
+        }
       }
     });
   };

@@ -91,7 +91,6 @@ export default function DepartmentPage(props) {
         getChildDepartments(selectedDepartmentId);
         setNewDepartmentName("");
         setNewDepartmentDescription("");
-        navigate("/departments/" + selectedDepartmentId);
         break;
     }
   };

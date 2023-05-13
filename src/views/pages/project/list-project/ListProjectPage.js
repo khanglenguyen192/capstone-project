@@ -11,7 +11,11 @@ export default function ListProjectPage(props) {
   // const isAdmin = useSelector((state) => {
   //   return state.AuthReducer.isAdmin;
   // });
-  const isAdmin = true;
+
+  const user = useSelector((state) => {
+    return state.AuthReducer.user;
+  });
+  const isAdmin = user.userId == 1;
 
   const hardcodeProjectEmployees = [
     {
@@ -131,15 +135,17 @@ export default function ListProjectPage(props) {
 
   return (
     <div>
-      <div class="row">
+      <div class="row" style={{ marginBottom: "10px" }}>
         <div className="col-sm-4">
-          <button
-            type="button"
-            class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4"
-            onClick={goToAddProject}
-          >
-            <i class="mdi mdi-plus-circle"></i> Thêm dự án
-          </button>
+          {isAdmin && (
+            <button
+              type="button"
+              class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4"
+              onClick={goToAddProject}
+            >
+              <i class="mdi mdi-plus-circle"></i> Thêm dự án
+            </button>
+          )}
         </div>
         <div class="col-sm-8">
           <div class="project-sort float-right">
