@@ -190,17 +190,17 @@ export default {
 
 const typeDayOff = [
   {
-    type: 'NG',
+    type: "NG",
     option: 1,
     bgColor: COLORS.blue_purple,
   },
   {
-    type: 'SA',
+    type: "SA",
     option: 2,
     bgColor: COLORS.quite_blue,
   },
   {
-    type: 'CH',
+    type: "CH",
     option: 3,
     bgColor: COLORS.quite_orange,
   },
@@ -234,22 +234,18 @@ const specialDayType = [
 ];
 
 const dayOffStatus = [
-{
-  status: 'Đã chấp nhận',
-  value: 1,
-},
-{
-  status: 'Chờ xét duyệt',
-  value: 2,
-},
-{
-  status: 'Từ chối',
-  value: 3,
-},
+  {
+    status: "Đã chấp nhận",
+    value: 1,
+  },
+  {
+    status: "Chờ xét duyệt",
+    value: 2,
+  },
+  {
+    status: "Từ chối",
+    value: 3,
+  },
 ];
 
-export {
-  typeDayOff,
-  specialDayType,
-  dayOffStatus,
-};
+export { typeDayOff, specialDayType, dayOffStatus };

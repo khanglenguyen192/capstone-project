@@ -1,9 +1,11 @@
 import Constants from "../constants/Constants";
+import { UserDataFolder } from "../constants/ApiConstants";
+import NoImage from "../../assets/images/no-image.jpg";
 
-let eventGuid = 0
+let eventGuid = 0;
 
 export function createEventId() {
-    return String(eventGuid++);
+  return String(eventGuid++);
 }
 
 const getDepartmentRoleString = (roleId) => {
@@ -62,9 +64,17 @@ function getGenderString(genderId) {
   }
 }
 
+function getImageUrl(image) {
+  if (image == null || image == undefined || image.length == 0) {
+    return NoImage;
+  }
+  return UserDataFolder + "/" + image;
+}
+
 export default {
   getDepartmentRoleString,
   getFileSizeFromBytes,
   getTicketStatusLabel,
   getGenderString,
+  getImageUrl,
 };

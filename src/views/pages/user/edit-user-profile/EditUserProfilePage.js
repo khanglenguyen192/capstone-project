@@ -1,36 +1,25 @@
 import React, { useState } from "react";
 import NoImage from "../../../../assets/images/no-image.jpg";
 import "./EditUserProfilePage.css";
-import { Input, Cascader, DatePicker } from "antd";
+import { Input, Cascader, DatePicker, message } from "antd";
 import viVN from "antd/lib/locale/vi_VN";
 import UploadFile from "../../../components/UploadFile";
 import { useSelector } from "react-redux";
 import Constants from "../../../../common/constants/Constants";
 import { useEffect } from "react";
 import UserService from "../../../../services/UserService";
+import { useNavigate } from "react-router-dom";
+import Utils from "../../../../common/utils/Utils";
 
 export default function EditUserProfilePage(props) {
   const user = useSelector((state) => {
     return state.AuthReducer.user;
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    UserService.getUser(user.userId, user.token).then((res) => {
-      var response = res.data;
-      if (response != null && response.payload != null) {
-        var userModel = response.payload;
-        setUserCode(userModel.userCode);
-        setFullName(userModel.fullName);
-        setEmail(userModel.email);
-        setBankAccount(userModel.bankAccount);
-        setPhone(userModel.phone);
-        setGender(userModel.gender);
-        setBirthday(userModel.birthday);
-        setLinkedId(userModel.linkedId);
-        setFacebookId(userModel.facebookId);
-        setNumberOfDenpendents(userModel.numberOfDenpendents);
-      }
-    });
+    fetchData();
   }, []);
 
   const isAdmin = useSelector((state) => {
@@ -48,19 +37,70 @@ export default function EditUserProfilePage(props) {
   const [linkedId, setLinkedId] = useState();
   const [facebookId, setFacebookId] = useState();
   const [numberOfDenpendents, setNumberOfDenpendents] = useState();
+  const [avatarImg, setAvatarImg] = useState();
+  const [avatarDisplay, setAvatarDisplay] = useState(NoImage);
 
   const genderModels = Constants.genders;
 
-  const salaryTypeModels = [
-    {
-      value: 1,
-      label: "Net",
-    },
-    {
-      value: 2,
-      label: "Gross",
-    },
-  ];
+  const salaryTypeModels = Constants.salaryTypes;
+
+  const fetchData = () => {
+    UserService.getUser(user.userId, user.token).then((res) => {
+      var response = res.data;
+      if (response != null && response.payload != null) {
+        var userModel = response.payload;
+        setUserCode(userModel.userCode);
+        setFullName(userModel.fullName);
+        setEmail(userModel.email);
+        setBankAccount(userModel.bankAccount);
+        setPhone(userModel.phone);
+        setGender(userModel.gender);
+        setBirthday(userModel.birthday);
+        setLinkedId(userModel.linkedId);
+        setFacebookId(userModel.facebookId);
+        setNumberOfDenpendents(userModel.numberOfDenpendents);
+
+        if (userModel.avatar != null && userModel.avatar != undefined) {
+          setAvatarDisplay(Utils.getImageUrl(userModel.avatar));
+        }
+      }
+    });
+  };
+
+  const handleAvatarChange = (e) => {
+    setAvatarImg(e.target.files[0]);
+    var imgURL = URL.createObjectURL(e.target.files[0]);
+    setAvatarDisplay(imgURL);
+  };
+
+  const handleUpdateUser = () => {
+    var formData = new FormData();
+    formData.append("fullName", fullName);
+    formData.append("email", email);
+    formData.append("bankAccount", bankAccount);
+    formData.append("phone", phone);
+    formData.append("birthday", birthday);
+    formData.append("linkedId", linkedId);
+    formData.append("facebookId", facebookId);
+    formData.append("numberOfDenpendents", setNumberOfDenpendents);
+    formData.append("image", avatarImg);
+
+    UserService.updateUser(user.userId, formData, user.token)
+      .then((res) => {
+        var response = res.data;
+        if (response != null && response.status == 200) {
+          message.info("Cập nhật thành công", 1.5);
+          fetchData();
+        } else {
+          message.error("Cập nhật thất bại", 1.5);
+        }
+      })
+      .catch((res) => message.error("Cập nhật thất bại", 1.5));
+  };
+
+  const handleCancel = () => {
+    navigate("/home");
+  };
 
   return (
     <div>
@@ -75,17 +115,10 @@ export default function EditUserProfilePage(props) {
                   <div class="col-12">
                     <div class="form-group row d-flex justify-content-center align-items-center">
                       <div class="thumb-xxl member-thumb m-b-10">
-                        {isSelfEditting ? (
-                          <img
-                            src={NoImage}
-                            class="img-cover rounded-circle img-thumbnail no-border"
-                          ></img>
-                        ) : (
-                          <img
-                            src={NoImage}
-                            class="img-cover rounded-circle img-thumbnail no-border"
-                          ></img>
-                        )}
+                        <img
+                          src={avatarDisplay}
+                          class="img-cover rounded-circle img-thumbnail no-border"
+                        ></img>
                       </div>
                     </div>
 
@@ -109,7 +142,37 @@ export default function EditUserProfilePage(props) {
                       </div>
                     </div>
 
-                    <UploadFile placeholder="Hình thẻ"></UploadFile>
+                    <div class="form-group row d-flex justify-content-center align-items-center">
+                      <div class="vertical-center">
+                        <button
+                          type="button"
+                          class="btn btn-custom btn-file w-md waves-effect waves-light float-left"
+                          style={{
+                            marginLeft: "20px",
+                          }}
+                        >
+                          <span>
+                            <i class="mdi mdi-upload"></i> Thêm hình
+                          </span>
+                          <span>
+                            <input
+                              name="file"
+                              type="file"
+                              accept="image/*"
+                              class="btn btn-custom w-md waves-effect waves-light float-left"
+                              onChange={handleAvatarChange}
+                              style={{
+                                position: "absolute",
+                                top: "0",
+                                right: "0",
+                                margin: "0",
+                                opacity: "0",
+                              }}
+                            />
+                          </span>
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -210,7 +273,7 @@ export default function EditUserProfilePage(props) {
                         <div class="form-group col-sm-8">
                           <Input
                             size="large"
-                            pattern="[0-9]{9,14}"
+                            type="number"
                             value={bankAccount}
                             onChange={(e) => setBankAccount(e.target.value)}
                             style={{ fontWeight: "700" }}
@@ -365,18 +428,20 @@ export default function EditUserProfilePage(props) {
               </div>
 
               <div class="form-group text-right m-b-0">
-                <button class="btn btn-custom submit-btn waves-effect waves-light mr-2">
+                <button
+                  class="btn btn-custom submit-btn waves-effect waves-light mr-2"
+                  type="button"
+                  onClick={handleUpdateUser}
+                >
                   Xác Nhận
                 </button>
-                {isSelfEditting ? (
-                  <button class="btn btn-icon waves-effect waves-light btn-danger">
-                    Hủy bỏ
-                  </button>
-                ) : (
-                  <button class="btn btn-icon waves-effect waves-light btn-danger">
-                    Hủy bỏ
-                  </button>
-                )}
+                <button
+                  class="btn btn-icon waves-effect waves-light btn-danger"
+                  type="button"
+                  onClick={handleCancel}
+                >
+                  Hủy bỏ
+                </button>
               </div>
             </form>
           </div>
@@ -503,6 +568,7 @@ export default function EditUserProfilePage(props) {
                     <button
                       class="btn btn-icon waves-effect waves-light btn-danger"
                       type="button"
+                      onClick={handleCancel}
                     >
                       Hủy bỏ
                     </button>

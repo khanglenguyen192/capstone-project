@@ -20,7 +20,17 @@ const createUser = (body, token) => {
   });
 };
 
+const updateUser = (userId, formData, token) => {
+  return axios.post(USER_URL + "/update-user", formData, {
+    params: { userId: userId },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export default {
   getUser,
   createUser,
+  updateUser,
 };

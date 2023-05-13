@@ -5,6 +5,7 @@ import LogoSm from "../../assets/images/logo_sm.png";
 import "./LeftSideBar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import Utils from "../../common/utils/Utils";
 
 const LeftSideBar = () => {
   const navigate = useNavigate();
@@ -93,7 +94,7 @@ const LeftSideBar = () => {
         <div className="user-box" onClick={viewProfile}>
           <div className="user-img">
             <img
-              src={NoImage}
+              src={Utils.getImageUrl(user.avatar)}
               alt="user-img"
               className="rounded-circle img-fluid"
               style={{

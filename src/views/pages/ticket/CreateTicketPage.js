@@ -155,7 +155,7 @@ export default function CreateTicketPage(props) {
       if (response !== undefined && response.status == 200) {
         message.info("Tạo công việc thành công");
         if (params.departmentId != undefined) {
-          navigate("/department/" + params.departmentId + "/ticketsoo");
+          navigate("/department/" + params.departmentId + "/tickets");
         } else {
           navigate("/tickets");
         }
