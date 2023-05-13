@@ -233,7 +233,23 @@ const specialDayType = [
   },
 ];
 
+const dayOffStatus = [
+{
+  status: 'Đã chấp nhận',
+  value: 1,
+},
+{
+  status: 'Chờ xét duyệt',
+  value: 2,
+},
+{
+  status: 'Từ chối',
+  value: 3,
+},
+];
+
 export {
   typeDayOff,
-  specialDayType
+  specialDayType,
+  dayOffStatus,
 };
