@@ -192,7 +192,7 @@ export default function DayOffPage() {
             title="Xóa"
             class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-danger"
             type="button"
-            onClick={ (id) => deleteEvent(id) }
+            onClick={ () => deleteEvent(id) }
           >
             <i class="mdi mdi-delete-circle"></i>
           </button>
@@ -359,7 +359,6 @@ export default function DayOffPage() {
                 customButtons={ options.customButtons }
                 buttonText={ options.buttonText }
                 eventContent={ renderEventContent } // custom render function
-                eventClick={ handleEventClick }
                 height={ 800 }
                 locale={ viLocale }
               />
