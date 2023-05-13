@@ -6,13 +6,48 @@ import viVN from "antd/lib/locale/vi_VN";
 import UploadFile from "../../../components/UploadFile";
 import { useSelector } from "react-redux";
 import Constants from "../../../../common/constants/Constants";
+import { useEffect } from "react";
+import UserService from "../../../../services/UserService";
 
 export default function EditUserProfilePage(props) {
-  const [isSelfEditting, setSelfEditing] = useState(true);
+  const user = useSelector((state) => {
+    return state.AuthReducer.user;
+  });
+
+  useEffect(() => {
+    UserService.getUser(user.userId, user.token).then((res) => {
+      var response = res.data;
+      if (response != null && response.payload != null) {
+        var userModel = response.payload;
+        setUserCode(userModel.userCode);
+        setFullName(userModel.fullName);
+        setEmail(userModel.email);
+        setBankAccount(userModel.bankAccount);
+        setPhone(userModel.phone);
+        setGender(userModel.gender);
+        setBirthday(userModel.birthday);
+        setLinkedId(userModel.linkedId);
+        setFacebookId(userModel.facebookId);
+        setNumberOfDenpendents(userModel.numberOfDenpendents);
+      }
+    });
+  }, []);
 
   const isAdmin = useSelector((state) => {
     return state.AuthReducer.isAdmin;
   });
+
+  const [isSelfEditting, setSelfEditing] = useState(true);
+  const [userCode, setUserCode] = useState();
+  const [fullName, setFullName] = useState();
+  const [email, setEmail] = useState();
+  const [bankAccount, setBankAccount] = useState();
+  const [phone, setPhone] = useState();
+  const [gender, setGender] = useState();
+  const [birthday, setBirthday] = useState();
+  const [linkedId, setLinkedId] = useState();
+  const [facebookId, setFacebookId] = useState();
+  const [numberOfDenpendents, setNumberOfDenpendents] = useState();
 
   const genderModels = Constants.genders;
 
@@ -27,33 +62,6 @@ export default function EditUserProfilePage(props) {
     },
   ];
 
-  const userInfo = {
-    usercode: "#123456",
-    fullname: "Trần Văn A",
-    email: "example@gmail.com",
-    numberOfDenpendents: 1,
-    bankAccount: "XXXX-XXXX-XXXX",
-    phone: "XXXX XXX XXX",
-    linkedId: "https://www.linkedin.com/in/user",
-    facebookId: "https://www.facebook.com/profile.php?user",
-    genderModel: {
-      id: 1,
-      name: "Nam",
-    },
-  };
-
-  function renderGenderLabel(genderModel) {
-    switch (genderModel.id) {
-      case 1:
-        return <label class="badge badge-info ml-3">Nam</label>;
-      case 2:
-        return <label class="badge-success badge ml-3">Nữ</label>;
-      case 3:
-      default:
-        return <label class="badge-danger badge ml-3">Khác</label>;
-    }
-  }
-
   return (
     <div>
       <div class="row" id="edit-user-profile">
@@ -64,7 +72,7 @@ export default function EditUserProfilePage(props) {
                 <h4 class="card-title">CẬP NHẬT THÔNG TIN</h4>
 
                 <div className="row">
-                  <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
+                  <div class="col-12">
                     <div class="form-group row d-flex justify-content-center align-items-center">
                       <div class="thumb-xxl member-thumb m-b-10">
                         {isSelfEditting ? (
@@ -85,29 +93,23 @@ export default function EditUserProfilePage(props) {
                       <div class="row justify-content-center align-items-center">
                         {isSelfEditting ? (
                           <label class="col-form-label font-weight-bold">
-                            Mã nhân viên: {userInfo.usercode}
+                            Mã nhân viên: #{userCode}
                           </label>
                         ) : (
                           <div class="col-form-label font-weight-bold">
-                            {/* <app-text-box
-                            class="app-text"
-                            type="text"
-                            name="usercode"
-                          ></app-text-box> */}
                             <Input
                               class="app-text"
                               size="large"
-                              name="usercode"
+                              name="userCode"
+                              value={userCode}
+                              onChange={(e) => setUserCode(e.target.value)}
                             ></Input>
                           </div>
                         )}
                       </div>
                     </div>
 
-                    <UploadFile
-                      isAdmin={isAdmin}
-                      placeholder="Hình thẻ"
-                    ></UploadFile>
+                    <UploadFile placeholder="Hình thẻ"></UploadFile>
                   </div>
                 </div>
 
@@ -119,12 +121,13 @@ export default function EditUserProfilePage(props) {
                         <div class="col-sm-8">
                           <Input
                             size="large"
-                            placeholder={userInfo.fullname}
+                            value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
                           ></Input>
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          {userInfo.fullname}
+                          {fullName}
                         </label>
                       )}
                     </div>
@@ -138,13 +141,14 @@ export default function EditUserProfilePage(props) {
                             size="large"
                             type="email"
                             pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
-                            placeholder={userInfo.email}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             style={{ fontWeight: "700" }}
                           ></Input>
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          {userInfo.email}
+                          {email}
                         </label>
                       )}
                     </div>
@@ -178,13 +182,16 @@ export default function EditUserProfilePage(props) {
                         </label>
                         {isSelfEditting ? (
                           <label class="col-sm-8 col-form-label font-weight-bold">
-                            {userInfo.numberOfDenpendents}
+                            {numberOfDenpendents}
                           </label>
                         ) : (
                           <div class="col-sm-8">
                             <Input
                               size="large"
-                              placeholder={userInfo.numberOfDenpendents}
+                              value={numberOfDenpendents}
+                              onChange={(e) =>
+                                setNumberOfDenpendents(e.target.value)
+                              }
                             ></Input>
                           </div>
                         )}
@@ -204,13 +211,14 @@ export default function EditUserProfilePage(props) {
                           <Input
                             size="large"
                             pattern="[0-9]{9,14}"
-                            placeholder={userInfo.bankAccount}
+                            value={bankAccount}
+                            onChange={(e) => setBankAccount(e.target.value)}
                             style={{ fontWeight: "700" }}
                           ></Input>
                         </div>
                       ) : (
                         <label class="form-group col-sm-8 col-form-label font-weight-bold">
-                          {userInfo.bankAccount}
+                          {bankAccount}
                         </label>
                       )}
                     </div>
@@ -225,13 +233,14 @@ export default function EditUserProfilePage(props) {
                           <Input
                             size="large"
                             pattern="(0)([0-9]{9,10})"
-                            placeholder={userInfo.phone}
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
                             style={{ fontWeight: "700" }}
                           ></Input>
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          {userInfo.phone}
+                          {phone}
                         </label>
                       )}
                     </div>
@@ -242,23 +251,20 @@ export default function EditUserProfilePage(props) {
                   <div class="col-md-6">
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Giới tính</label>
-                      {isSelfEditting ? (
-                        <div class="col-sm-8">
-                          <Cascader
-                            size="large"
-                            name="genderModel"
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                            }}
-                            placement="bottomRight"
-                            options={genderModels}
-                            placeholder="Chọn"
-                          />
-                        </div>
-                      ) : (
-                        <div>{renderGenderLabel(userInfo.genderModel)}</div>
-                      )}
+                      <div class="col-sm-8">
+                        <Cascader
+                          size="large"
+                          name="genderModel"
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                          }}
+                          placement="bottomRight"
+                          options={genderModels}
+                          disabled={!isSelfEditting}
+                          placeholder="Chọn"
+                        />
+                      </div>
                     </div>
                   </div>
                   {!isAdmin && (
@@ -279,7 +285,7 @@ export default function EditUserProfilePage(props) {
                           </div>
                         ) : (
                           <label class="col-sm-8 col-form-label font-weight-bold">
-                            {userInfo.birthday}
+                            {birthday}
                           </label>
                         )}
                       </div>
@@ -320,12 +326,13 @@ export default function EditUserProfilePage(props) {
                             type="text"
                             class="form-control"
                             name="linkedId"
-                            placeholder="https://www.linkedin.com/in/user/"
+                            value={linkedId}
+                            onChange={(e) => setLinkedId(e.target.value)}
                           />
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          {userInfo.linkedId}
+                          {linkedId}
                         </label>
                       )}
                     </div>
@@ -343,12 +350,13 @@ export default function EditUserProfilePage(props) {
                             type="text"
                             class="form-control"
                             name="facebookId"
-                            placeholder="https://www.facebook.com/profile.php?user"
+                            value={facebookId}
+                            onChange={(e) => setFacebookId(e.target.value)}
                           />
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          {userInfo.facebookId}
+                          {facebookId}
                         </label>
                       )}
                     </div>
@@ -488,14 +496,13 @@ export default function EditUserProfilePage(props) {
                   <div class="form-group text-right m-b-0">
                     <button
                       class="btn btn-custom submit-btn waves-effect waves-light mr-2"
-                      style={{ right: "5rem" }}
+                      type="button"
                     >
                       Xác Nhận
                     </button>
                     <button
                       class="btn btn-icon waves-effect waves-light btn-danger"
-                      routerLink="/"
-                      style={{ right: "3rem" }}
+                      type="button"
                     >
                       Hủy bỏ
                     </button>
