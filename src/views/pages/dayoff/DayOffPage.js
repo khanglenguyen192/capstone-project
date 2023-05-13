@@ -30,27 +30,29 @@ export default function DayOffPage() {
     return state.AuthReducer.user;
   });
 
+  async function fetchData() {
+    await DayOffService.getDayOff(user.userId, user.token).then((res) => {
+      const data = res.data;
+      // console.log("data: ", data);
+      if (data.payload != null) {
+        const init = data.payload.map((item) => ({
+          title: typeDayOff.find(x => x.option === item.option).type,
+          start: item.dateTime,
+          id: item.id,
+        }));
+        setInitEvents(init);
+      }
+      else
+        setInitEvents(null);
+    });
+  };
+
   useEffect(() => {
-    async function fetchData() {
-      await DayOffService.getDayOff(user.userId, user.token).then((res) => {
-        const data = res.data;
-        // console.log("data: ", data);
-        if (data.payload != null) {
-          const init = data.payload.map((item) => ({
-            title: typeDayOff.find(x => x.option === item.option).type,
-            start: item.dateTime,
-            id: item.id,
-          }));
-          setInitEvents(init);
-        }
-        else
-          setInitEvents(null);
-      });
-    }
     fetchData();
   }, []);
 
   function onViewListDayOff() {
+    fetchData();
     setShowList(!isShowList);
     DayOffService.getDayOff(user.userId, user.token).then(
       (res) => {
@@ -224,12 +226,12 @@ export default function DayOffPage() {
         let ind = result.findIndex(x => new Date(x.start).getTime() === new Date(currentDate).getTime());
 
         if (ind !== -1) {
-          if (opt.title === 'AM-OFF') {
-            opt.setProp('title', 'PM-OFF');
+          if (opt.title === 'SA') {
+            opt.setProp('title', 'CH');
             result[ind] = opt;
           }
-          else if (opt.title === 'PM-OFF') {
-            opt.setProp('title', 'DAY-OFF');
+          else if (opt.title === 'CH') {
+            opt.setProp('title', 'NG');
             result[ind] = opt;
           }
           else {
@@ -242,7 +244,7 @@ export default function DayOffPage() {
         else {
           calendarApi.addEvent({
             start: currentDate,
-            title: "AM-OFF",
+            title: "SA",
           });
 
           let e = calendarApi.getEvents().find(x => new Date(x.start).getTime() === new Date(currentDate).getTime());
@@ -267,6 +269,7 @@ export default function DayOffPage() {
         margin: "0 5px",
         alignItems: "center",
         justifyContent: "center",
+        cursor: "auto",
         backgroundColor: color.bgColor
       } }>
         <i className="text-light text-center">{ eventInfo.event.title }</i>
@@ -275,9 +278,30 @@ export default function DayOffPage() {
   };
 
   const handleEventClick = (clickInfo) => {
-    if (!alert(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove();
+    if (initEvents != null) {
+      let findInit = initEvents.find(x => new Date(x.start).getTime() === new Date(clickInfo.event.start).getTime());
+      if (findInit != null) {
+        return;
+      }
     }
+
+    let ind = info.findIndex(x => new Date(x.start).getTime() === new Date(clickInfo.event.start).getTime());
+
+    if (clickInfo.event.title === 'SA') {
+      clickInfo.event.setProp('title', 'CH');
+    }
+    else if (clickInfo.event.title === 'CH') {
+      clickInfo.event.setProp('title', 'NG');
+    }
+    else {
+      clickInfo.event.remove();
+      info.splice(ind, 1);
+      setInfo(info);
+      return;
+    }
+
+    info[ind] = clickInfo.event;
+    setInfo(info);
   };
 
   const onChange = (e) => {
@@ -359,122 +383,11 @@ export default function DayOffPage() {
                 customButtons={ options.customButtons }
                 buttonText={ options.buttonText }
                 eventContent={ renderEventContent } // custom render function
+                eventClick={ handleEventClick }
                 height={ 800 }
                 locale={ viLocale }
               />
             ) }
-
-            {/* <Popup trigger={ buttonPopup } setTrigger={ setButtonPopup } onSubmit={ onSubmit } title="Xin nghỉ phép">
-              <div className='container-dayoff'>
-                <div className='content-dayoff'>
-                  <div className='reason'>
-                    <h5>Lý do</h5>
-                    <TextArea rows={ 6 } placeholder="Lý do xin nghỉ phép"
-                      style={ { backgroundColor: COLORS.graynish, maxHeight: "calc(100vh - 28rem)" } }
-                      onChange={ (e) => { setReason(e.target.value); } }
-                    />
-                    <div className="float-right">
-                      <Checkbox onChange={ onChange }>Xin nghỉ khẩn cấp</Checkbox>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Popup> */}
-
-            {/* <div>
-              <button
-                type="button"
-                class="fc-viewListLeaving-button fc-button fc-button-primary float-right"
-              >
-                <i class="mdi mdi-calendar-today"></i>
-              </button>
-              <h4 class="card-title mb-4">Danh sách xin nghỉ phép</h4>
-
-              <span class="d-flex align-items-center justify-content-end mr-0 mb-3">
-                Tìm: &nbsp;
-                <app-text-box type="text"></app-text-box>
-              </span>
-
-              <div class="table-data">
-                <table nzShowPagination nzShowSizeChanger nzPageSize="50">
-                  <thead nzSingleSort>
-                    <tr>
-                      <th nzShowSort nzSortKey="user.userName">
-                        Nhân viên
-                      </th>
-                      <th nzShowSort nzSortKey="reason">
-                        Lý do nghỉ
-                      </th>
-                      <th nzShowSort nzSortKey="dateTime">
-                        Ngày nghỉ
-                      </th>
-                      <th nzShowSort nzSortKey="option">
-                        Thời gian nghỉ
-                      </th>
-                      <th nzShowSort nzSortKey="dayOffStatus">
-                        Trạng thái
-                      </th>
-                      <th>Tác vụ</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr>
-                      <td>
-                        <app-shared-image></app-shared-image>
-                        <label class="ml-2">{dayoff.user.userName}</label>
-                      </td>
-                      <td>{dayoff.reason}</td>
-                      <td>{dayoff.dateTime | date}</td>
-                      <td>
-                        <span class="badge badge-success font-13">Cả ngày</span>
-                        <span class="badge badge-danger font-13">
-                          Buổi sáng
-                        </span>
-                        <span class="badge badge-warning font-13">
-                          Buổi chiều
-                        </span>
-                      </td>
-                      <td>
-                        <span class="badge badge-success font-13">
-                          Đã chấp nhận
-                        </span>
-                        <span class="badge badge-danger font-13">
-                          Đã từ chối
-                        </span>
-                        <span class="badge badge-warning font-13">
-                          Chờ xác nhận
-                        </span>
-                      </td>
-                      <td>
-                        <button
-                          type="button"
-                          class="leving-detail-bt btn btn-icon btn-sm waves-effect waves-light btn-custom mr-2"
-                          title="Chấp nhận"
-                        >
-                          {" "}
-                          <i class="fa fa-check"></i>
-                        </button>
-                        <button
-                          class="leving-detail-bt btn btn-icon btn-sm waves-effect waves-light btn-danger"
-                          title="Từ chối"
-                        >
-                          {" "}
-                          <i class="fa fa-times"></i>
-                        </button>
-                        <button
-                          title="Xóa"
-                          class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-danger"
-                          type="button"
-                        >
-                          <i class="mdi mdi-delete-circle"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
