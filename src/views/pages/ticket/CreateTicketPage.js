@@ -19,6 +19,7 @@ export default function CreateTicketPage(props) {
   useEffect(() => {
     if (params.userId !== undefined) {
       setEnableEdit(true);
+      setIsSelfEdit(true);
       setAssigneeId(params.userId);
       setDepartmentId(params.departmentId);
       setTicketStatus(0);
@@ -152,8 +153,12 @@ export default function CreateTicketPage(props) {
     TicketService.createTicket(formData, user.token).then((res) => {
       var response = res.data;
       if (response !== undefined && response.status == 200) {
-        message.info("Create ticket successfully");
-        navigate("/tickets");
+        message.info("Tạo công việc thành công");
+        if (params.departmentId != undefined) {
+          navigate("/department/" + params.departmentId + "/tickets");
+        } else {
+          navigate("/tickets");
+        }
       }
     });
   };
@@ -409,18 +414,20 @@ export default function CreateTicketPage(props) {
                       Hủy bỏ
                     </button>
                   )}
-                  <button
-                    class="btn btn-custom waves-effect waves-light float-right mt-2"
-                    onClick={
-                      isCreateTicket ? handleUploadClick : handleEditClick
-                    }
-                  >
-                    {isCreateTicket
-                      ? "Tạo công việc"
-                      : enableEdit
-                      ? "Hoàn tất"
-                      : "Chỉnh sửa"}
-                  </button>
+                  {isSelfEdit && (
+                    <button
+                      class="btn btn-custom waves-effect waves-light float-right mt-2"
+                      onClick={
+                        isCreateTicket ? handleUploadClick : handleEditClick
+                      }
+                    >
+                      {isCreateTicket
+                        ? "Tạo công việc"
+                        : enableEdit
+                        ? "Hoàn tất"
+                        : "Chỉnh sửa"}
+                    </button>
+                  )}
                 </div>
               </div>
 

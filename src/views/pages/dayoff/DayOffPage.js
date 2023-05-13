@@ -9,9 +9,12 @@ import COLORS from "../../../common/constants/Colors";
 import Popup from "../../components/Popup";
 import TextArea from "rc-textarea";
 import { createEventId } from "../../../common/utils/Utils";
-import './DayOff.css';
+import "./DayOff.css";
 import { Checkbox, Input, Table, Tag } from "antd";
-import { typeDayOff, specialDayType } from "../../../common/constants/Constants";
+import {
+  typeDayOff,
+  specialDayType,
+} from "../../../common/constants/Constants";
 import DayOffService from "../../../services/DayOffService";
 import { useSelector } from "react-redux";
 import { event } from "jquery";
@@ -54,30 +57,28 @@ export default function DayOffPage() {
   function onViewListDayOff() {
     fetchData();
     setShowList(!isShowList);
-    DayOffService.getDayOff(user.userId, user.token).then(
-      (res) => {
-        const response = res.data;
+    DayOffService.getDayOff(user.userId, user.token).then((res) => {
+      const response = res.data;
 
-        if (response.payload != null) {
-          // console.log("call api: ", response.payload);
-          let i = 1;
-          var dayoff = response.payload.map((item) => {
-            return {
-              id: i++,
-              reason: item.reason,
-              date: new Date(item.dateTime).toLocaleDateString("vi-VN"),
-              type: typeDayOff.find(x => x.option == item.option).type,
-              status: {
-                key: 1,
-                value: "Đã chấp nhận",
-              },
-            };
-          });
+      if (response.payload != null) {
+        // console.log("call api: ", response.payload);
+        let i = 1;
+        var dayoff = response.payload.map((item) => {
+          return {
+            id: i++,
+            reason: item.reason,
+            date: new Date(item.dateTime).toLocaleDateString("vi-VN"),
+            type: typeDayOff.find((x) => x.option == item.option).type,
+            status: {
+              key: 1,
+              value: "Đã chấp nhận",
+            },
+          };
+        });
 
-          setlistDayOff(dayoff);
-        }
+        setlistDayOff(dayoff);
       }
-    );;
+    });
   }
 
   function onCancelPopup() {
@@ -86,17 +87,15 @@ export default function DayOffPage() {
 
   function onConfirmDayOff() {
     setShowPopupConfirm(false);
-    info.forEach(e => {
-      dayoff.push(
-        {
-          userId: user.userId,
-          dateTime: e._instance.range.start.toISOString(),
-          option: typeDayOff.find(x => x.type === e._def.title).option,
-          type: specialDayType.find(x => x.type === "DayOff").value,
-          reason: reason,
-          isUrgent: urgent,
-        }
-      );
+    info.forEach((e) => {
+      dayoff.push({
+        userId: user.userId,
+        dateTime: e._instance.range.start.toISOString(),
+        option: typeDayOff.find((x) => x.type === e._def.title).option,
+        type: specialDayType.find((x) => x.type === "DayOff").value,
+        reason: reason,
+        isUrgent: urgent,
+      });
     });
 
     DayOffService.createDayOff(dayoff, user.token).then((res) => {
@@ -127,7 +126,10 @@ export default function DayOffPage() {
     customButtons: {
       submitDayOff: {
         text: "Xin nghỉ phép",
-        click: () => { console.log("info: ", info); setShowPopupConfirm(!showPopupConfirm); },
+        click: () => {
+          console.log("info: ", info);
+          setShowPopupConfirm(!showPopupConfirm);
+        },
       },
       viewListLeaving: {
         text: "Danh sách",
@@ -214,7 +216,10 @@ export default function DayOffPage() {
 
       while (currentDate < endDate) {
         if (initEvents != null) {
-          let findInit = initEvents.find(x => new Date(x.start).getTime() === new Date(currentDate).getTime());
+          let findInit = initEvents.find(
+            (x) =>
+              new Date(x.start).getTime() === new Date(currentDate).getTime()
+          );
           if (findInit != null) {
             currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000);
             continue;
@@ -222,8 +227,12 @@ export default function DayOffPage() {
         }
 
         const events = calendarApi.getEvents();
-        let opt = events.find(x => new Date(x.start).getTime() === new Date(currentDate).getTime());
-        let ind = result.findIndex(x => new Date(x.start).getTime() === new Date(currentDate).getTime());
+        let opt = events.find(
+          (x) => new Date(x.start).getTime() === new Date(currentDate).getTime()
+        );
+        let ind = result.findIndex(
+          (x) => new Date(x.start).getTime() === new Date(currentDate).getTime()
+        );
 
         if (ind !== -1) {
           if (opt.title === 'SA') {
@@ -233,21 +242,24 @@ export default function DayOffPage() {
           else if (opt.title === 'CH') {
             opt.setProp('title', 'NG');
             result[ind] = opt;
-          }
-          else {
+          } else {
             opt.remove();
             result.splice(ind, 1);
             ind = -1;
           }
           // console.log("opt: ", opt);
-        }
-        else {
+        } else {
           calendarApi.addEvent({
             start: currentDate,
             title: "SA",
           });
 
-          let e = calendarApi.getEvents().find(x => new Date(x.start).getTime() === new Date(currentDate).getTime());
+          let e = calendarApi
+            .getEvents()
+            .find(
+              (x) =>
+                new Date(x.start).getTime() === new Date(currentDate).getTime()
+            );
           result.push(e);
         }
         currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000);
@@ -259,7 +271,7 @@ export default function DayOffPage() {
   };
 
   const renderEventContent = (eventInfo) => {
-    let color = typeDayOff.find(e => e.type === eventInfo.event.title);
+    let color = typeDayOff.find((e) => e.type === eventInfo.event.title);
     return (
       <div style={ {
         display: "flex",
@@ -329,7 +341,9 @@ export default function DayOffPage() {
                     class="form-group"
                     size="large"
                     required="true"
-                    onChange={ (e) => { setReason(e.target.value); } }
+                    onChange={ (e) => {
+                      setReason(e.target.value);
+                    } }
                   ></Input>
                 </div>
                 <div className="pt-3 float-right">
@@ -361,10 +375,7 @@ export default function DayOffPage() {
                 </span>
 
                 <div class="table-data">
-                  <Table
-                    columns={ columns }
-                    dataSource={ listDayOff }
-                  ></Table>
+                  <Table columns={ columns } dataSource={ listDayOff }></Table>
                 </div>
               </div>
             ) : (
@@ -383,7 +394,6 @@ export default function DayOffPage() {
                 customButtons={ options.customButtons }
                 buttonText={ options.buttonText }
                 eventContent={ renderEventContent } // custom render function
-                eventClick={ handleEventClick }
                 height={ 800 }
                 locale={ viLocale }
               />

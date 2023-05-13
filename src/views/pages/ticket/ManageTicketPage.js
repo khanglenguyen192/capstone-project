@@ -1,27 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { Space, Table, Tag, Dropdown, Menu, message } from "antd";
+import { Table, Tag, Dropdown, Menu, message } from "antd";
 import { useSelector } from "react-redux";
 import NoImage from "../../../assets/images/no-image.jpg";
 import TicketService from "../../../services/TicketService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import dateFormat from "dateformat";
 
 export default function ManageTicketPage(props) {
-  const isAdmin = useSelector((state) => {
-    return state.AuthReducer.isAdmin;
-  });
-
   const user = useSelector((state) => {
     return state.AuthReducer.user;
   });
 
+  const params = useParams();
+
   useEffect(() => {
     if (user == null) return;
+
+    if (params.departmentId != undefined) {
+      var searchCondition = {
+        pageIndex: 0,
+        pageSize: 100,
+        departmentId: params.departmentId,
+      };
+      setShowButton(false);
+      searchTicket(searchCondition);
+      return;
+    }
 
     var searchCondition = {
       pageIndex: 0,
       pageSize: 100,
-      assignorId: user.userId,
+      assigneeId: user.userId,
     };
 
     searchTicket(searchCondition);
@@ -78,6 +87,8 @@ export default function ManageTicketPage(props) {
   const [totalClose, setTotalClose] = useState(0);
   const [tickets, setTickets] = useState([]);
   const [selectedTicketId, setSelectedTicketId] = useState();
+  const [showAssignTickets, setShowAssignTickets] = useState(false);
+  const [showButton, setShowButton] = useState(true);
 
   const onMenuItemClick = function ({ key }) {
     switch (key) {
@@ -101,30 +112,50 @@ export default function ManageTicketPage(props) {
     <Menu onClick={onMenuItemClick}>
       <Menu.Item key="view">
         <div class="dropdown-item" id="ticket-menu-id-1">
-          <i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>
+          <i class=" mdi mdi-eye mr-2 text-muted font-18 vertical-middle"></i>
           View Ticket
         </div>
       </Menu.Item>
-      <Menu.Item key="close">
-        <div class="dropdown-item" id="ticket-menu-id-2">
-          <i class="mdi mdi-check-all mr-2 text-muted font-18 vertical-middle"></i>
-          Close Ticket
-        </div>
-      </Menu.Item>
-      <Menu.Item key="remove">
-        <div class="dropdown-item" id="ticket-menu-id-3">
-          <i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>
-          Remove Ticket
-        </div>
-      </Menu.Item>
-      <Menu.Item key="create-report">
-        <div class="dropdown-item" id="ticket-menu-id-3">
-          <i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>
-          Create Report
-        </div>
-      </Menu.Item>
+      {showAssignTickets && (
+        <Menu.Item key="close">
+          <div class="dropdown-item" id="ticket-menu-id-2">
+            <i class="mdi mdi-close-circle-outline mr-2 text-muted font-18 vertical-middle"></i>
+            Close Ticket
+          </div>
+        </Menu.Item>
+      )}
+      {!showAssignTickets && (
+        <Menu.Item key="create-report">
+          <div class="dropdown-item" id="ticket-menu-id-3">
+            <i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>
+            Create Report
+          </div>
+        </Menu.Item>
+      )}
     </Menu>
   );
+
+  const changeTicketList = () => {
+    if (showAssignTickets) {
+      var searchCondition = {
+        pageIndex: 0,
+        pageSize: 100,
+        assigneeId: user.userId,
+      };
+
+      searchTicket(searchCondition);
+      setShowAssignTickets(false);
+    } else {
+      var searchCondition = {
+        pageIndex: 0,
+        pageSize: 100,
+        assignorId: user.userId,
+      };
+
+      searchTicket(searchCondition);
+      setShowAssignTickets(true);
+    }
+  };
 
   const columns = [
     {
@@ -226,11 +257,7 @@ export default function ManageTicketPage(props) {
       <div class="col-12 grid-margin">
         <div class="card">
           <div class="card-body">
-            {isAdmin ? (
-              <h4 class="card-title">Quản lý công việc</h4>
-            ) : (
-              <h4 class="card-title">Công việc của tôi</h4>
-            )}
+            <h4 class="card-title">Quản lý công việc</h4>
 
             <div class="text-center mt-4 mb-4">
               <div class="row">
@@ -295,14 +322,20 @@ export default function ManageTicketPage(props) {
                   </label>
                 </div>
               </div>
-              <div className="col-sm-12 col-md-6">
-                <button
-                  type="button"
-                  class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
-                >
-                  <i class="mdi mdi-plus-circle"></i> Create Ticket
-                </button>
-              </div>
+              {showButton && (
+                <div className="col-sm-12 col-md-6">
+                  <button
+                    type="button"
+                    class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
+                    onClick={changeTicketList}
+                    style={{ width: "170px" }}
+                  >
+                    {!showAssignTickets
+                      ? "Công việc của tôi"
+                      : "Công việc được giao"}
+                  </button>
+                </div>
+              )}
             </div>
 
             <Table

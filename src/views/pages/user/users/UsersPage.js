@@ -108,50 +108,46 @@ export default function UsersPage(props) {
             </div>
 
             <div class="head-action">
-              {isAdmin && (
-                <div>
-                  <button
-                    type="button"
-                    class="btn btn-custom btn-fw ml-2 float-right"
-                    onclick="exportSalaryBank()"
-                  >
-                    <i class="mdi mdi-bank"></i>Xuất Bank
-                  </button>
+              <button
+                type="button"
+                class="btn btn-custom btn-fw ml-2 float-right"
+                onclick="exportSalaryBank()"
+              >
+                <i class="mdi mdi-bank"></i>Xuất Bank
+              </button>
 
-                  <button
-                    routerLink="/add-user"
-                    type="button"
-                    class="btn btn-success btn-fw ml-2 float-right"
-                  >
-                    <i class="mdi mdi-account-plus"></i>Tạo Mới
-                  </button>
+              <button
+                routerLink="/add-user"
+                type="button"
+                class="btn btn-success btn-fw ml-2 float-right"
+              >
+                <i class="mdi mdi-account-plus"></i>Tạo Mới
+              </button>
 
-                  <div class="btn-group dropdown ml-2 float-right">
-                    <a
-                      href="javascript: void(0);"
-                      class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-md"
-                      data-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <i class="mdi mdi-settings"></i>Tác Vụ
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" onclick="exportSalaries()">
-                        <i class="mdi mdi-file-document"></i> Xuất bảng lương
-                      </a>
-                      <a class="dropdown-item" onclick="lockEmployees()">
-                        <i class="mdi mdi-lock-outline"></i> Tạm khóa
-                      </a>
-                      <a class="dropdown-item" onclick="removeEmployees()">
-                        <i class="mdi mdi-account-remove"></i> Xóa nhân viên
-                      </a>
-                      <a class="dropdown-item" onclick="sendMessages()">
-                        <i class="mdi mdi-message-draw"></i> Gửi thông báo
-                      </a>
-                    </div>
-                  </div>
+              <div class="btn-group dropdown ml-2 float-right">
+                <a
+                  href="javascript: void(0);"
+                  class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-md"
+                  data-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i class="mdi mdi-settings"></i>Tác Vụ
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" onclick="exportSalaries()">
+                    <i class="mdi mdi-file-document"></i> Xuất bảng lương
+                  </a>
+                  <a class="dropdown-item" onclick="lockEmployees()">
+                    <i class="mdi mdi-lock-outline"></i> Tạm khóa
+                  </a>
+                  <a class="dropdown-item" onclick="removeEmployees()">
+                    <i class="mdi mdi-account-remove"></i> Xóa nhân viên
+                  </a>
+                  <a class="dropdown-item" onclick="sendMessages()">
+                    <i class="mdi mdi-message-draw"></i> Gửi thông báo
+                  </a>
                 </div>
-              )}
+              </div>
             </div>
 
             <Table columns={columns} dataSource={employees}></Table>

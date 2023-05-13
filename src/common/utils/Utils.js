@@ -9,12 +9,12 @@ export function createEventId() {
 const getDepartmentRoleString = (roleId) => {
   switch (roleId) {
     case 1:
-      return "Administrator";
+      return "Quản trị viên";
     case 2:
-      return "Manager";
+      return "Quản lý";
     case 3:
     default:
-      return "Member";
+      return "Nhân viên";
   }
 };
 
@@ -50,8 +50,21 @@ function getTicketStatusLabel(ticketStatus) {
   return "None";
 }
 
+function getGenderString(genderId) {
+  var gender = Number(genderId);
+  switch (gender) {
+    case 1:
+      return "Nam";
+    case 2:
+      return "Nữ";
+    case 3:
+      return "Khác";
+  }
+}
+
 export default {
   getDepartmentRoleString,
   getFileSizeFromBytes,
   getTicketStatusLabel,
+  getGenderString,
 };

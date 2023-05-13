@@ -4,11 +4,15 @@ import LogoLight from "../../assets/images/logo_light.png";
 import LogoSm from "../../assets/images/logo_sm.png";
 import "./LeftSideBar.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const LeftSideBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => {
+    return state.AuthReducer.user;
+  });
 
   function viewProfile() {
     navigate("/edit-user-profile");
@@ -20,25 +24,11 @@ const LeftSideBar = () => {
     });
   }
 
-  const user = {
-    fullname: "Lê Nguyên Khang",
-  };
-
   const items = [
     {
       icon: "fi-air-play",
       routerLink: "/home",
       title: "Trang chủ",
-    },
-    {
-      icon: "mdi mdi-note-text menu-icon",
-      routerLink: "/tickets",
-      title: "Công việc",
-    },
-    {
-      icon: "mdi mdi-account-multiple menu-icon",
-      routerLink: "/users",
-      title: "Đồng nghiệp",
     },
     {
       icon: "mdi mdi-note-multiple-outline menu-icon",
@@ -47,8 +37,13 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-sitemap menu-icon",
-      routerLink: "/department",
+      routerLink: "/departments",
       title: "Phòng ban",
+    },
+    {
+      icon: "mdi mdi-note-text menu-icon",
+      routerLink: "/tickets",
+      title: "Công việc",
     },
     {
       icon: "mdi mdi-message-video menu-icon",
@@ -67,12 +62,12 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-av-timer menu-icon",
-      routerLink: "/overtime",
+      routerLink: "/",
       title: "Tăng ca",
     },
     {
       icon: "mdi mdi-cash-multiple menu-icon",
-      routerLink: "/advanced-salary",
+      routerLink: "/",
       title: "Ứng lương",
     },
     {
@@ -88,13 +83,13 @@ const LeftSideBar = () => {
         <div className="topbar-left">
           <a className="logo" href="/">
             <span>
-              <img src={LogoLight} alt="" height="22"></img>{" "}
-            </span>{" "}
+              <img src={LogoLight} alt="" height="22"></img>
+            </span>
             <i>
-              <img src={LogoSm} alt="" height="28"></img>{" "}
-            </i>{" "}
-          </a>{" "}
-        </div>{" "}
+              <img src={LogoSm} alt="" height="28"></img>
+            </i>
+          </a>
+        </div>
         <div className="user-box" onClick={viewProfile}>
           <div className="user-img">
             <img
@@ -105,36 +100,37 @@ const LeftSideBar = () => {
                 height: "48px",
                 width: "48px",
               }}
-            ></img>{" "}
-          </div>{" "}
+            ></img>
+          </div>
           <h5>
-            <a> {user.fullname} </a>{" "}
-          </h5>{" "}
-        </div>{" "}
+            <a> {user.fullName} </a>
+          </h5>
+        </div>
         <div id="sidebar-menu">
           <ul className="metismenu">
-            {" "}
             {items.map((item) => (
               <li key={item.title} className="menu-item">
                 <Link to={item.routerLink}>
-                  <i className={item.icon}> </i> <span> {item.title} </span>{" "}
+                  <i className={item.icon}> </i> <span> {item.title} </span>
                 </Link>
               </li>
-            ))}{" "}
-            <li className="menu-item">
-              <Link to="/home">
-                <i className="menu-icon mdi mdi-content-copy"> </i>{" "}
-                <span> Hồ sơ lao động </span>{" "}
-              </Link>
-            </li>{" "}
+            ))}
+            {user.userId == 1 && (
+              <li className="menu-item">
+                <Link to="/add-user">
+                  <i className="mdi mdi-account-multiple menu-icon"> </i>
+                  <span> Thêm nhân viên </span>
+                </Link>
+              </li>
+            )}
             <div className="user-box" id="logout" onClick={logOut}>
               <h5>
-                <a> Đăng xuất </a>{" "}
-              </h5>{" "}
-            </div>{" "}
-          </ul>{" "}
-        </div>{" "}
-      </div>{" "}
+                <a> Đăng xuất </a>
+              </h5>
+            </div>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };

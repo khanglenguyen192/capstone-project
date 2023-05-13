@@ -5,6 +5,7 @@ import { Input, Cascader, DatePicker } from "antd";
 import viVN from "antd/lib/locale/vi_VN";
 import UploadFile from "../../../components/UploadFile";
 import { useSelector } from "react-redux";
+import Constants from "../../../../common/constants/Constants";
 
 export default function EditUserProfilePage(props) {
   const [isSelfEditting, setSelfEditing] = useState(true);
@@ -13,20 +14,7 @@ export default function EditUserProfilePage(props) {
     return state.AuthReducer.isAdmin;
   });
 
-  const genderModels = [
-    {
-      value: 1,
-      label: "Nam",
-    },
-    {
-      value: 2,
-      label: "Nữ",
-    },
-    {
-      value: 3,
-      label: "Khác",
-    },
-  ];
+  const genderModels = Constants.genders;
 
   const salaryTypeModels = [
     {
@@ -57,16 +45,12 @@ export default function EditUserProfilePage(props) {
   function renderGenderLabel(genderModel) {
     switch (genderModel.id) {
       case 1:
-        return <label class="badge badge-info ml-3">{genderModel.name}</label>;
+        return <label class="badge badge-info ml-3">Nam</label>;
       case 2:
-        return (
-          <label class="badge-success badge ml-3">{genderModel.name}</label>
-        );
+        return <label class="badge-success badge ml-3">Nữ</label>;
       case 3:
       default:
-        return (
-          <label class="badge-danger badge ml-3">{genderModel.name}</label>
-        );
+        return <label class="badge-danger badge ml-3">Khác</label>;
     }
   }
 
@@ -120,7 +104,10 @@ export default function EditUserProfilePage(props) {
                       </div>
                     </div>
 
-                    <UploadFile isAdmin={ isAdmin } placeholder="Hình thẻ"></UploadFile>
+                    <UploadFile
+                      isAdmin={isAdmin}
+                      placeholder="Hình thẻ"
+                    ></UploadFile>
                   </div>
                 </div>
 
@@ -151,8 +138,8 @@ export default function EditUserProfilePage(props) {
                             size="large"
                             type="email"
                             pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
-                            placeholder={ userInfo.email }
-                            style={ { fontWeight: '700' } }
+                            placeholder={userInfo.email}
+                            style={{ fontWeight: "700" }}
                           ></Input>
                         </div>
                       ) : (
@@ -217,8 +204,8 @@ export default function EditUserProfilePage(props) {
                           <Input
                             size="large"
                             pattern="[0-9]{9,14}"
-                            placeholder={ userInfo.bankAccount }
-                            style={ { fontWeight: '700' } }
+                            placeholder={userInfo.bankAccount}
+                            style={{ fontWeight: "700" }}
                           ></Input>
                         </div>
                       ) : (
@@ -238,8 +225,8 @@ export default function EditUserProfilePage(props) {
                           <Input
                             size="large"
                             pattern="(0)([0-9]{9,10})"
-                            placeholder={ userInfo.phone }
-                            style={ { fontWeight: '700' } }
+                            placeholder={userInfo.phone}
+                            style={{ fontWeight: "700" }}
                           ></Input>
                         </div>
                       ) : (
@@ -370,27 +357,18 @@ export default function EditUserProfilePage(props) {
               </div>
 
               <div class="form-group text-right m-b-0">
-                <button class="btn btn-custom submit-btn waves-effect waves-light mr-2"
-                  style={ { right: '5rem' } }
-                >
+                <button class="btn btn-custom submit-btn waves-effect waves-light mr-2">
                   Xác Nhận
                 </button>
-                { isSelfEditting ? (
-                  <button class="btn btn-icon waves-effect waves-light btn-danger"
-                    routerLink="/"
-                    style={ { right: '3rem' } }
-                  >
+                {isSelfEditting ? (
+                  <button class="btn btn-icon waves-effect waves-light btn-danger">
                     Hủy bỏ
                   </button>
                 ) : (
-                  <button
-                    class="btn btn-icon waves-effect waves-light btn-danger"
-                    routerLink="/users"
-                    style={ { right: '3rem' } }
-                  >
+                  <button class="btn btn-icon waves-effect waves-light btn-danger">
                     Hủy bỏ
                   </button>
-                ) }
+                )}
               </div>
             </form>
           </div>
@@ -420,9 +398,12 @@ export default function EditUserProfilePage(props) {
                         ></img>
                         <div class="col-sm-8">
                           <div class="vertical-center">
-                            { isSelfEditting && (
-                              <UploadFile isAdmin={ isAdmin } placeholder="Mặt trước CCCD" />
-                            ) }
+                            {isSelfEditting && (
+                              <UploadFile
+                                isAdmin={isAdmin}
+                                placeholder="Mặt trước CCCD"
+                              />
+                            )}
                           </div>
                         </div>
                       </div>
@@ -437,9 +418,12 @@ export default function EditUserProfilePage(props) {
                         ></img>
                         <div class="col-sm-8">
                           <div class="vertical-center">
-                            { isSelfEditting && (
-                              <UploadFile isAdmin={ isAdmin } placeholder="Mặt sau CCCD"/>
-                            ) }
+                            {isSelfEditting && (
+                              <UploadFile
+                                isAdmin={isAdmin}
+                                placeholder="Mặt sau CCCD"
+                              />
+                            )}
                           </div>
                         </div>
                       </div>
@@ -457,9 +441,9 @@ export default function EditUserProfilePage(props) {
                             class="form-control"
                             name="userIdentity"
                             pattern="[0-9]{12}"
-                            disabled={ !isSelfEditting }
+                            disabled={!isSelfEditting}
                             placeholder="XXXX XXXX XXXX"
-                            style={ { fontWeight: '700' } }
+                            style={{ fontWeight: "700" }}
                           />
                         </div>
                       </div>
@@ -500,19 +484,23 @@ export default function EditUserProfilePage(props) {
                     </div>
                   </div>
                 </div>
-                { isSelfEditting && (
+                {isSelfEditting && (
                   <div class="form-group text-right m-b-0">
-                    <button class="btn btn-custom submit-btn waves-effect waves-light mr-2"
-                      style={ { right: '5rem' } }>
+                    <button
+                      class="btn btn-custom submit-btn waves-effect waves-light mr-2"
+                      style={{ right: "5rem" }}
+                    >
                       Xác Nhận
                     </button>
-                    <button class="btn btn-icon waves-effect waves-light btn-danger"
+                    <button
+                      class="btn btn-icon waves-effect waves-light btn-danger"
                       routerLink="/"
-                      style={ { right: '3rem' } }>
+                      style={{ right: "3rem" }}
+                    >
                       Hủy bỏ
                     </button>
                   </div>
-                ) }
+                )}
               </div>
             </form>
           </div>

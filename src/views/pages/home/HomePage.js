@@ -1,26 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import UserService from "../../../services/UserService";
+import dateFormat from "dateformat";
 import "./HomePage.css";
+import Utils from "../../../common/utils/Utils";
 
 export default function HomePage() {
-  const user = {
-    fullname: "Lê Nguyên Khang",
-    birthday: "",
-    phone: "",
-    email: "",
-    workingTimeCounting: "",
-    dateJoincompany: "",
-    lastLogin: "",
-  };
+  const user = useSelector((state) => {
+    return state.AuthReducer.user;
+  });
 
-  const cash = {};
+  const [userModel, setUserModel] = useState({});
 
-  const date = "";
+  useEffect(() => {
+    UserService.getUser(user.userId, user.token).then((res) => {
+      var response = res.data;
 
-  const appNumber = "";
+      if (response != null && response.payload != null) {
+        var userData = response.payload;
+        var model = {
+          gender: Utils.getGenderString(userData.gender),
+          fullName: userData.fullName,
+          birthday: dateFormat(Date.parse(userData.birthday), "dd/mm/yyyy"),
+          phone: userData.phone,
+          email: userData.email,
+          workingTimeCounting: "1 tháng",
+          dateJoinCompany: dateFormat(
+            Date.parse(userData.dateJoinCompany),
+            "dd/mm/yyyy"
+          ),
+        };
 
-  const data = {};
-
-  const request = {};
+        setUserModel(model);
+      }
+    });
+  }, []);
 
   const userIndex = {
     totalProjects: "1",
@@ -38,40 +53,35 @@ export default function HomePage() {
 
             <hr />
 
+            <p class="text-muted font-13">
+              <strong>Giới tính: </strong>
+              <span class="m-l-15">{userModel.gender}</span>
+            </p>
+
             <div class="text-left">
               <p class="text-muted font-13">
-                <strong>Ngày sinh: </strong>{" "}
-                <span class="m-l-15">{user.birthday}</span>
+                <strong>Ngày sinh: </strong>
+                <span class="m-l-15">{userModel.birthday}</span>
               </p>
 
               <p class="text-muted font-13">
                 <strong>SĐT: </strong>
-                <span class="m-l-15">{user.phone}</span>
+                <span class="m-l-15">{userModel.phone}</span>
               </p>
 
               <p class="text-muted font-13">
-                <strong>Email: </strong>{" "}
-                <span class="m-l-15">{user.email}</span>
+                <strong>Email: </strong>
+                <span class="m-l-15">{userModel.email}</span>
               </p>
 
               <p class="text-muted font-13">
-                <strong>Thời gian đã làm ở công ty: </strong>{" "}
-                <span class="m-l-15">{user.workingTimeCounting}</span>
+                <strong>Thời gian đã làm ở công ty: </strong>
+                <span class="m-l-15">{userModel.workingTimeCounting}</span>
               </p>
 
               <p class="text-muted font-13">
-                <strong>Thời gian vào công ty: </strong>{" "}
-                <span class="m-l-15">{user.dateJoincompany}</span>
-              </p>
-
-              <p class="text-muted font-13">
-                <strong>Lần truy cập gần nhất: </strong>
-                <span class="m-l-15">{user.lastLogin}</span>
-              </p>
-
-              <p class="text-muted font-13">
-                <strong>Múi giờ: </strong>{" "}
-                <span class="m-l-15">{user.timeZoneName}</span>
+                <strong>Thời gian vào công ty: </strong>
+                <span class="m-l-15">{userModel.dateJoinCompany}</span>
               </p>
             </div>
 
@@ -82,7 +92,7 @@ export default function HomePage() {
                   data-placement="top"
                   data-toggle="tooltip"
                   class="tooltips"
-                  href="https://www.facebook.com/{user.facebookId}"
+                  href="https://www.facebook.com/{userModel.facebookId}"
                   data-original-title="Facebook"
                 >
                   <i class="fa fa-facebook"></i>
@@ -90,7 +100,7 @@ export default function HomePage() {
               </li>
               <li class="list-inline-item">
                 <a
-                  title="{user.skypeId}"
+                  title="{userModel.skypeId}"
                   data-placement="top"
                   data-toggle="tooltip"
                   class="tooltips"
@@ -117,7 +127,7 @@ export default function HomePage() {
               <p class="inbox-item-text">
                 Bạn đã yêu cầu tạm ứng số tiền
                 <span class="font-500 text-dark">
-                  {cash.cash | appNumber} VNĐ{" "}
+                  {cash.cash | appNumber} VNĐ
                 </span>
                 vào ngày
                 <span class="font-500 text-dark">{cash.dateTime | date}</span>

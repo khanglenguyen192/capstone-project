@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { Input, message, Upload, Dropdown, Menu, Switch } from "antd";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Input, message, Upload, Dropdown, Menu } from "antd";
 import { ReactComponent as Icon } from "../../../assets/iconfonts/mdi/icon/add-icon.svg";
 import "./Department.css";
 import Colors from "../../../common/constants/Colors";
@@ -33,6 +33,7 @@ export default function DepartmentPage(props) {
   });
 
   const navigate = useNavigate();
+  const params = useParams();
 
   const [departmentList, setDepartmentList] = useState([]);
   const [departmentId, setDepartmentId] = useState(props.departmentId);
@@ -42,36 +43,54 @@ export default function DepartmentPage(props) {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
 
+  const [newDepartmentName, setNewDepartmentName] = useState("");
+  const [newDepartmentDescription, setNewDepartmentDescription] = useState("");
+
   useEffect(() => {
-    getUserDepartments();
+    if (params.departmentId === undefined || params.departmentId === null) {
+      getDepartments();
+    } else {
+      getChildDepartments(params.departmentId);
+    }
   }, []);
 
-  const getUserDepartments = () => {
-    DepartmentService.getDepartmentsForEmployee(user.userId, user.token).then(
-      (res) => {
-        const response = res.data;
+  const getDepartments = () => {
+    DepartmentService.getRootDepartments(user.token).then((res) => {
+      const response = res.data;
 
-        if (response.payload != null) {
-          var deparments = response.payload.map((item) => {
-            return {
-              id: item.id,
-              name: item.departmentName,
-              color: Colors.quite_blue,
-            };
-          });
-          setDepartmentList(deparments);
-        }
+      if (response.payload != null) {
+        var deparments = response.payload.map((item) => {
+          return {
+            id: item.id,
+            name: item.departmentName,
+            color: Colors.quite_blue,
+            description: item.description,
+          };
+        });
+        setDepartmentList(deparments);
       }
-    );
+    });
   };
 
   const onMenuItemClick = function ({ key }) {
     switch (key) {
       case "infor":
-        navigate("/department-users/" + selectedDepartmentId);
+        DepartmentService.getAccess(selectedDepartmentId, user.token).then(
+          (res) => {
+            var response = res.data;
+            if (response != null && response.status == 200) {
+              navigate("/department-users/" + selectedDepartmentId);
+            } else {
+              message.warning("Bạn không có quyền truy cập phòng ban này", 1.5);
+            }
+          }
+        );
+
         break;
       case "detail":
-        handleClickDepartment(selectedDepartmentId);
+        getChildDepartments(selectedDepartmentId);
+        setNewDepartmentName("");
+        setNewDepartmentDescription("");
         break;
     }
   };
@@ -80,20 +99,20 @@ export default function DepartmentPage(props) {
     <Menu onClick={ onMenuItemClick }>
       <Menu.Item key="infor">
         <div class="dropdown-item" id="ticket-menu-id-1">
-          <i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>
+          <i class="mdi mdi-home-outline mr-2 text-muted font-18 vertical-middle"></i>
           Thông tin
         </div>
       </Menu.Item>
       <Menu.Item key="detail">
         <div class="dropdown-item" id="ticket-menu-id-2">
-          <i class="mdi mdi-check-all mr-2 text-muted font-18 vertical-middle"></i>
+          <i class="mdi mdi-sitemap menu-icon mr-2 text-muted font-18 vertical-middle"></i>
           Chi tiết
         </div>
       </Menu.Item>
     </Menu>
   );
 
-  const handleClickDepartment = (departmentId) => {
+  const getChildDepartments = (departmentId) => {
     DepartmentService.getChildren(departmentId, user.token).then((res) => {
       const response = res.data;
 
@@ -103,6 +122,7 @@ export default function DepartmentPage(props) {
             id: item.id,
             name: item.departmentName,
             color: Colors.quite_blue,
+            description: item.description,
           };
         });
         setDepartmentList(deparments);
@@ -150,18 +170,13 @@ export default function DepartmentPage(props) {
   const handleAddDepartment = () => {
     var body = {
       parentId: departmentId,
-      departmentName: "Phòng ban 5",
+      departmentName: newDepartmentName,
       status: 1,
-      description: "Abc def",
-      users: [
-        {
-          id: user.userId,
-          roleId: 1,
-        },
-      ],
+      description: newDepartmentDescription,
     };
     DepartmentService.createDepartment(body, user.token).then((res) => {
-      getUserDepartments();
+      // getDepartments();
+      window.location.reload();
     });
     setShowDepartmentPopup(false);
   };
@@ -171,18 +186,20 @@ export default function DepartmentPage(props) {
       <div clas="row">
         <div class="row">
           <div className="col-6">
-            <h4 class="card-title">Trụ sở công ty</h4>
+            <h4 class="card-title">Danh sách phòng ban</h4>
           </div>
 
-          <div className="col-6">
-            <button
-              type="button"
-              class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
-              onClick={ () => setShowDepartmentPopup(true) }
-            >
-              <i class="mdi mdi-plus-circle"></i> Thêm phòng ban
-            </button>
-          </div>
+          {user.userId == 1 && (
+            <div className="col-6">
+              <button
+                type="button"
+                class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
+                onClick={() => setShowDepartmentPopup(true)}
+              >
+                <i class="mdi mdi-plus-circle"></i> Thêm phòng ban
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -229,7 +246,7 @@ export default function DepartmentPage(props) {
                   class="text-dark font-13 description-hide-overflow"
                   title={ item.description }
                 >
-                  { "item.description" }
+                  Mô tả: {item.description}
                 </p>
 
                 <div class="project-members mt-4 memnber-hide-overflow">
@@ -250,7 +267,7 @@ export default function DepartmentPage(props) {
                         ></img>
                       </div>
                     </a>
-                    "employee.fullName"
+                    Lê Nguyên Khang
                   </div>
                 </div>
               </div>
@@ -304,16 +321,21 @@ export default function DepartmentPage(props) {
                 <Input
                   id="input-department"
                   placeholder="Tên phòng ban của công ty"
+                  value={newDepartmentName}
+                  onChange={(e) => setNewDepartmentName(e.target.value)}
                 />
               </div>
-
-              <div className="detail">
-                <h5>Mô tả</h5>
-                <TextArea
-                  rows={ 6 }
-                  placeholder="Thêm phần mô tả cho chi nhánh"
-                  style={ { backgroundColor: Colors.graynish } }
-                />
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <label for="descripton">Mô tả</label>
+                <textarea
+                  class="form-group col-md-12 textArea"
+                  name="jobDescription"
+                  rows="3"
+                  value={newDepartmentDescription}
+                  onChange={(e) => setNewDepartmentDescription(e.target.value)}
+                ></textarea>
               </div>
             </div>
           </div>

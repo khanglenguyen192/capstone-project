@@ -20,6 +20,14 @@ const getDepartmentsForEmployee = (employeeId, token) => {
   });
 };
 
+const getRootDepartments = (token) => {
+  return axios.get(DEPARTMENT_URL + "/get-root-deparments", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 const getDepartmentEmployees = (departmentId, token) => {
   return axios.get(DEPARTMENT_URL + "/get-department-users", {
     params: { departmentId: departmentId },
@@ -38,9 +46,67 @@ const getChildren = (departmentId, token) => {
   });
 };
 
+const getUsersToAdd = (departmentId, token) => {
+  return axios.get(DEPARTMENT_URL + "/get-users-to-add", {
+    params: { departmentId: departmentId },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const addUsersToDepartment = (body, token) => {
+  return axios.post(DEPARTMENT_URL + "/add-department-users", body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const getAccess = (departmentId, token) => {
+  return axios.get(DEPARTMENT_URL + "/get-access", {
+    params: { departmentId: departmentId },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const updateUser = (body, token) => {
+  return axios.post(DEPARTMENT_URL + "/update-user", body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const removeUser = (body, token) => {
+  return axios.post(DEPARTMENT_URL + "/remove-user", body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const getDepartment = (departmentId, token) => {
+  return axios.get(DEPARTMENT_URL + "/get-department", {
+    params: { departmentId: departmentId },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export default {
   createDepartment,
   getDepartmentsForEmployee,
   getDepartmentEmployees,
   getChildren,
+  getRootDepartments,
+  getUsersToAdd,
+  addUsersToDepartment,
+  getAccess,
+  updateUser,
+  getDepartment,
+  removeUser,
 };
