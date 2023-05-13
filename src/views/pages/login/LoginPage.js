@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./LoginPage.css";
 import logo from "../../../assets/images/logo.png";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import { message } from "antd";
 import backgroundImage from "../../../assets/images/no-image.jpg";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../../../services/AuthService";
@@ -51,16 +52,22 @@ const LoginPage = () => {
   const [email, setEmail] = useState("root@gmail.com");
   const [passCode, setPassCode] = useState("123456x@X");
   const handleLogin = (e) => {
-    AuthService.login(email, passCode).then((res) => {
-      const response = res.data;
-      if (response.status === 200) {
-        console.log(response.payload);
-        dispatch({
-          type: "LOGIN_SUCCESS",
-          payload: { user: response.payload },
-        });
-      }
-    });
+    AuthService.login(email, passCode)
+      .then((res) => {
+        const response = res.data;
+        if (response.status === 200) {
+          console.log(response.payload);
+          dispatch({
+            type: "LOGIN_SUCCESS",
+            payload: { user: response.payload },
+          });
+        } else {
+          message.error("Đăng nhập thất bại");
+        }
+      })
+      .catch((res) => {
+        message.error("Đăng nhập thất bại");
+      });
   };
 
   const [Icon, InputType] = usePasswordToggle();
