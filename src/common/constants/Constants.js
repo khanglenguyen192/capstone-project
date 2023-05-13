@@ -190,17 +190,17 @@ export default {
 
 const typeDayOff = [
   {
-    type: 'DAY-OFF',
+    type: 'NG',
     option: 1,
     bgColor: COLORS.blue_purple,
   },
   {
-    type: 'AM-OFF',
+    type: 'SA',
     option: 2,
     bgColor: COLORS.quite_blue,
   },
   {
-    type: 'PM-OFF',
+    type: 'CH',
     option: 3,
     bgColor: COLORS.quite_orange,
   },
