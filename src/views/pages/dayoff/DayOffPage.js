@@ -6,14 +6,12 @@ import viLocale from "@fullcalendar/core/locales/vi";
 import React, { useEffect, useState } from "react";
 import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";
 import COLORS from "../../../common/constants/Colors";
-import Popup from "../../components/Popup";
-import TextArea from "rc-textarea";
-import { createEventId } from "../../../common/utils/Utils";
 import "./DayOff.css";
-import { Checkbox, Input, Table, Tag } from "antd";
+import { Checkbox, Input, Table, Tag, message } from "antd";
 import {
   typeDayOff,
   specialDayType,
+  dayOffStatus,
 } from "../../../common/constants/Constants";
 import DayOffService from "../../../services/DayOffService";
 import { useSelector } from "react-redux";
@@ -62,16 +60,15 @@ export default function DayOffPage() {
 
       if (response.payload != null) {
         // console.log("call api: ", response.payload);
-        let i = 1;
         var dayoff = response.payload.map((item) => {
           return {
-            id: i++,
+            id: item.id,
             reason: item.reason,
             date: new Date(item.dateTime).toLocaleDateString("vi-VN"),
             type: typeDayOff.find((x) => x.option == item.option).type,
             status: {
-              key: 1,
-              value: "Đã chấp nhận",
+              key: item.dayOffStatus,
+              value: dayOffStatus.find(x => x.value === item.dayOffStatus).status,
             },
           };
         });
@@ -107,7 +104,16 @@ export default function DayOffPage() {
   }
 
   const deleteEvent = (id) => {
-    console.log("id: ", id);
+    // console.log("Id: ", id);
+    DayOffService.deleteDayOff(id, user.token).then((res) => {
+      const response = res.data;
+      if (response.status === 200) {
+        message.info("Xóa thành công", 2);
+        setShowList(!isShowList);
+        onViewListDayOff();
+        console.log(response.payload);
+      }
+    });
   };
 
   const dayoff = [];
@@ -369,10 +375,10 @@ export default function DayOffPage() {
                 </button>
                 <h4 class="card-title mb-4">Danh sách xin nghỉ</h4>
 
-                <span class="d-flex align-items-center justify-content-end mr-0 mb-3">
+                {/* <span class="d-flex align-items-center justify-content-end mr-0 mb-3">
                   Tìm: &nbsp;
                   <Input type="text" placeholder="nội dung..."></Input>
-                </span>
+                </span> */}
 
                 <div class="table-data">
                   <Table columns={ columns } dataSource={ listDayOff }></Table>

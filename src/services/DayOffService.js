@@ -30,9 +30,9 @@ const getDayOff = (userId, token) => {
     });
 };
 
-const deleteEvent = (eventId, token) => {
+const deleteDayOff = (eventId, token) => {
     return axios.delete(DAYOFF_URL + "/delete", {
-        params: { eventId },
+        params: { specialDayId: eventId },
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -42,4 +42,5 @@ const deleteEvent = (eventId, token) => {
 export default {
     createDayOff,
     getDayOff,
+    deleteDayOff,
 };
