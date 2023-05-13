@@ -20,6 +20,7 @@ import ListProjectPage from "./views/pages/project/list-project/ListProjectPage"
 import DepartmentPage from "./views/pages/department/DepartmentPage";
 import AddProjectPage from "./views/pages/project/add-project/AddProjectPage";
 import NotificationPage from "./views/pages/notification/NotificationPage";
+import OvertimePage from "./views/pages/overtime/OvertimePage";
 import DepartmentUsersPage from "./views/pages/department/DepartmentUsersPage";
 import CreateTicketPage from "./views/pages/ticket/CreateTicketPage";
 import ManageTicketPage from "./views/pages/ticket/ManageTicketPage";
@@ -53,6 +54,8 @@ const App = () => {
                 element={<EditDailyReportPage />}
               />
               <Route path="meeting" element={<MeetingPage />} />
+              <Route path="overtime" element={ <OvertimePage /> } />
+              <Route path="department" element={<DepartmentPage />} />
               <Route path="departments" element={<DepartmentPage />} />
               <Route
                 path="departments/:departmentId"

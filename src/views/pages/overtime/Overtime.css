@@ -1,0 +1,47 @@
+* {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.container-overtime h5{
+    margin: 0;
+    font-weight: 500 !important;
+}
+
+.content-overtime {
+    display: flex;
+    flex-direction: column;
+    padding: 0 30px;
+}
+
+.content-overtime .name {
+    padding-left: 10px;
+    padding-top: 16px;
+    padding-bottom: 10px;
+}
+
+.wrap-overtime {
+    display: flex;
+    flex-direction: row;
+}
+
+.wrap-overtime .name-project {
+    margin-right: 15px;
+}
+
+.content-overtime .detail {
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 6rem;
+}
+
+.content-overtime .address {
+    flex: 1;
+}
+
+.content-overtime .address h5 {
+    padding-left: 10px;
+    padding-bottom: 10px;
+}

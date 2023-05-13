@@ -6,6 +6,7 @@ export default function UsersPage(props) {
   const employeesInformation = {};
 
   const isAdmin = useSelector((state) => {
+    console.log(state.AuthReducer);
     return state.AuthReducer.isAdmin;
   });
 

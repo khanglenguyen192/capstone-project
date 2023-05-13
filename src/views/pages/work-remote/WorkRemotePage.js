@@ -176,7 +176,7 @@ export default function WorkRemotePage(props) {
         mainButtonClick={onConfirmWorkRemote}
         subButtonClick={onCancelPopup}
       >
-        <form onSubmit="submitWorkRemoteDate()" autocomplete="off">
+        <form onSubmit="" autocomplete="off">
           <div class="modal-body" style={{ padding: "0 0 10px 0" }}>
             <div class="row">
               <label class="col-sm-12 col-form-label">Lý do</label>

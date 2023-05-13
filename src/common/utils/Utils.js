@@ -1,5 +1,11 @@
 import Constants from "../constants/Constants";
 
+let eventGuid = 0
+
+export function createEventId() {
+    return String(eventGuid++);
+}
+
 const getDepartmentRoleString = (roleId) => {
   switch (roleId) {
     case 1:
