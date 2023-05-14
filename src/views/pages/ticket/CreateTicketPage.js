@@ -99,17 +99,11 @@ export default function CreateTicketPage(props) {
   };
 
   const handleFileChange = (e) => {
-    console.log(
-      "isCreateTicket " + isCreateTicket + " enableEdit " + enableEdit
-    );
     setFilesUpload([...e.target.files]);
-    console.log(filesUpload);
   };
 
   const removeUploadFile = (file) => {
     var index = filesUpload.indexOf(file);
-    console.log(filesUpload);
-    console.log("remove index: " + index);
     if (index > -1) {
       var newList = [];
 
@@ -150,7 +144,6 @@ export default function CreateTicketPage(props) {
     formData.append("departmentId", departmentId);
 
     for (var i = 0; i < filesUpload.length; i++) {
-      console.log(filesUpload[i]);
       formData.append("files", filesUpload[i]);
     }
 

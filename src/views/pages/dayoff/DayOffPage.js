@@ -256,7 +256,6 @@ export default function DayOffPage() {
             result.splice(ind, 1);
             ind = -1;
           }
-          // console.log("opt: ", opt);
         } else {
           calendarApi.addEvent({
             start: currentDate,
@@ -275,7 +274,6 @@ export default function DayOffPage() {
       }
 
       setInfo(result);
-      // console.log("result: ", result);
     }
   };
 

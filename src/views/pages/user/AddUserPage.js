@@ -83,8 +83,6 @@ export default function AddUserPage(props) {
       reduceYourself: Number(reduceYourself),
     };
 
-    console.log(body);
-
     UserService.createUser(body, user.token).then((res) => {
       var response = res.data;
 

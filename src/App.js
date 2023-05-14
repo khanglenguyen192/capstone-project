@@ -31,7 +31,6 @@ import NotFoundPage from "./views/pages/general/NotFoundPage";
 
 const App = () => {
   const isLoggedIn = useSelector((state) => {
-    console.log(state.AuthReducer);
     return state.AuthReducer.isLoggedIn;
   });
 
@@ -54,7 +53,7 @@ const App = () => {
                 path="edit-daily-report"
                 element={<EditDailyReportPage />}
               />
-              <Route path="meeting" element={<MeetingPage />} />
+              <Route path="meeting" element={<NotFoundPage />} />
               <Route path="overtime" element={<NotFoundPage />} />
               <Route path="department" element={<DepartmentPage />} />
               <Route path="departments" element={<DepartmentPage />} />

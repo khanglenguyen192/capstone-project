@@ -195,16 +195,10 @@ export default function AddProjectPage(props) {
               ></Table>
               <br />
               <div class="form-group text-right m-b-0">
-                <button
-                  class="btn btn-custom submit-btn waves-effect waves-light mr-2"
-                  style={{ right: "8rem", bottom: "1.5rem" }}
-                >
+                <button class="btn btn-custom submit-btn waves-effect waves-light mr-2">
                   Hoàn tất
                 </button>
-                <button
-                  class="btn btn-icon waves-effect waves-light btn-danger"
-                  style={{ right: "2rem", bottom: "1.5rem" }}
-                >
+                <button class="btn btn-icon waves-effect waves-light btn-danger">
                   Hủy bỏ
                 </button>
               </div>

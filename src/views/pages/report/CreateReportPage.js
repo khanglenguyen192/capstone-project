@@ -65,13 +65,10 @@ export default function CreateReportPage(props) {
 
   const handleFileChange = (e) => {
     setFilesUpload([...e.target.files]);
-    console.log(filesUpload);
   };
 
   const removeUploadFile = (file) => {
     var index = filesUpload.indexOf(file);
-    console.log(filesUpload);
-    console.log("remove index: " + index);
     if (index > -1) {
       var newList = [];
 
@@ -111,7 +108,6 @@ export default function CreateReportPage(props) {
     formData.append("content", content);
 
     for (var i = 0; i < filesUpload.length; i++) {
-      console.log(filesUpload[i]);
       formData.append("files", filesUpload[i]);
     }
 

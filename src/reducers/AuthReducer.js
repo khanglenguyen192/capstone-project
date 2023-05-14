@@ -8,7 +8,6 @@ export default function AuthReducer(state = initialState, action) {
 
   switch (type) {
     case "LOGIN_SUCCESS":
-      console.log(payload.user);
       localStorage.setItem("user", JSON.stringify(payload.user));
       return {
         ...state,

@@ -3,8 +3,8 @@ import { API_BASE_URL } from "../common/constants/ApiConstants";
 
 const DEPARTMENT_URL = API_BASE_URL + "/department";
 
-const createDepartment = (body, token) => {
-  return axios.post(DEPARTMENT_URL + "/create-department", body, {
+const createDepartment = (formData, token) => {
+  return axios.post(DEPARTMENT_URL + "/create-department", formData, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

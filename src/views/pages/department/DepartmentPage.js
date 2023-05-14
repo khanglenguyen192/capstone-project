@@ -1,31 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Input, message, Upload, Dropdown, Menu } from "antd";
-import { ReactComponent as Icon } from "../../../assets/iconfonts/mdi/icon/add-icon.svg";
+import { Input, message, Dropdown, Menu } from "antd";
 import "./Department.css";
 import Colors from "../../../common/constants/Colors";
 import DepartmentService from "../../../services/DepartmentService";
 import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";
 import NoImage from "../../../assets/images/no-image.jpg";
-
-const getBase64 = (img, callback) => {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-};
-
-const beforeUpload = (file) => {
-  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-  if (!isJpgOrPng) {
-    message.error("You can only upload JPG/PNG file!");
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error("Image must smaller than 2MB!");
-  }
-  return isJpgOrPng && isLt2M;
-};
+import Utils from "../../../common/utils/Utils";
 
 export default function DepartmentPage(props) {
   const user = useSelector((state) => {
@@ -40,25 +22,25 @@ export default function DepartmentPage(props) {
   const params = useParams();
 
   const [departmentList, setDepartmentList] = useState([]);
-  const [departmentId, setDepartmentId] = useState(props.departmentId);
+  const [departmentId, setDepartmentId] = useState();
   const [selectedDepartmentId, setSelectedDepartmentId] = useState();
-  const { TextArea } = Input;
   const [isShowDepartmentPopup, setShowDepartmentPopup] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState();
 
   const [newDepartmentName, setNewDepartmentName] = useState("");
   const [newDepartmentDescription, setNewDepartmentDescription] = useState("");
+  const [newDepartmentImage, setNewDepartmentImage] = useState();
+  const [newDepartmentImageDisplay, setNewDepartmentImageDisplay] =
+    useState(NoImage);
 
   useEffect(() => {
     if (params.departmentId === undefined || params.departmentId === null) {
-      getDepartments();
+      getRootDepartments();
     } else {
       getChildDepartments(params.departmentId);
     }
   }, []);
 
-  const getDepartments = () => {
+  const getRootDepartments = () => {
     DepartmentService.getRootDepartments(user.token).then((res) => {
       const response = res.data;
 
@@ -69,10 +51,34 @@ export default function DepartmentPage(props) {
             name: item.departmentName,
             color: Colors.quite_blue,
             description: item.description,
+            logo: item.departmentLogo,
           };
         });
         setDepartmentList(deparments);
       }
+    });
+  };
+
+  const getChildDepartments = (departmentId) => {
+    DepartmentService.getChildren(departmentId, user.token).then((res) => {
+      const response = res.data;
+
+      if (response.payload != null) {
+        var deparments = response.payload.map((item) => {
+          return {
+            id: item.id,
+            name: item.departmentName,
+            color: Colors.quite_blue,
+            description: item.description,
+            logo: item.departmentLogo,
+          };
+        });
+        setDepartmentList(deparments);
+      } else {
+        setDepartmentList([]);
+      }
+
+      setDepartmentId(departmentId);
     });
   };
 
@@ -93,8 +99,6 @@ export default function DepartmentPage(props) {
         break;
       case "detail":
         getChildDepartments(selectedDepartmentId);
-        setNewDepartmentName("");
-        setNewDepartmentDescription("");
         break;
     }
   };
@@ -116,73 +120,51 @@ export default function DepartmentPage(props) {
     </Menu>
   );
 
-  const getChildDepartments = (departmentId) => {
-    DepartmentService.getChildren(departmentId, user.token).then((res) => {
-      const response = res.data;
-
-      if (response.payload != null) {
-        var deparments = response.payload.map((item) => {
-          return {
-            id: item.id,
-            name: item.departmentName,
-            color: Colors.quite_blue,
-            description: item.description,
-          };
-        });
-        setDepartmentList(deparments);
-      } else {
-        setDepartmentList([]);
-      }
-
-      setDepartmentId(departmentId);
-    });
-  };
-
-  const handleChange = (info) => {
-    if (info.file.status === "uploading") {
-      setLoading(true);
+  const handleAddDepartment = () => {
+    if (newDepartmentName == null || newDepartmentName.length == 0) {
+      message.warning("Tên phòng ban không được trống", 1.5);
       return;
     }
-    if (info.file.status === "done") {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (url) => {
-        setLoading(false);
-        setImageUrl(url);
+
+    var formData = new FormData();
+    formData.append("parentId", departmentId);
+    formData.append("departmentName", newDepartmentName);
+    formData.append("status", 1);
+    formData.append("description", newDepartmentDescription);
+    formData.append("image", newDepartmentImage);
+
+    DepartmentService.createDepartment(formData, user.token)
+      .then((res) => {
+        message.info("Tạo phòng ban thành công");
+        if (departmentId != null && departmentId != undefined) {
+          getChildDepartments(departmentId);
+        } else {
+          getRootDepartments();
+        }
+
+        resetPopupField();
+      })
+      .catch((res) => {
+        message.error("Đã có lỗi xảy ra!!!");
       });
-    }
+
+    setShowDepartmentPopup(false);
   };
 
-  const uploadButton = (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Icon
-          style={{
-            fill: Colors.quite_gray,
-            scale: "0.6",
-          }}
-        />
-      </div>
-    </div>
-  );
+  const resetPopupField = () => {
+    setNewDepartmentName("");
+    setNewDepartmentDescription("");
+    setNewDepartmentImage();
+    setNewDepartmentImageDisplay(NoImage);
+  };
 
-  const handleAddDepartment = () => {
-    var body = {
-      parentId: departmentId,
-      departmentName: newDepartmentName,
-      status: 1,
-      description: newDepartmentDescription,
-    };
-    DepartmentService.createDepartment(body, user.token).then((res) => {
-      // getDepartments();
-      window.location.reload();
-    });
-    setShowDepartmentPopup(false);
+  const handleNewDeparmentImageChange = (e) => {
+    if (e.target.files == null) {
+      return;
+    }
+    setNewDepartmentImage(e.target.files[0]);
+    var imgURL = URL.createObjectURL(e.target.files[0]);
+    setNewDepartmentImageDisplay(imgURL);
   };
 
   return (
@@ -235,7 +217,8 @@ export default function DepartmentPage(props) {
                 <p class="project-hide-overflow ml-3">
                   <span class="thumb-lg member-thumb mr-15 m-b-10 d-inline-block">
                     <img
-                      src={NoImage}
+                      src={Utils.getImageUrl(item.logo)}
+                      style={{ width: "85px", height: "85px" }}
                       class="rounded-circle img-thumbnail"
                       altImg="friend"
                       titleImg={item.name}
@@ -289,38 +272,66 @@ export default function DepartmentPage(props) {
           isShow={isShowDepartmentPopup}
           title="Thêm phòng ban"
           onCancel={() => {
+            resetPopupField();
             setShowDepartmentPopup(false);
           }}
           mainButtonText="Xác nhận"
           subButtonText="Đóng"
           mainButtonClick={handleAddDepartment}
           subButtonClick={() => {
+            resetPopupField();
             setShowDepartmentPopup(false);
           }}
         >
           <div className="container-department">
             <div className="row">
-              <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
-                <Upload
-                  name="avatar"
-                  listType="picture-card"
-                  className="avatar-uploader"
-                  showUploadList={false}
-                  beforeUpload={beforeUpload}
-                  onChange={handleChange}
-                >
-                  {imageUrl ? (
+              <div class="col-12">
+                <div class="form-group row d-flex justify-content-center align-items-center">
+                  <div class="thumb-xxl member-thumb m-b-10">
                     <img
-                      src={imageUrl}
-                      alt="avatar"
-                      style={{ width: "100%" }}
-                    />
-                  ) : (
-                    uploadButton
-                  )}
-                </Upload>
+                      style={{ width: "165px", height: "165px" }}
+                      src={newDepartmentImageDisplay}
+                      class="img-cover rounded-circle img-thumbnail no-border"
+                    ></img>
+                  </div>
+                </div>
+
+                <div class="form-group row d-flex justify-content-center align-items-center">
+                  <div class="vertical-center">
+                    <button
+                      type="button"
+                      class="btn btn-custom btn-file w-md waves-effect waves-light float-left"
+                      style={{
+                        marginLeft: "20px",
+                      }}
+                    >
+                      <span>
+                        <i class="mdi mdi-upload"></i> Thêm hình
+                      </span>
+                      <span>
+                        <input
+                          name="file"
+                          type="file"
+                          accept="image/*"
+                          onChange={handleNewDeparmentImageChange}
+                          class="btn btn-custom w-md waves-effect waves-light float-left"
+                          style={{
+                            position: "absolute",
+                            top: "0",
+                            right: "0",
+                            margin: "0",
+                            opacity: "0",
+                          }}
+                        />
+                      </span>
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
+            </div>
+
+            <div className="row">
+              <div class="col-12">
                 <h5 className="name">Tên phòng ban</h5>
                 <Input
                   id="input-department"
@@ -330,9 +341,10 @@ export default function DepartmentPage(props) {
                 />
               </div>
             </div>
+
             <div class="row">
-              <div class="col-md-12">
-                <label for="descripton">Mô tả</label>
+              <div class="col-12">
+                <h5 className="name">Mô tả</h5>
                 <textarea
                   class="form-group col-md-12 textArea"
                   name="jobDescription"

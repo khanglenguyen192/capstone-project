@@ -56,7 +56,6 @@ const LoginPage = () => {
       .then((res) => {
         const response = res.data;
         if (response.status === 200) {
-          console.log(response.payload);
           dispatch({
             type: "LOGIN_SUCCESS",
             payload: { user: response.payload },

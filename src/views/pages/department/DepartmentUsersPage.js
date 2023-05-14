@@ -74,7 +74,6 @@ export default function DepartmentUsersPage(props) {
           return model;
         });
 
-        console.log(users);
         setEmployees(users);
       }
     });
@@ -188,9 +187,7 @@ export default function DepartmentUsersPage(props) {
           trigger={["click"]}
           overlay={itemMenu}
           onClick={() => {
-            console.log(id);
             setSelectedEmployeeId(id);
-            console.log(selectedEmployeeId);
           }}
         >
           <div class="btn-group dropdown">
