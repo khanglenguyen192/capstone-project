@@ -8,10 +8,15 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Utils from "../../../common/utils/Utils";
 import dateFormat from "dateformat";
+import { useDispatch } from "react-redux";
 
 export default function AddUserPage(props) {
   const user = useSelector((state) => {
     return state.AuthReducer.user;
+  });
+
+  useDispatch()({
+    type: "add-user",
   });
 
   const navigate = useNavigate();

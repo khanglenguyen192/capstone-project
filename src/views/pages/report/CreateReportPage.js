@@ -15,6 +15,10 @@ export default function CreateReportPage(props) {
     return state.AuthReducer.user;
   });
 
+  useDispatch()({
+    type: "report",
+  });
+
   useEffect(() => {
     if (params.ticketId != null && params.ticketId !== undefined) {
       setEnableEdit(true);

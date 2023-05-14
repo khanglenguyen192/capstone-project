@@ -27,6 +27,7 @@ import ManageTicketPage from "./views/pages/ticket/ManageTicketPage";
 import CreateReportPage from "./views/pages/report/CreateReportPage";
 import AddUserPage from "./views/pages/user/AddUserPage";
 import AddDepartmentUserPage from "./views/pages/department/AddDepartmentUser";
+import NotFoundPage from "./views/pages/general/NotFoundPage";
 
 const App = () => {
   const isLoggedIn = useSelector((state) => {
@@ -54,7 +55,7 @@ const App = () => {
                 element={<EditDailyReportPage />}
               />
               <Route path="meeting" element={<MeetingPage />} />
-              <Route path="overtime" element={<OvertimePage />} />
+              <Route path="overtime" element={<NotFoundPage />} />
               <Route path="department" element={<DepartmentPage />} />
               <Route path="departments" element={<DepartmentPage />} />
               <Route
@@ -106,6 +107,7 @@ const App = () => {
                 path="department/:departmentId/add-users"
                 element={<AddDepartmentUserPage />}
               />
+              <Route path="/advanced-salary" element={<NotFoundPage />} />
             </Route>
             {/* <Route path="/test" element={<LoginPage />}></Route> */}
           </Routes>

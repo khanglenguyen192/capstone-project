@@ -4,13 +4,17 @@ import AddButton from "../../../components/AddButton";
 import NoImage from "../../../../assets/images/no-image.jpg";
 import { ReactComponent as Icon } from "../../../../assets/iconfonts/mdi/icon/add-icon.svg";
 import Colors from "../../../../common/constants/Colors";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function ListProjectPage(props) {
   const navigate = useNavigate();
   // const isAdmin = useSelector((state) => {
   //   return state.AuthReducer.isAdmin;
   // });
+
+  useDispatch()({
+    type: "project",
+  });
 
   const user = useSelector((state) => {
     return state.AuthReducer.user;

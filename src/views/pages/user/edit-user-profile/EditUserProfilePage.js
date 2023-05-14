@@ -11,10 +11,15 @@ import UserService from "../../../../services/UserService";
 import { useNavigate, useParams } from "react-router-dom";
 import Utils from "../../../../common/utils/Utils";
 import dateFormat from "dateformat";
+import { useDispatch } from "react-redux";
 
 export default function EditUserProfilePage(props) {
   const user = useSelector((state) => {
     return state.AuthReducer.user;
+  });
+
+  useDispatch()({
+    type: "user",
   });
 
   const navigate = useNavigate();

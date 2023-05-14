@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import NoImage from "../../../../assets/images/no-image.jpg";
 import { Input, Cascader, Table, Tag } from "antd";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function AddProjectPage(props) {
+  useDispatch()({
+    type: "project",
+  });
+
   const [enableEditEmployees, setEnableEditEmployees] = useState(true);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const projectLogo = "";
@@ -177,7 +181,7 @@ export default function AddProjectPage(props) {
                   <label for="descripton">Mô tả</label>
                   <textarea
                     class="form-group col-md-12 textArea"
-                    disabled={ isAdmin }
+                    disabled={isAdmin}
                     name="jobDescription"
                     rows="3"
                   ></textarea>

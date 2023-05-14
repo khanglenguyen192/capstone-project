@@ -2,6 +2,7 @@ import React from "react";
 import NoImage from "../../assets/images/no-image.jpg";
 import LogoLight from "../../assets/images/logo_light.png";
 import LogoSm from "../../assets/images/logo_sm.png";
+import Logo from "../../assets/images/logo.png";
 import "./LeftSideBar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -63,12 +64,12 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-av-timer menu-icon",
-      routerLink: "/",
+      routerLink: "/overtime",
       title: "Tăng ca",
     },
     {
       icon: "mdi mdi-cash-multiple menu-icon",
-      routerLink: "/",
+      routerLink: "/advanced-salary",
       title: "Ứng lương",
     },
     {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import NoImage from "../../../assets/images/no-image.jpg";
 import { Input, Cascader, Table, Tag, Menu, Dropdown, message } from "antd";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import DepartmentService from "../../../services/DepartmentService";
 import Utils from "../../../common/utils/Utils";
 
@@ -11,6 +11,10 @@ export default function DepartmentUsersPage(props) {
   const navigate = useNavigate();
   const user = useSelector((state) => {
     return state.AuthReducer.user;
+  });
+
+  useDispatch()({
+    type: "department",
   });
 
   useEffect(() => {

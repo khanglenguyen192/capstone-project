@@ -5,10 +5,15 @@ import NoImage from "../../../assets/images/no-image.jpg";
 import TicketService from "../../../services/TicketService";
 import { useNavigate, useParams } from "react-router-dom";
 import dateFormat from "dateformat";
+import { useDispatch } from "react-redux";
 
 export default function ManageTicketPage(props) {
   const user = useSelector((state) => {
     return state.AuthReducer.user;
+  });
+
+  useDispatch()({
+    type: "ticket",
   });
 
   const params = useParams();

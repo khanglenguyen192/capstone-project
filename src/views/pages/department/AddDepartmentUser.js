@@ -3,10 +3,15 @@ import { Table, Tag, Dropdown, Menu, message } from "antd";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import DepartmentService from "../../../services/DepartmentService";
+import { useDispatch } from "react-redux";
 
 export default function AddDepartmentUserPage(props) {
   const user = useSelector((state) => {
     return state.AuthReducer.user;
+  });
+
+  useDispatch()({
+    type: "department",
   });
 
   const navigate = useNavigate();

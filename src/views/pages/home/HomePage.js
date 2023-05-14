@@ -11,6 +11,10 @@ export default function HomePage() {
     return state.AuthReducer.user;
   });
 
+  useDispatch()({
+    type: "home",
+  });
+
   const [userModel, setUserModel] = useState({});
 
   useEffect(() => {

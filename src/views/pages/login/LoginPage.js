@@ -150,9 +150,7 @@ const LoginPage = () => {
         </div>
 
         <div className="m-t-40 text-center">
-          <p className="account-copyright">
-            2022 Capstone project - created by Khang
-          </p>
+          <p className="account-copyright">2023 Capstone project</p>
         </div>
       </div>
     </div>

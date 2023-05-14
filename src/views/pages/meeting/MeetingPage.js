@@ -5,15 +5,24 @@ import listPlugin from "@fullcalendar/list";
 import viLocale from "@fullcalendar/core/locales/vi";
 import React, { useState } from "react";
 import Popup from "../../components/Popup";
-
+import { useDispatch } from "react-redux";
 
 export default function MeetingPage(props) {
   const [buttonPopup, setButtonPopup] = useState(false);
-  
+  useDispatch()({
+    type: "meeting",
+  });
+
   function onSubmitDayOff() {
-    return (<Popup trigger={ buttonPopup } setTrigger={ setButtonPopup } title="Thêm phòng ban"></Popup>);
+    return (
+      <Popup
+        trigger={buttonPopup}
+        setTrigger={setButtonPopup}
+        title="Thêm phòng ban"
+      ></Popup>
+    );
   }
-  
+
   const dayoff = {
     user: {},
     reason: "",

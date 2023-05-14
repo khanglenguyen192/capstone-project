@@ -16,6 +16,10 @@ export default function CreateTicketPage(props) {
   const params = useParams();
   const navigate = useNavigate();
 
+  useDispatch()({
+    type: "ticket",
+  });
+
   useEffect(() => {
     if (params.userId !== undefined) {
       setEnableEdit(true);
