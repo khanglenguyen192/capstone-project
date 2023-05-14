@@ -49,7 +49,7 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-message-video menu-icon",
-      routerLink: "/meeting",
+      routerLink: "https://meet.google.com/",
       title: "Hội họp",
     },
     {
