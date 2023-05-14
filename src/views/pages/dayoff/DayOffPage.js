@@ -5,7 +5,6 @@ import listPlugin from "@fullcalendar/list";
 import viLocale from "@fullcalendar/core/locales/vi";
 import React, { useEffect, useState } from "react";
 import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";
-import COLORS from "../../../common/constants/Colors";
 import "./DayOff.css";
 import { Checkbox, Input, Table, Tag, message } from "antd";
 import {
@@ -17,6 +16,7 @@ import DayOffService from "../../../services/DayOffService";
 import { useSelector } from "react-redux";
 import { event } from "jquery";
 import { useDispatch } from "react-redux";
+import Utils from "../../../common/utils/Utils";
 
 export default function DayOffPage() {
   useDispatch()({
@@ -62,7 +62,6 @@ export default function DayOffPage() {
       const response = res.data;
 
       if (response.payload != null) {
-        // console.log("call api: ", response.payload);
         var dayoff = response.payload.map((item) => {
           return {
             id: item.id,
@@ -170,30 +169,23 @@ export default function DayOffPage() {
       title: "Hình thức",
       dataIndex: "type",
       key: "type",
-      render: (text) => <a>{text}</a>,
+      render: (type) => <a>{Utils.getDayOffTypeString(type)}</a>,
     },
     {
       title: "Trạng thái",
       key: "status",
       dataIndex: "status",
       render: (status) => {
-        let color = "green";
         switch (status.key) {
           case 1:
-            color = "green";
-            break;
+            return <span class="badge badge-success">Chấp nhận</span>;
           case 2:
-            color = "volcano";
-            break;
+            return <span class="badge badge-warning">Chờ duyệt</span>;
           case 3:
-            color = "red";
-            break;
+            return <span class="badge badge-secondary">Từ chối</span>;
+          default:
+            return <span class="badge badge-warning">Chờ duyệt</span>;
         }
-        return (
-          <Tag color={color} key={status.key}>
-            {status.value}
-          </Tag>
-        );
       },
     },
     {
@@ -383,11 +375,6 @@ export default function DayOffPage() {
                   <i class="mdi mdi-calendar-today"></i>
                 </button>
                 <h4 class="card-title mb-4">Danh sách xin nghỉ</h4>
-
-                {/* <span class="d-flex align-items-center justify-content-end mr-0 mb-3">
-                  Tìm: &nbsp;
-                  <Input type="text" placeholder="nội dung..."></Input>
-                </span> */}
 
                 <div class="table-data">
                   <Table columns={columns} dataSource={listDayOff}></Table>

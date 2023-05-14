@@ -28,6 +28,7 @@ import CreateReportPage from "./views/pages/report/CreateReportPage";
 import AddUserPage from "./views/pages/user/AddUserPage";
 import AddDepartmentUserPage from "./views/pages/department/AddDepartmentUser";
 import NotFoundPage from "./views/pages/general/NotFoundPage";
+import ManageRequestPage from "./views/request/ManageRequestPage";
 
 const App = () => {
   const isLoggedIn = useSelector((state) => {
@@ -107,6 +108,11 @@ const App = () => {
                 element={<AddDepartmentUserPage />}
               />
               <Route path="/advanced-salary" element={<NotFoundPage />} />
+              <Route path="/manage-request" element={<ManageRequestPage />} />
+              <Route
+                path="/department/:departmentId/requests"
+                element={<ManageRequestPage />}
+              />
             </Route>
             {/* <Route path="/test" element={<LoginPage />}></Route> */}
           </Routes>

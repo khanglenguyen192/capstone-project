@@ -104,6 +104,10 @@ export default function DepartmentUsersPage(props) {
     navigate("/department/" + params.departmentId + "/tickets/");
   };
 
+  const handleViewRequests = () => {
+    navigate("/department/" + params.departmentId + "/requests/");
+  };
+
   const projectStatusModels = ["Active"];
 
   const columns = [
@@ -420,6 +424,7 @@ export default function DepartmentUsersPage(props) {
                       <button
                         class=" arrow-none btn btn-light btn-md ml-2 float-right"
                         type="button"
+                        onClick={handleViewRequests}
                       >
                         <i class="mdi mdi-calendar-today"></i>Yêu cầu
                       </button>

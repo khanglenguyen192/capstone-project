@@ -71,10 +71,22 @@ function getImageUrl(image) {
   return UserDataFolder + "/" + image;
 }
 
+function getDayOffTypeString(type) {
+  switch (type) {
+    case "SA":
+      return "Sáng";
+    case "CH":
+      return "Chiều";
+    case "NG":
+      return "Cả ngày";
+  }
+}
+
 export default {
   getDepartmentRoleString,
   getFileSizeFromBytes,
   getTicketStatusLabel,
   getGenderString,
   getImageUrl,
+  getDayOffTypeString,
 };

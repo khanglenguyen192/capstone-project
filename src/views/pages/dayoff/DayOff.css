@@ -1,34 +1,27 @@
-* {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 0;
-    border: 0;
-}
-
 .container-overtime h5 {
-    margin: 0;
-    padding-left: 10px;
-    padding-top: 16px;
-    padding-bottom: 10px;
-    font-weight: 500 !important;
+  margin: 0;
+  padding-left: 10px;
+  padding-top: 16px;
+  padding-bottom: 10px;
+  font-weight: 500 !important;
 }
 
 .content-dayoff {
-    display: flex;
-    flex-direction: column;
-    padding: 0 30px;
-    margin-top: 10px;
-    margin-bottom: 5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0 30px;
+  margin-top: 10px;
+  margin-bottom: 5rem;
 }
 
 /* .content-overtime .reason {
 } */
 
 .content-dayoff .address h5 {
-    padding-left: 10px;
-    padding-bottom: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
 }
 
 .dragging-event {
-    background-color: rgba(0, 179, 255, 0.69);
+  background-color: rgba(0, 179, 255, 0.69);
 }

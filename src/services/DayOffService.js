@@ -39,8 +39,17 @@ const deleteDayOff = (eventId, token) => {
   });
 };
 
+const searchDayOff = (body, token) => {
+  return axios.post(DAYOFF_URL + "/search", body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export default {
   createDayOff,
   getDayOff,
   deleteDayOff,
+  searchDayOff,
 };

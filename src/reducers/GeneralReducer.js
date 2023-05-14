@@ -74,6 +74,11 @@ export default function GeneralReducer(state = initialState, action) {
         ...state,
         title: "",
       };
+    case "manage-request":
+      return {
+        ...state,
+        title: "Quản lý yêu cầu",
+      };
     default:
       return state;
   }
