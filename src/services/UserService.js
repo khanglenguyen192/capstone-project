@@ -1,7 +1,7 @@
 import axios from "axios";
-import { BASE_URL } from "../common/constants/ApiConstants";
+import { API_BASE_URL } from "../common/constants/ApiConstants";
 
-const USER_URL = BASE_URL + "/users";
+const USER_URL = API_BASE_URL + "/users";
 
 const getUser = (userId, token) => {
   return axios.get(USER_URL + "/get-user", {
@@ -29,8 +29,18 @@ const updateUser = (userId, formData, token) => {
   });
 };
 
+const updateUserIdentity = (userId, formData, token) => {
+  return axios.post(USER_URL + "/update-user-identity", formData, {
+    params: { userId: userId },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export default {
   getUser,
   createUser,
   updateUser,
+  updateUserIdentity,
 };

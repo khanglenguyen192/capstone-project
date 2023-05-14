@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "../common/constants/ApiConstants";
+import { API_BASE_URL } from "../common/constants/ApiConstants";
 
 const login = (username, password) => {
   const body = {
@@ -7,7 +7,7 @@ const login = (username, password) => {
     passCode: password,
   };
 
-  return axios.post(BASE_URL + "/home/login", body);
+  return axios.post(API_BASE_URL + "/home/login", body);
 };
 
 export default {

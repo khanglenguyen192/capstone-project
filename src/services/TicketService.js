@@ -1,8 +1,8 @@
 import axios from "axios";
-import { BASE_URL } from "../common/constants/ApiConstants";
+import { API_BASE_URL } from "../common/constants/ApiConstants";
 import fileDownload from "js-file-download";
 
-const TICKERT_URL = BASE_URL + "/ticket";
+const TICKERT_URL = API_BASE_URL + "/ticket";
 
 const createTicket = (formData, token) => {
   return axios.post(TICKERT_URL + "/create", formData, {

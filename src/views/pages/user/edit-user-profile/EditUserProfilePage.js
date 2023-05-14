@@ -8,8 +8,9 @@ import { useSelector } from "react-redux";
 import Constants from "../../../../common/constants/Constants";
 import { useEffect } from "react";
 import UserService from "../../../../services/UserService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Utils from "../../../../common/utils/Utils";
+import dateFormat from "dateformat";
 
 export default function EditUserProfilePage(props) {
   const user = useSelector((state) => {
@@ -17,8 +18,12 @@ export default function EditUserProfilePage(props) {
   });
 
   const navigate = useNavigate();
+  const params = useParams();
 
   useEffect(() => {
+    if (params.userId == undefined) {
+      setSelfEditing(true);
+    }
     fetchData();
   }, []);
 
@@ -26,7 +31,7 @@ export default function EditUserProfilePage(props) {
     return state.AuthReducer.isAdmin;
   });
 
-  const [isSelfEditting, setSelfEditing] = useState(true);
+  const [isSelfEditting, setSelfEditing] = useState(false);
   const [userCode, setUserCode] = useState();
   const [fullName, setFullName] = useState();
   const [email, setEmail] = useState();
@@ -39,6 +44,13 @@ export default function EditUserProfilePage(props) {
   const [numberOfDenpendents, setNumberOfDenpendents] = useState();
   const [avatarImg, setAvatarImg] = useState();
   const [avatarDisplay, setAvatarDisplay] = useState(NoImage);
+  const [userIdentity, setUserIdentity] = useState();
+  const [idIssueDate, setIdIssueDate] = useState();
+  const [idIssuePlace, setIdIssuePlace] = useState();
+  const [idFrontImage, setIdFrontImage] = useState();
+  const [idBackImage, setIdBackImage] = useState();
+  const [idFrontImageDisplay, setIdFrontImageDisplay] = useState(NoImage);
+  const [idBackImageDisplay, setIdBackImageDisplay] = useState(NoImage);
 
   const genderModels = Constants.genders;
 
@@ -59,10 +71,12 @@ export default function EditUserProfilePage(props) {
         setLinkedId(userModel.linkedId);
         setFacebookId(userModel.facebookId);
         setNumberOfDenpendents(userModel.numberOfDenpendents);
-
-        if (userModel.avatar != null && userModel.avatar != undefined) {
-          setAvatarDisplay(Utils.getImageUrl(userModel.avatar));
-        }
+        setAvatarDisplay(Utils.getImageUrl(userModel.avatar));
+        setUserIdentity(userModel.userIdentity);
+        setIdIssueDate(userModel.idIssueDate);
+        setIdIssuePlace(userModel.idIssuePlace);
+        setIdFrontImageDisplay(Utils.getImageUrl(userModel.idFrontImage));
+        setIdBackImageDisplay(Utils.getImageUrl(userModel.idBackImage));
       }
     });
   };
@@ -73,9 +87,34 @@ export default function EditUserProfilePage(props) {
     setAvatarDisplay(imgURL);
   };
 
+  const handleFontImageChange = (e) => {
+    setIdFrontImage(e.target.files[0]);
+    var imgURL = URL.createObjectURL(e.target.files[0]);
+    setIdFrontImageDisplay(imgURL);
+  };
+
+  const handleBackImageChange = (e) => {
+    setIdBackImage(e.target.files[0]);
+    var imgURL = URL.createObjectURL(e.target.files[0]);
+    setIdBackImageDisplay(imgURL);
+  };
+
+  const handleSelectGender = (value, selectedOption) => {
+    setGender(value);
+  };
+
+  const handleSelectBirthday = (date, dateString) => {
+    setBirthday(date);
+  };
+
+  const handleSelectIdIssueDate = (date, dateString) => {
+    setIdIssueDate(date);
+  };
+
   const handleUpdateUser = () => {
     var formData = new FormData();
     formData.append("fullName", fullName);
+    formData.append("gender", gender);
     formData.append("email", email);
     formData.append("bankAccount", bankAccount);
     formData.append("phone", phone);
@@ -86,6 +125,27 @@ export default function EditUserProfilePage(props) {
     formData.append("image", avatarImg);
 
     UserService.updateUser(user.userId, formData, user.token)
+      .then((res) => {
+        var response = res.data;
+        if (response != null && response.status == 200) {
+          message.info("Cập nhật thành công", 1.5);
+          fetchData();
+        } else {
+          message.error("Cập nhật thất bại", 1.5);
+        }
+      })
+      .catch((res) => message.error("Cập nhật thất bại", 1.5));
+  };
+
+  const handleUpdateUserIdentity = () => {
+    var formData = new FormData();
+    formData.append("userIdentity", userIdentity);
+    formData.append("idIssueDate", idIssueDate);
+    formData.append("idIssuePlace", idIssuePlace);
+    formData.append("idFrontImage", idFrontImage);
+    formData.append("idBackImage", idBackImage);
+
+    UserService.updateUserIdentity(user.userId, formData, user.token)
       .then((res) => {
         var response = res.data;
         if (response != null && response.status == 200) {
@@ -228,7 +288,6 @@ export default function EditUserProfilePage(props) {
                         <div class="col-sm-8">
                           <Cascader
                             size="large"
-                            name="genderModel"
                             style={{
                               width: "100%",
                             }}
@@ -324,6 +383,8 @@ export default function EditUserProfilePage(props) {
                           }}
                           placement="bottomRight"
                           options={genderModels}
+                          onChange={handleSelectGender}
+                          value={Utils.getGenderString(gender)}
                           disabled={!isSelfEditting}
                           placeholder="Chọn"
                         />
@@ -343,6 +404,7 @@ export default function EditUserProfilePage(props) {
                                 size="large"
                                 style={{ width: "100%" }}
                                 placeholder="DD/MM/YYYY"
+                                onChange={handleSelectBirthday}
                               ></DatePicker>
                             </div>
                           </div>
@@ -465,18 +527,41 @@ export default function EditUserProfilePage(props) {
                       <div class="form-group row d-flex justify-content-center align-items-center flex-column containerImage">
                         <img
                           class="d-flex justify-content-center align-items-end col-form-label-lg img-cover img-fluid imageId"
-                          src={NoImage}
+                          src={idFrontImageDisplay}
                           altImg="image"
                           width="200"
                         ></img>
                         <div class="col-sm-8">
-                          <div class="vertical-center">
-                            {isSelfEditting && (
-                              <UploadFile
-                                isAdmin={isAdmin}
-                                placeholder="Mặt trước CCCD"
-                              />
-                            )}
+                          <div class="form-group row d-flex justify-content-center align-items-center">
+                            <div class="vertical-center">
+                              <button
+                                type="button"
+                                class="btn btn-custom btn-file w-md waves-effect waves-light float-left"
+                                style={{
+                                  marginLeft: "20px",
+                                }}
+                              >
+                                <span>
+                                  <i class="mdi mdi-upload"></i> Mặt trước CCCD
+                                </span>
+                                <span>
+                                  <input
+                                    name="file"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFontImageChange}
+                                    class="btn btn-custom w-md waves-effect waves-light float-left"
+                                    style={{
+                                      position: "absolute",
+                                      top: "0",
+                                      right: "0",
+                                      margin: "0",
+                                      opacity: "0",
+                                    }}
+                                  />
+                                </span>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -485,18 +570,41 @@ export default function EditUserProfilePage(props) {
                       <div class="form-group row d-flex justify-content-center align-items-center flex-column containerImage">
                         <img
                           class="d-flex justify-content-center align-items-end col-form-label-lg img-cover img-fluid imageId"
-                          src={NoImage}
+                          src={idBackImageDisplay}
                           altImg="image"
                           width="200"
                         ></img>
                         <div class="col-sm-8">
-                          <div class="vertical-center">
-                            {isSelfEditting && (
-                              <UploadFile
-                                isAdmin={isAdmin}
-                                placeholder="Mặt sau CCCD"
-                              />
-                            )}
+                          <div class="form-group row d-flex justify-content-center align-items-center">
+                            <div class="vertical-center">
+                              <button
+                                type="button"
+                                class="btn btn-custom btn-file w-md waves-effect waves-light float-left"
+                                style={{
+                                  marginLeft: "20px",
+                                }}
+                              >
+                                <span>
+                                  <i class="mdi mdi-upload"></i> Mặt sau CCCD
+                                </span>
+                                <span>
+                                  <input
+                                    name="file"
+                                    type="file"
+                                    accept="image/*"
+                                    class="btn btn-custom w-md waves-effect waves-light float-left"
+                                    onChange={handleBackImageChange}
+                                    style={{
+                                      position: "absolute",
+                                      top: "0",
+                                      right: "0",
+                                      margin: "0",
+                                      opacity: "0",
+                                    }}
+                                  />
+                                </span>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -510,12 +618,12 @@ export default function EditUserProfilePage(props) {
                         <div class="col-sm-8">
                           <Input
                             size="large"
-                            type="text"
                             class="form-control"
                             name="userIdentity"
-                            pattern="[0-9]{12}"
+                            type="number"
                             disabled={!isSelfEditting}
-                            placeholder="XXXX XXXX XXXX"
+                            value={userIdentity}
+                            onChange={(e) => setUserIdentity(e.target.value)}
                             style={{ fontWeight: "700" }}
                           />
                         </div>
@@ -532,6 +640,7 @@ export default function EditUserProfilePage(props) {
                               size="large"
                               style={{ width: "100%" }}
                               placeholder="DD/MM/YYYY"
+                              onChange={handleSelectIdIssueDate}
                             ></DatePicker>
                           </div>
                         </div>
@@ -550,7 +659,8 @@ export default function EditUserProfilePage(props) {
                             class="form-control"
                             name="address"
                             disabled={!isSelfEditting}
-                            placeholder=""
+                            value={idIssuePlace}
+                            onChange={(e) => setIdIssuePlace(e.target.value)}
                           />
                         </div>
                       </div>
@@ -562,6 +672,7 @@ export default function EditUserProfilePage(props) {
                     <button
                       class="btn btn-custom submit-btn waves-effect waves-light mr-2"
                       type="button"
+                      onClick={handleUpdateUserIdentity}
                     >
                       Xác Nhận
                     </button>

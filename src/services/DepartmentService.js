@@ -1,7 +1,7 @@
 import axios from "axios";
-import { BASE_URL } from "../common/constants/ApiConstants";
+import { API_BASE_URL } from "../common/constants/ApiConstants";
 
-const DEPARTMENT_URL = BASE_URL + "/department";
+const DEPARTMENT_URL = API_BASE_URL + "/department";
 
 const createDepartment = (body, token) => {
   return axios.post(DEPARTMENT_URL + "/create-department", body, {
