@@ -32,6 +32,8 @@ export default function DepartmentPage(props) {
   const [newDepartmentImageDisplay, setNewDepartmentImageDisplay] =
     useState(NoImage);
 
+  const [departmentStack, setDepartmentStack] = useState(new Array());
+
   useEffect(() => {
     if (params.departmentId === undefined || params.departmentId === null) {
       getRootDepartments();
@@ -99,6 +101,9 @@ export default function DepartmentPage(props) {
         break;
       case "detail":
         getChildDepartments(selectedDepartmentId);
+        var newStack = departmentStack;
+        newStack.push(selectedDepartmentId);
+        setDepartmentStack(newStack);
         break;
     }
   };
@@ -167,12 +172,30 @@ export default function DepartmentPage(props) {
     setNewDepartmentImageDisplay(imgURL);
   };
 
+  const handleBack = (e) => {
+    if (departmentStack != null && departmentStack.length != 0) {
+      var newStack = departmentStack;
+      console.log(newStack);
+      newStack.pop();
+      setDepartmentStack(newStack);
+      if (newStack.length == 0) {
+        getRootDepartments();
+      } else {
+        getChildDepartments(newStack[newStack.length - 1]);
+      }
+    }
+  };
+
   return (
     <div className="department-page">
       <div clas="row">
         <div class="row">
           <div className="col-6">
-            <h4 class="card-title">Danh sách phòng ban</h4>
+            {!(departmentStack == null || departmentStack.length == 0) && (
+              <button type="button" class="btn" onClick={handleBack}>
+                <i class="mdi mdi-arrow-left-bold"></i>
+              </button>
+            )}
           </div>
 
           {user.userId == 1 && (
