@@ -17,7 +17,15 @@ export default function ManageOverTimePage(props) {
   });
 
   useEffect(() => {
-    //TODO
+    fetchData();
+  }, []);
+
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const [listOverTime, setListOverTime] = useState([]);
+
+  const fetchData = () => {
     OverTimeService.getOverTimeByUserId(user.userId, user.token).then((res) => {
       var response = res.data;
       if (response != null) {
@@ -45,15 +53,25 @@ export default function ManageOverTimePage(props) {
         }
       }
     });
-  }, []);
-
-  const params = useParams();
-  const navigate = useNavigate();
-
-  const [listOverTime, setListOverTime] = useState([]);
+  };
 
   const handleCreateNewOverTime = () => {
     navigate("/overtime");
+  };
+
+  const handleDeleteOverTime = (overTimeId) => {
+    console.log(overTimeId);
+    OverTimeService.deleteOverTime(overTimeId, user.token)
+      .then((res) => {
+        var response = res.data;
+        if (response.status == 200) {
+          message.info("Xóa báo cáo tăng ca thành công", 1.5);
+          fetchData();
+        }
+      })
+      .catch((err) => {
+        message.error("Xóa thất bại, vui lòng thử lại!!!");
+      });
   };
 
   const columns = [
@@ -97,6 +115,7 @@ export default function ManageOverTimePage(props) {
             title="Xóa"
             class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-danger"
             type="button"
+            onClick={(e) => handleDeleteOverTime(id)}
           >
             {/* <i class="mdi mdi-close-circle-outline"></i> */}
             <i class="mdi mdi-delete-circle"></i>

@@ -90,9 +90,9 @@ const LeftSideBar = () => {
               <img
                 src={Logo}
                 alt=""
-                height="50"
+                height="30"
                 style={{
-                  borderRadius: "10%",
+                  borderRadius: "50%",
                   marginRight: "5px",
                 }}
               ></img>

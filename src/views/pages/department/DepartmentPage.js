@@ -192,7 +192,12 @@ export default function DepartmentPage(props) {
         <div class="row">
           <div className="col-6">
             {!(departmentStack == null || departmentStack.length == 0) && (
-              <button type="button" class="btn" onClick={handleBack}>
+              <button
+                type="button"
+                class="btn"
+                onClick={handleBack}
+                style={{ marginBottom: "10px" }}
+              >
                 <i class="mdi mdi-arrow-left-bold"></i>
               </button>
             )}
