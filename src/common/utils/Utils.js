@@ -104,6 +104,10 @@ function convertToDayJs(dateTimeStr, format = "DD/MM/YYYY") {
   }
 }
 
+function formatISODateTime(dateTimeStr, format = "dd/mm/yyyy, hh:mm TT") {
+  return dateFormat(dateTimeStr, format);
+}
+
 export default {
   getDepartmentRoleString,
   getFileSizeFromBytes,
@@ -112,4 +116,5 @@ export default {
   getImageUrl,
   getDayOffTypeString,
   convertToDayJs,
+  formatISODateTime,
 };

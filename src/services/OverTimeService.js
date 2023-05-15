@@ -11,6 +11,26 @@ const createOverTime = (body, token) => {
   });
 };
 
+const getOverTimeByUserId = (userId, token) => {
+  return axios.get(OVERTIME_URL + "/get-by-user", {
+    params: { userId: userId },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const deleteOverTime = (overTimeId, token) => {
+  return axios.delete(OVERTIME_URL + "/delete", {
+    params: { overTimeId: overTimeId },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export default {
   createOverTime,
+  getOverTimeByUserId,
+  deleteOverTime,
 };

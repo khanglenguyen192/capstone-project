@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Checkbox, Input, Table, Tag, message } from "antd";
-import Utils from "../../common/utils/Utils";
-import DayOffService from "../../services/DayOffService";
+import Utils from "../../../common/utils/Utils";
+import DayOffService from "../../../services/DayOffService";
 import {
   typeDayOff,
   specialDayType,
   dayOffStatus,
-} from "../../common/constants/Constants";
-import NoImage from "../../assets/images/no-image.jpg";
+} from "../../../common/constants/Constants";
+import NoImage from "../../../assets/images/no-image.jpg";
 
 export default function ManageRequestPage(props) {
   useDispatch()({

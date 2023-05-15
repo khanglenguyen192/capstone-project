@@ -28,7 +28,8 @@ import CreateReportPage from "./views/pages/report/CreateReportPage";
 import AddUserPage from "./views/pages/user/AddUserPage";
 import AddDepartmentUserPage from "./views/pages/department/AddDepartmentUser";
 import ComingSoonPage from "./views/pages/general/ComingSoonPage";
-import ManageRequestPage from "./views/request/ManageRequestPage";
+import ManageRequestPage from "./views/pages/request/ManageRequestPage";
+import ManageOverTimePage from "./views/pages/overtime/ManageOverTimePage";
 
 const App = () => {
   const isLoggedIn = useSelector((state) => {
@@ -113,6 +114,7 @@ const App = () => {
                 path="/department/:departmentId/requests"
                 element={<ManageRequestPage />}
               />
+              <Route path="/manage-overtime" element={<ManageOverTimePage />} />
             </Route>
             {/* <Route path="/test" element={<LoginPage />}></Route> */}
           </Routes>

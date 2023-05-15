@@ -64,7 +64,7 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-av-timer menu-icon",
-      routerLink: "/overtime",
+      routerLink: "/manage-overtime",
       title: "Tăng ca",
     },
     {

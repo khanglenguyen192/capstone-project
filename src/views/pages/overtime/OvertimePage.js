@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./Overtime.css";
 import { Input, DatePicker, TimePicker, message } from "antd";
 import viVN from "antd/lib/locale/vi_VN";
 import { useSelector, useDispatch } from "react-redux";
@@ -84,7 +83,7 @@ export default function OvertimePage(props) {
         var response = res.data;
         if (response.status == 200) {
           message.info("Đăng ký tăng ca thành công");
-          navigate("/home");
+          navigate("/manage-overtime");
         } else {
           if (response.error != null) {
             message.error(response.error.message);
@@ -97,7 +96,7 @@ export default function OvertimePage(props) {
   };
 
   const handleCancel = () => {
-    navigate("/home");
+    navigate("/manage-overtime");
   };
 
   return (

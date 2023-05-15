@@ -341,11 +341,12 @@ export default function ManageTicketPage(props) {
                       alignItems: "center",
                     }}
                   >
-                    Search
+                    Tìm
                     <input
                       style={{ marginLeft: "10px" }}
                       type="search"
                       className="form-control form-control-sm"
+                      placeholder="Mã công việc..."
                     />
                   </label>
                 </div>
