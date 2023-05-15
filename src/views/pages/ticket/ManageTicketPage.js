@@ -259,7 +259,7 @@ export default function ManageTicketPage(props) {
       render: (created) => <div>{dateFormat(created, "dd/mm/yyyy")}</div>,
     },
     {
-      title: "Thao tác",
+      title: "Tác vụ",
       dataIndex: "id",
       key: "action",
       render: (id) => {

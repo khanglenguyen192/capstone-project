@@ -1,6 +1,8 @@
 import Constants from "../constants/Constants";
 import { UserDataFolder } from "../constants/ApiConstants";
 import NoImage from "../../assets/images/no-image.jpg";
+import dayjs from "dayjs";
+import dateFormat from "dateformat";
 
 let eventGuid = 0;
 
@@ -82,6 +84,26 @@ function getDayOffTypeString(type) {
   }
 }
 
+function convertToDayJs(dateTimeStr, format = "DD/MM/YYYY") {
+  try {
+    if (
+      dateTimeStr == null ||
+      dateTimeStr == undefined ||
+      dateTimeStr.length == 0
+    ) {
+      return dayjs();
+    }
+
+    var newDateStr = dateFormat(Date.parse(dateTimeStr), "dd/mm/yyyy");
+    console.log(newDateStr);
+
+    var result = dayjs(newDateStr, format);
+    return result;
+  } catch (e) {
+    return dayjs();
+  }
+}
+
 export default {
   getDepartmentRoleString,
   getFileSizeFromBytes,
@@ -89,4 +111,5 @@ export default {
   getGenderString,
   getImageUrl,
   getDayOffTypeString,
+  convertToDayJs,
 };

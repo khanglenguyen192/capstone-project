@@ -2,7 +2,7 @@ import React from "react";
 import NoImage from "../../assets/images/no-image.jpg";
 import LogoLight from "../../assets/images/logo_light.png";
 import LogoSm from "../../assets/images/logo_sm.png";
-import Logo from "../../assets/images/logo.png";
+import Logo from "../../assets/images/logo_light_bg.png";
 import "./LeftSideBar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,7 +49,7 @@ const LeftSideBar = () => {
     },
     {
       icon: "mdi mdi-message-video menu-icon",
-      routerLink: "https://meet.google.com/",
+      routerLink: "meeting",
       title: "Hội họp",
     },
     {
@@ -83,13 +83,21 @@ const LeftSideBar = () => {
     <div className="left side-menu">
       <div className="slimscroll-menu" id="remove-scroll">
         <div className="topbar-left">
-          <a className="logo" href="/">
-            <span>
-              <img src={LogoLight} alt="" height="22"></img>
+          <a className="logo" href="/" style={{ color: "white" }}>
+            <span
+              style={{ textTransform: "none", fontFamily: "Brush Script MT" }}
+            >
+              <img
+                src={Logo}
+                alt=""
+                height="50"
+                style={{
+                  borderRadius: "10%",
+                  marginRight: "5px",
+                }}
+              ></img>
+              HighAdmin
             </span>
-            <i>
-              <img src={LogoSm} alt="" height="28"></img>
-            </i>
           </a>
         </div>
         <div className="user-box" onClick={viewProfile}>

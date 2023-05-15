@@ -27,7 +27,7 @@ import ManageTicketPage from "./views/pages/ticket/ManageTicketPage";
 import CreateReportPage from "./views/pages/report/CreateReportPage";
 import AddUserPage from "./views/pages/user/AddUserPage";
 import AddDepartmentUserPage from "./views/pages/department/AddDepartmentUser";
-import NotFoundPage from "./views/pages/general/NotFoundPage";
+import ComingSoonPage from "./views/pages/general/ComingSoonPage";
 import ManageRequestPage from "./views/request/ManageRequestPage";
 
 const App = () => {
@@ -54,8 +54,8 @@ const App = () => {
                 path="edit-daily-report"
                 element={<EditDailyReportPage />}
               />
-              <Route path="meeting" element={<NotFoundPage />} />
-              <Route path="overtime" element={<NotFoundPage />} />
+              <Route path="meeting" element={<ComingSoonPage />} />
+              <Route path="overtime" element={<OvertimePage />} />
               <Route path="department" element={<DepartmentPage />} />
               <Route path="departments" element={<DepartmentPage />} />
               <Route
@@ -107,7 +107,7 @@ const App = () => {
                 path="department/:departmentId/add-users"
                 element={<AddDepartmentUserPage />}
               />
-              <Route path="/advanced-salary" element={<NotFoundPage />} />
+              <Route path="/advanced-salary" element={<ComingSoonPage />} />
               <Route path="/manage-request" element={<ManageRequestPage />} />
               <Route
                 path="/department/:departmentId/requests"

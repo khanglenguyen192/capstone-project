@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 
-export default function NotFoundPage(props) {
+export default function ComingSoonPage(props) {
   useDispatch()({
     type: "coming-soon",
   });
@@ -97,7 +97,7 @@ export default function NotFoundPage(props) {
             class="btn btn-md btn-custom waves-effect waves-light mt-3"
             href="/home"
           >
-            Return Home
+            Quay lại trang chủ
           </a>
         </div>
       </div>

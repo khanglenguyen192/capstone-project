@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NoImage from "../../../../assets/images/no-image.jpg";
 import "./EditUserProfilePage.css";
 import { Input, Cascader, DatePicker, message } from "antd";
 import viVN from "antd/lib/locale/vi_VN";
-import UploadFile from "../../../components/UploadFile";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Constants from "../../../../common/constants/Constants";
-import { useEffect } from "react";
 import UserService from "../../../../services/UserService";
 import { useNavigate, useParams } from "react-router-dom";
 import Utils from "../../../../common/utils/Utils";
-import dateFormat from "dateformat";
-import { useDispatch } from "react-redux";
+import dayjs from "dayjs";
+
+const datePicketFormat = "DD/MM/YYYY";
 
 export default function EditUserProfilePage(props) {
   const user = useSelector((state) => {
@@ -41,11 +40,11 @@ export default function EditUserProfilePage(props) {
   const [fullName, setFullName] = useState();
   const [email, setEmail] = useState();
   const [bankAccount, setBankAccount] = useState();
-  const [phone, setPhone] = useState();
+  const [phone, setPhone] = useState("");
   const [gender, setGender] = useState();
-  const [birthday, setBirthday] = useState();
-  const [linkedId, setLinkedId] = useState();
-  const [facebookId, setFacebookId] = useState();
+  const [birthday, setBirthday] = useState("");
+  const [linkedId, setLinkedId] = useState("");
+  const [facebookId, setFacebookId] = useState("");
   const [numberOfDenpendents, setNumberOfDenpendents] = useState();
   const [avatarImg, setAvatarImg] = useState();
   const [avatarDisplay, setAvatarDisplay] = useState(NoImage);
@@ -109,7 +108,7 @@ export default function EditUserProfilePage(props) {
   };
 
   const handleSelectBirthday = (date, dateString) => {
-    setBirthday(date);
+    setBirthday(dateString);
   };
 
   const handleSelectIdIssueDate = (date, dateString) => {
@@ -182,6 +181,7 @@ export default function EditUserProfilePage(props) {
                       <div class="thumb-xxl member-thumb m-b-10">
                         <img
                           src={avatarDisplay}
+                          style={{ width: "175px", height: "175px" }}
                           class="img-cover rounded-circle img-thumbnail no-border"
                         ></img>
                       </div>
@@ -405,10 +405,14 @@ export default function EditUserProfilePage(props) {
                             <div class="input-group">
                               <DatePicker
                                 locale={viVN}
-                                format="DD/MM/YYYY"
+                                format={datePicketFormat}
+                                defaultValue={Utils.convertToDayJs(
+                                  birthday,
+                                  "DD/MM/YYY"
+                                )}
                                 size="large"
                                 style={{ width: "100%" }}
-                                placeholder="DD/MM/YYYY"
+                                placeholder="Ngày sinh"
                                 onChange={handleSelectBirthday}
                               ></DatePicker>
                             </div>
