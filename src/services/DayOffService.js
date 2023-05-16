@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "../common/constants/ApiConstants";
+import { specialDayType } from "../common/constants/Constants";
 
 const DAYOFF_URL = API_BASE_URL + "/specialday";
 
@@ -21,9 +22,12 @@ const createDayOff = (data, token) => {
   });
 };
 
-const getDayOff = (userId, token) => {
+const getSpecialDays = (userId, type, token) => {
   return axios.get(DAYOFF_URL + "/get-dayoff-emp", {
-    params: { userId: userId },
+    params: {
+      userId: userId,
+      type: specialDayType.find(x => x.type === type).value,
+    },
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -47,9 +51,18 @@ const searchDayOff = (body, token) => {
   });
 };
 
+const handleRequest = (data, token) => {
+  return axios.put(DAYOFF_URL + "/handle-request", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
 export default {
   createDayOff,
-  getDayOff,
+  getSpecialDays,
   deleteDayOff,
   searchDayOff,
+  handleRequest,
 };

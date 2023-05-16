@@ -235,7 +235,7 @@ const specialDayType = [
 
 const dayOffStatus = [
   {
-    status: "Đã chấp nhận",
+    status: "Chấp nhận",
     value: 1,
   },
   {

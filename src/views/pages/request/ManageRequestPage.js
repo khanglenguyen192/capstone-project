@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Checkbox, Input, Table, Tag, message } from "antd";
+import { Checkbox, Input, Select, Table, Tag, message } from "antd";
 import Utils from "../../../common/utils/Utils";
 import DayOffService from "../../../services/DayOffService";
 import {
@@ -20,7 +20,7 @@ export default function ManageRequestPage(props) {
     return state.AuthReducer.user;
   });
 
-  const params = useParams;
+  const params = useParams();
 
   useEffect(() => {
     fetchData();
@@ -35,13 +35,13 @@ export default function ManageRequestPage(props) {
         return (
           <div>
             <img
-              src={Utils.getImageUrl(user.avatar)}
+              src={ Utils.getImageUrl(user.avatar) }
               alt="contact-img"
               title="contact-img"
               class="rounded-circle"
-              style={{ width: "35px", height: "35px" }}
+              style={ { width: "35px", height: "35px" } }
             />
-            <span class="ml-2">{user.name}</span>
+            <span class="ml-2">{ user.name }</span>
           </div>
         );
       },
@@ -50,19 +50,19 @@ export default function ManageRequestPage(props) {
       title: "Lý do",
       dataIndex: "reason",
       key: "reason",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a>{ text }</a>,
     },
     {
       title: "Ngày xin nghỉ",
       dataIndex: "date",
       key: "date",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a>{ text }</a>,
     },
     {
       title: "Hình thức",
       dataIndex: "type",
       key: "type",
-      render: (type) => <a>{Utils.getDayOffTypeString(type)}</a>,
+      render: (type) => <a>{ Utils.getDayOffTypeString(type) }</a>,
     },
     {
       title: "Trạng thái",
@@ -85,39 +85,109 @@ export default function ManageRequestPage(props) {
       title: "Tác vụ",
       dataIndex: "id",
       key: "id",
-      render: (id) => (
-        <div className="opt-button">
-          <button
-            title="Chấp nhận"
-            class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-success"
-            type="button"
-          >
-            <i class="mdi mdi-check-circle-outline"></i>
-          </button>
-          <button
-            title="Từ chối"
-            class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-danger"
-            type="button"
-          >
-            <i class="mdi mdi-close-circle-outline"></i>
-          </button>
-        </div>
-      ),
+      render: (id, info) => {
+        if (info.status === 1 || info.status === 3) {
+          return null;
+        }
+        return (
+          <div className="opt-button">
+            <button
+              title="Chấp nhận"
+              class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-success"
+              type="button"
+              onClick={ () => onSubmit(id, "Chấp nhận") }
+            >
+              <i class="mdi mdi-check-circle-outline"></i>
+            </button>
+            <button
+              title="Từ chối"
+              class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-danger"
+              type="button"
+              onClick={ () => onSubmit(id, "Từ chối") }
+            >
+              <i class="mdi mdi-close-circle-outline"></i>
+            </button>
+          </div>
+        );
+      },
+    },
+  ];
+
+  const optionFilter = [
+    {
+      value: null,
+      label: 'Tất cả',
+    },
+    {
+      value: 1,
+      label: "Chấp nhận",
+    },
+    {
+      value: 2,
+      label: "Chờ xét duyệt",
+    },
+    {
+      value: 3,
+      label: "Từ chối",
     },
   ];
 
   const [listDayOff, setlistDayOff] = useState([]);
 
   const fetchData = () => {
-    var searchModel = {};
+    let searchModel = {};
     if (params.departmentId != undefined) {
       searchModel = {
         departmentId: params.departmentId,
-        dayOffStatus: 2,
         pageIndex: 0,
         pageSize: 100,
       };
     }
+
+    DayOffService.searchDayOff(searchModel, user.token).then((res) => {
+      const response = res.data;
+
+      if (response.payload != null && response.payload.data != null) {
+        var result = response.payload.data.map((item) => {
+          return {
+            id: item.id,
+            user: {
+              name: item.userName,
+              avatar: item.userAvatar,
+            },
+            reason: item.reason,
+            date: new Date(item.dateTime).toLocaleDateString("vi-VN"),
+            type: typeDayOff.find((x) => x.option == item.option).type,
+            status: item.dayOffStatus,
+          };
+        });
+
+        setlistDayOff(result);
+      }
+    });
+  };
+
+  const onSubmit = (dayId, status) => {
+    DayOffService.handleRequest({
+      ID: dayId,
+      dayOffStatus: dayOffStatus.find(x => x.status === status).value,
+    }, user.token).then((res) => {
+      const response = res.data;
+
+      if (response.payload != null) {
+        message.success("Thành công", 2);
+        window.location.reload();
+      }
+    });
+  };
+
+  const selectFilter = (status) => {
+    let searchModel = {
+      departmentId: params.departmentId,
+      dayOffStatus: status,
+      pageIndex: 0,
+      pageSize: 100,
+    };
 
     DayOffService.searchDayOff(searchModel, user.token).then((res) => {
       const response = res.data;
@@ -147,13 +217,31 @@ export default function ManageRequestPage(props) {
       <div class="col-12 grid-margin">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title mb-4">Danh sách xin nghỉ</h4>
+            <div class="row">
+              <div class="col-md-6">
+                <h4 class="card-title mb-4">Danh sách xin nghỉ</h4>
+              </div>
+              <div class="col-md-6">
+                <div class="float-right mr-4">
+                  <Select
+                    labelInValue
+                    defaultValue={ optionFilter[0] }
+                    style={ {
+                      width: 150,
+                      marginBottom: 20,
+                    } }
+                    onChange={ (e) => selectFilter(e.value) }
+                    options={ optionFilter } />
+                </div>
+              </div>
+            </div>
             <div class="table-data">
-              <Table columns={columns} dataSource={listDayOff}></Table>
+              <Table columns={ columns } dataSource={ listDayOff }></Table>
             </div>
           </div>
         </div>
       </div>
     </div>
+
   );
 }
