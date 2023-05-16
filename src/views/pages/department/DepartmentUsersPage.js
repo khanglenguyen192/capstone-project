@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import NoImage from "../../../assets/images/no-image.jpg";
-import { Input, Cascader, Table, Tag, Menu, Dropdown, message } from "antd";
+import {
+  Input,
+  Cascader,
+  Table,
+  Tag,
+  Menu,
+  Dropdown,
+  message,
+  Button,
+} from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import DepartmentService from "../../../services/DepartmentService";
 import Utils from "../../../common/utils/Utils";
@@ -196,7 +205,7 @@ export default function DepartmentUsersPage(props) {
         >
           <div class="btn-group dropdown">
             <div class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm">
-              <i class="mdi mdi-dots-horizontal"></i>
+              <i class="mdi mdi-format-list-bulleted-type"></i>
             </div>
           </div>
         </Dropdown>
@@ -271,6 +280,20 @@ export default function DepartmentUsersPage(props) {
     }
   };
 
+  const onMainMenuItemClick = ({ key }) => {
+    switch (key) {
+      case "tickets":
+        handleViewTicketsClick();
+        break;
+      case "requests":
+        handleViewRequests();
+        break;
+      case "overtime":
+        navigate("/department/" + params.departmentId + "/overtime/");
+        break;
+    }
+  };
+
   const itemMenu = (
     <Menu onClick={onItemMenuClick}>
       <Menu.Item key="view-tickets">
@@ -303,6 +326,29 @@ export default function DepartmentUsersPage(props) {
         <div class="dropdown-item" id="ticket-menu-id-1">
           <i class=" mdi mdi-close-circle-outline menu-icon mr-2 text-muted font-18 vertical-middle"></i>
           Xóa
+        </div>
+      </Menu.Item>
+    </Menu>
+  );
+
+  const mainMenu = (
+    <Menu onClick={onMainMenuItemClick}>
+      <Menu.Item key="tickets">
+        <div class="dropdown-item" id="ticket-menu-id-1">
+          <i class="mdi mdi-note-text menu-icon mr-2 text-muted font-18 vertical-middle"></i>
+          Công việc
+        </div>
+      </Menu.Item>
+      <Menu.Item key="requests">
+        <div class="dropdown-item" id="ticket-menu-id-1">
+          <i class=" mdi mdi-calendar-today menu-icon mr-2 text-muted font-18 vertical-middle"></i>
+          Yêu cầu
+        </div>
+      </Menu.Item>
+      <Menu.Item key="overtime">
+        <div class="dropdown-item" id="ticket-menu-id-1">
+          <i class="mdi mdi-av-timer menu-icon menu-icon mr-2 text-muted font-18 vertical-middle"></i>
+          Tăng ca
         </div>
       </Menu.Item>
     </Menu>
@@ -421,21 +467,30 @@ export default function DepartmentUsersPage(props) {
                 <div class="row">
                   <div className="col-12">
                     <div class="head-action">
-                      <button
-                        class=" arrow-none btn btn-light btn-md ml-2 float-right"
-                        type="button"
-                        onClick={handleViewRequests}
+                      <Dropdown
+                        trigger={["click"]}
+                        overlay={mainMenu}
+                        placement="bottomRight"
                       >
-                        <i class="mdi mdi-calendar-today"></i>Yêu cầu
-                      </button>
-
-                      <button
-                        type="button"
-                        class="btn btn-custom btn-fw ml-2 float-right"
-                        onClick={handleViewTicketsClick}
-                      >
-                        <i class="mdi mdi-note-text menu-icon"></i>Công việc
-                      </button>
+                        <Button
+                          size="medium"
+                          style={{
+                            width: "110px",
+                            height: "40px",
+                            float: "right",
+                            color: "inherit",
+                            marginLeft: "10px",
+                            borderColor: "#e3eaef",
+                            backgroundColor: "#f8f9fa",
+                          }}
+                        >
+                          <i
+                            class="mdi mdi-format-list-bulleted-type menu-icon"
+                            style={{ marginRight: "5px" }}
+                          ></i>
+                          Tác vụ
+                        </Button>
+                      </Dropdown>
 
                       <button
                         type="button"

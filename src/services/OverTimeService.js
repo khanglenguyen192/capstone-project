@@ -29,8 +29,17 @@ const deleteOverTime = (overTimeId, token) => {
   });
 };
 
+const searchOverTime = (body, token) => {
+  return axios.post(OVERTIME_URL + "/search", body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export default {
   createOverTime,
   getOverTimeByUserId,
   deleteOverTime,
+  searchOverTime,
 };

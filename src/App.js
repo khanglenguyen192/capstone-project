@@ -57,6 +57,10 @@ const App = () => {
               />
               <Route path="meeting" element={<ComingSoonPage />} />
               <Route path="overtime" element={<OvertimePage />} />
+              <Route
+                path="department/:departmentId/overtime"
+                element={<ManageOverTimePage />}
+              />
               <Route path="department" element={<DepartmentPage />} />
               <Route path="departments" element={<DepartmentPage />} />
               <Route

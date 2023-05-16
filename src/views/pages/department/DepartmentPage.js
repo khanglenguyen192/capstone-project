@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Input, message, Dropdown, Menu } from "antd";
-import "./Department.css";
 import Colors from "../../../common/constants/Colors";
 import DepartmentService from "../../../services/DepartmentService";
 import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";

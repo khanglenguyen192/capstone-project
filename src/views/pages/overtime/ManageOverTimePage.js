@@ -26,15 +26,27 @@ export default function ManageOverTimePage(props) {
   const [listOverTime, setListOverTime] = useState([]);
 
   const fetchData = () => {
-    OverTimeService.getOverTimeByUserId(user.userId, user.token).then((res) => {
+    var searchModel = {};
+
+    if (params.departmentId != undefined && params.departmentId != null) {
+      searchModel = {
+        departmentId: params.departmentId,
+      };
+    } else {
+      searchModel = {
+        userId: user.userId,
+      };
+    }
+
+    OverTimeService.searchOverTime(searchModel, user.token).then((res) => {
       var response = res.data;
       if (response != null) {
         if (response.status == 200) {
-          if (response.payload == null) {
+          if (response.payload == null || response.payload.data == null) {
             return;
           }
 
-          var models = response.payload.map((item) => {
+          var models = response.payload.data.map((item) => {
             return {
               id: item.id,
               timeStart: item.timeStart,
@@ -42,6 +54,10 @@ export default function ManageOverTimePage(props) {
               workTime: item.workTime,
               description: item.description,
               created: item.created,
+              user: {
+                name: item.userName,
+                avatar: item.userAvatar,
+              },
             };
           });
 
@@ -73,6 +89,28 @@ export default function ManageOverTimePage(props) {
         message.error("Xóa thất bại, vui lòng thử lại!!!");
       });
   };
+
+  const userColumn = [
+    {
+      title: "Nhân viên",
+      key: "user",
+      dataIndex: "user",
+      render: (user) => {
+        return (
+          <div>
+            <img
+              src={Utils.getImageUrl(user.avatar)}
+              alt="contact-img"
+              title="contact-img"
+              class="rounded-circle"
+              style={{ width: "35px", height: "35px" }}
+            />
+            <span class="ml-2">{user.name}</span>
+          </div>
+        );
+      },
+    },
+  ];
 
   const columns = [
     {
@@ -173,7 +211,14 @@ export default function ManageOverTimePage(props) {
               </button>
             </div>
             <div class="table-data">
-              <Table columns={columns} dataSource={listOverTime}></Table>
+              <Table
+                columns={
+                  params.departmentId != undefined
+                    ? userColumn.concat(columns)
+                    : columns
+                }
+                dataSource={listOverTime}
+              ></Table>
             </div>
           </div>
         </div>
