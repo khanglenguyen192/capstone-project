@@ -78,7 +78,7 @@ const App = () => {
                 element={<EditUserProfilePage />}
               />
               <Route path="/projects" element={<ListProjectPage />} />
-              <Route path="/add-project" element={<AddProjectPage />} />
+              <Route path="/add-project" element={<ComingSoonPage />} />
               <Route path="/notification" element={<NotificationPage />} />
               <Route
                 path="/department-users/:departmentId"

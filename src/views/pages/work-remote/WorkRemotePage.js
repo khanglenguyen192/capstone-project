@@ -8,8 +8,13 @@ import { Input, Table, Tag, message } from "antd";
 import "./WorkRemotePage.css";
 import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";
 import { useSelector, useDispatch } from "react-redux";
-import { dayOffStatus, specialDayType, typeDayOff } from "../../../common/constants/Constants";
+import {
+  dayOffStatus,
+  specialDayType,
+  typeDayOff,
+} from "../../../common/constants/Constants";
 import DayOffService from "../../../services/DayOffService";
+import Utils from "../../../common/utils/Utils";
 
 export default function WorkRemotePage(props) {
   const [isShowList, setShowList] = useState(false);
@@ -28,7 +33,11 @@ export default function WorkRemotePage(props) {
   });
 
   async function fetchData() {
-    await DayOffService.getSpecialDays(reduc.user.userId, "Remote", reduc.user.token).then((res) => {
+    await DayOffService.getSpecialDays(
+      reduc.user.userId,
+      "Remote",
+      reduc.user.token
+    ).then((res) => {
       const data = res.data;
       // console.log("data: ", data);
       if (data.payload != null) {
@@ -53,7 +62,11 @@ export default function WorkRemotePage(props) {
   function onViewListWorkRemote() {
     fetchData();
     setShowList(!isShowList);
-    DayOffService.getSpecialDays(reduc.user.userId, "Remote", reduc.user.token).then((res) => {
+    DayOffService.getSpecialDays(
+      reduc.user.userId,
+      "Remote",
+      reduc.user.token
+    ).then((res) => {
       const response = res.data;
 
       if (response.payload != null) {
@@ -66,7 +79,8 @@ export default function WorkRemotePage(props) {
             type: typeDayOff.find((x) => x.option == item.option).type,
             status: {
               key: item.dayOffStatus,
-              value: dayOffStatus.find((x) => x.value === item.dayOffStatus).status,
+              value: dayOffStatus.find((x) => x.value === item.dayOffStatus)
+                .status,
             },
           };
         });
@@ -106,7 +120,7 @@ export default function WorkRemotePage(props) {
         isUrgent: false,
       });
     });
-    
+
     DayOffService.createDayOff(wfh, reduc.user.token).then((res) => {
       const response = res.data;
       if (response.status === 200) {
@@ -164,22 +178,22 @@ export default function WorkRemotePage(props) {
 
   const columns = [
     {
-      title: "Nhân viên",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => <a>{ text }</a>,
-    },
-    {
       title: "Lý do",
       dataIndex: "reason",
       key: "reason",
-      render: (text) => <a>{ text }</a>,
+      render: (text) => <a>{text}</a>,
     },
     {
-      title: "Ngày làm việc từ xa",
-      dataIndex: "remoteDate",
-      key: "remoteDate",
-      render: (text) => <a>{ text }</a>,
+      title: "Ngày xin nghỉ",
+      dataIndex: "date",
+      key: "date",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Hình thức",
+      dataIndex: "type",
+      key: "type",
+      render: (type) => <a>{Utils.getDayOffTypeString(type)}</a>,
     },
     {
       title: "Trạng thái",
@@ -192,7 +206,11 @@ export default function WorkRemotePage(props) {
           case 2:
             return <span class="badge badge-warning">Chờ duyệt</span>;
           case 3:
-            return <span class="badge badge-secondary" style={ { width: "65px" } }>Từ chối</span>;
+            return (
+              <span class="badge badge-secondary" style={{ width: "65px" }}>
+                Từ chối
+              </span>
+            );
           default:
             return <span class="badge badge-warning">Chờ duyệt</span>;
         }
@@ -208,7 +226,7 @@ export default function WorkRemotePage(props) {
             title="Xóa"
             class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-danger"
             type="button"
-            onClick={ () => deleteEvent(id) }
+            onClick={() => deleteEvent(id)}
           >
             <i class="mdi mdi-delete-circle"></i>
           </button>
@@ -283,7 +301,7 @@ export default function WorkRemotePage(props) {
     let color = typeDayOff.find((e) => e.type === eventInfo.event.title);
     return (
       <div
-        style={ {
+        style={{
           display: "flex",
           width: "-webkit-fill-available",
           borderRadius: "2px",
@@ -293,9 +311,9 @@ export default function WorkRemotePage(props) {
           justifyContent: "center",
           cursor: "auto",
           backgroundColor: color.bgColor,
-        } }
+        }}
       >
-        <i className="text-light text-center">{ eventInfo.event.title }</i>
+        <i className="text-light text-center">{eventInfo.event.title}</i>
       </div>
     );
   };
@@ -336,16 +354,16 @@ export default function WorkRemotePage(props) {
   return (
     <div class="row">
       <ConfirmDialog
-        isShow={ isShowConfirmPopup }
+        isShow={isShowConfirmPopup}
         title="Xin làm việc từ xa"
-        onCancel={ onCancelPopup }
+        onCancel={onCancelPopup}
         mainButtonText="Xác nhận"
         subButtonText="Đóng"
-        mainButtonClick={ onConfirmWorkRemote }
-        subButtonClick={ onCancelPopup }
+        mainButtonClick={onConfirmWorkRemote}
+        subButtonClick={onCancelPopup}
       >
         <form onSubmit="" autocomplete="off">
-          <div class="modal-body" style={ { padding: "0 0 10px 0" } }>
+          <div class="modal-body" style={{ padding: "0 0 10px 0" }}>
             <div class="row">
               <label class="col-sm-12 col-form-label">Lý do</label>
               <div class="col-sm-12">
@@ -354,7 +372,7 @@ export default function WorkRemotePage(props) {
                     class="form-group"
                     size="large"
                     required="true"
-                    onChange={ e => setReason(e.target.value) }
+                    onChange={(e) => setReason(e.target.value)}
                   ></Input>
                 </div>
               </div>
@@ -365,50 +383,42 @@ export default function WorkRemotePage(props) {
       <div class="col-12 grid-margin">
         <div class="card">
           <div class="card-body">
-            { isShowList ? (
+            {isShowList ? (
               <div>
                 <button
                   type="button"
                   class="fc-viewListLeaving-button fc-button fc-button-primary float-right"
-                  onClick={ onViewListWorkRemote }
+                  onClick={onViewListWorkRemote}
                 >
                   <i class="mdi mdi-calendar-today"></i>
                 </button>
                 <h4 class="card-title mb-4">Danh sách xin làm việc từ xa</h4>
 
-                <span class="d-flex align-items-center justify-content-end mr-0 mb-3">
-                  Tìm: &nbsp;
-                  <Input type="text" placeholder="nội dung..."></Input>
-                </span>
-
                 <div class="table-data">
-                  <Table
-                    columns={ columns }
-                    dataSource={ listWFH }
-                  ></Table>
+                  <Table columns={columns} dataSource={listWFH}></Table>
                 </div>
               </div>
             ) : (
               <FullCalendar
-                plugins={ options.plugins }
-                headerToolbar={ options.header }
-                footerToolbar={ options.footer }
-                eventLimitText={ options.eventLimitText }
-                selectable={ true }
-                editable={ options.editable }
-                selectMirror={ true }
-                dayMaxEvents={ true }
-                weekends={ true }
-                events={ initEvents }
-                customButtons={ options.customButtons }
-                buttonText={ options.buttonText }
-                select={ selectHandle }
-                eventContent={ renderEventContent } // custom render function
-                eventClick={ handleEventClick }
-                height={ 800 }
-                locale={ viLocale }
+                plugins={options.plugins}
+                headerToolbar={options.header}
+                footerToolbar={options.footer}
+                eventLimitText={options.eventLimitText}
+                selectable={true}
+                editable={options.editable}
+                selectMirror={true}
+                dayMaxEvents={true}
+                weekends={true}
+                events={initEvents}
+                customButtons={options.customButtons}
+                buttonText={options.buttonText}
+                select={selectHandle}
+                eventContent={renderEventContent} // custom render function
+                eventClick={handleEventClick}
+                height={800}
+                locale={viLocale}
               />
-            ) }
+            )}
           </div>
         </div>
       </div>

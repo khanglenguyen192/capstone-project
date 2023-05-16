@@ -49,8 +49,8 @@ const LoginPage = () => {
     });
   };
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("root@gmail.com");
-  const [passCode, setPassCode] = useState("123456x@X");
+  const [email, setEmail] = useState("");
+  const [passCode, setPassCode] = useState("");
   const handleLogin = (e) => {
     AuthService.login(email, passCode)
       .then((res) => {

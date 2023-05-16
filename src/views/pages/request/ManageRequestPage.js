@@ -35,13 +35,13 @@ export default function ManageRequestPage(props) {
         return (
           <div>
             <img
-              src={ Utils.getImageUrl(user.avatar) }
+              src={Utils.getImageUrl(user.avatar)}
               alt="contact-img"
               title="contact-img"
               class="rounded-circle"
-              style={ { width: "35px", height: "35px" } }
+              style={{ width: "35px", height: "35px" }}
             />
-            <span class="ml-2">{ user.name }</span>
+            <span class="ml-2">{user.name}</span>
           </div>
         );
       },
@@ -50,19 +50,19 @@ export default function ManageRequestPage(props) {
       title: "Lý do",
       dataIndex: "reason",
       key: "reason",
-      render: (text) => <a>{ text }</a>,
+      render: (text) => <a>{text}</a>,
     },
     {
       title: "Ngày xin nghỉ",
       dataIndex: "date",
       key: "date",
-      render: (text) => <a>{ text }</a>,
+      render: (text) => <a>{text}</a>,
     },
     {
       title: "Hình thức",
       dataIndex: "type",
       key: "type",
-      render: (type) => <a>{ Utils.getDayOffTypeString(type) }</a>,
+      render: (type) => <a>{Utils.getDayOffTypeString(type)}</a>,
     },
     {
       title: "Trạng thái",
@@ -75,7 +75,11 @@ export default function ManageRequestPage(props) {
           case 2:
             return <span class="badge badge-warning">Chờ duyệt</span>;
           case 3:
-            return <span class="badge badge-secondary">Từ chối</span>;
+            return (
+              <span class="badge badge-secondary" style={{ width: "65px" }}>
+                Từ chối
+              </span>
+            );
           default:
             return <span class="badge badge-warning">Chờ duyệt</span>;
         }
@@ -95,7 +99,7 @@ export default function ManageRequestPage(props) {
               title="Chấp nhận"
               class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-success"
               type="button"
-              onClick={ () => onSubmit(id, "Chấp nhận") }
+              onClick={() => onSubmit(id, 1)}
             >
               <i class="mdi mdi-check-circle-outline"></i>
             </button>
@@ -103,7 +107,7 @@ export default function ManageRequestPage(props) {
               title="Từ chối"
               class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-danger"
               type="button"
-              onClick={ () => onSubmit(id, "Từ chối") }
+              onClick={() => onSubmit(id, 3)}
             >
               <i class="mdi mdi-close-circle-outline"></i>
             </button>
@@ -116,7 +120,7 @@ export default function ManageRequestPage(props) {
   const optionFilter = [
     {
       value: null,
-      label: 'Tất cả',
+      label: "Tất cả",
     },
     {
       value: 1,
@@ -168,15 +172,18 @@ export default function ManageRequestPage(props) {
   };
 
   const onSubmit = (dayId, status) => {
-    DayOffService.handleRequest({
-      ID: dayId,
-      dayOffStatus: dayOffStatus.find(x => x.status === status).value,
-    }, user.token).then((res) => {
+    DayOffService.handleRequest(
+      {
+        ID: dayId,
+        dayOffStatus: status,
+      },
+      user.token
+    ).then((res) => {
       const response = res.data;
 
       if (response.payload != null) {
         message.success("Thành công", 2);
-        window.location.reload();
+        fetchData();
       }
     });
   };
@@ -225,23 +232,23 @@ export default function ManageRequestPage(props) {
                 <div class="float-right mr-4">
                   <Select
                     labelInValue
-                    defaultValue={ optionFilter[0] }
-                    style={ {
+                    defaultValue={optionFilter[0]}
+                    style={{
                       width: 150,
                       marginBottom: 20,
-                    } }
-                    onChange={ (e) => selectFilter(e.value) }
-                    options={ optionFilter } />
+                    }}
+                    onChange={(e) => selectFilter(e.value)}
+                    options={optionFilter}
+                  />
                 </div>
               </div>
             </div>
             <div class="table-data">
-              <Table columns={ columns } dataSource={ listDayOff }></Table>
+              <Table columns={columns} dataSource={listDayOff}></Table>
             </div>
           </div>
         </div>
       </div>
     </div>
-
   );
 }
