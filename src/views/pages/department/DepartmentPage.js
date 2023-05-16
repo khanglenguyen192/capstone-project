@@ -58,6 +58,8 @@ export default function DepartmentPage(props) {
         });
         setDepartmentList(deparments);
       }
+
+      setDepartmentId();
     });
   };
 
@@ -132,7 +134,9 @@ export default function DepartmentPage(props) {
     }
 
     var formData = new FormData();
-    formData.append("parentId", departmentId);
+    if (departmentId != undefined) {
+      formData.append("parentId", departmentId);
+    }
     formData.append("departmentName", newDepartmentName);
     formData.append("status", 1);
     formData.append("description", newDepartmentDescription);
@@ -148,12 +152,11 @@ export default function DepartmentPage(props) {
         }
 
         resetPopupField();
+        setShowDepartmentPopup(false);
       })
       .catch((res) => {
         message.error("Đã có lỗi xảy ra!!!");
       });
-
-    setShowDepartmentPopup(false);
   };
 
   const resetPopupField = () => {

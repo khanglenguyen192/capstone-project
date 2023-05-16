@@ -217,7 +217,7 @@ export default function EditUserProfilePage(props) {
                           }}
                         >
                           <span>
-                            <i class="mdi mdi-upload"></i> Thêm hình
+                            <i class="mdi mdi-upload"></i> Hình đại diện
                           </span>
                           <span>
                             <input
@@ -538,7 +538,7 @@ export default function EditUserProfilePage(props) {
                           class="d-flex justify-content-center align-items-end col-form-label-lg img-cover img-fluid imageId"
                           src={idFrontImageDisplay}
                           altImg="image"
-                          width="200"
+                          style={{ width: "200px", height: "200px" }}
                         ></img>
                         <div class="col-sm-8">
                           <div class="form-group row d-flex justify-content-center align-items-center">
@@ -581,7 +581,7 @@ export default function EditUserProfilePage(props) {
                           class="d-flex justify-content-center align-items-end col-form-label-lg img-cover img-fluid imageId"
                           src={idBackImageDisplay}
                           altImg="image"
-                          width="200"
+                          style={{ width: "200px", height: "200px" }}
                         ></img>
                         <div class="col-sm-8">
                           <div class="form-group row d-flex justify-content-center align-items-center">
