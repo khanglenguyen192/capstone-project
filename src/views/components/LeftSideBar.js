@@ -129,7 +129,7 @@ const LeftSideBar = () => {
             {user.userId == 1 && (
               <li className="menu-item">
                 <Link to="/add-user">
-                  <i className="mdi mdi-account-multiple menu-icon"> </i>
+                  <i className="mdi mdi-account-plus menu-icon"> </i>
                   <span> Thêm nhân viên </span>
                 </Link>
               </li>

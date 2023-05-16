@@ -432,14 +432,15 @@ export default function CreateTicketPage(props) {
                 <div>
                   <br />
                   <div class="row">
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-sm-6 col-md-6">
                       <h4 class="header-title font-18">BÁO CÁO</h4>
                     </div>
                     {!isSelfEdit && (
-                      <div class="col-sm-12 col-md-6">
+                      <div class="col-sm-6 col-md-6">
                         <button
                           class="btn btn-custom btn-rounded waves-effect waves-light float-right float-start mt-2"
                           onClick={handleCreateReport}
+                          style={{ marginBottom: "15px" }}
                         >
                           <span>
                             <i class="mdi mdi-plus-circle"></i>

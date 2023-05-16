@@ -156,28 +156,7 @@ export default function DepartmentUsersPage(props) {
     },
   ];
 
-  const adminColumns = [
-    {
-      title: "Mã nhân viên",
-      dataIndex: "employeeCode",
-      key: "employeeCode",
-    },
-    {
-      title: "Họ và tên",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Vị trí",
-      dataIndex: "role",
-      key: "role",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-    },
+  const adminColumn = [
     {
       title: "Trạng thái",
       key: "status",
@@ -296,6 +275,12 @@ export default function DepartmentUsersPage(props) {
 
   const itemMenu = (
     <Menu onClick={onItemMenuClick}>
+      <Menu.Item key="user-info">
+        <div class="dropdown-item" id="ticket-menu-id-1">
+          <i class="mdi mdi-account-circle menu-icon mr-2 text-muted font-18 vertical-middle"></i>
+          Thông tin nhân sự
+        </div>
+      </Menu.Item>
       <Menu.Item key="view-tickets">
         <div class="dropdown-item" id="ticket-menu-id-1">
           <i class="mdi mdi-note-text menu-icon mr-2 text-muted font-18 vertical-middle"></i>
@@ -333,6 +318,12 @@ export default function DepartmentUsersPage(props) {
 
   const mainMenu = (
     <Menu onClick={onMainMenuItemClick}>
+      <Menu.Item key="managers">
+        <div class="dropdown-item" id="ticket-menu-id-1">
+          <i class="mdi mdi-account-multiple-outline menu-icon mr-2 text-muted font-18 vertical-middle"></i>
+          Danh sách quản lý
+        </div>
+      </Menu.Item>
       <Menu.Item key="tickets">
         <div class="dropdown-item" id="ticket-menu-id-1">
           <i class="mdi mdi-note-text menu-icon mr-2 text-muted font-18 vertical-middle"></i>
@@ -510,7 +501,7 @@ export default function DepartmentUsersPage(props) {
 
               <Table
                 size="large"
-                columns={isAdmin ? adminColumns : columns}
+                columns={isAdmin ? columns.concat(adminColumn) : columns}
                 dataSource={employees}
               ></Table>
             </div>
