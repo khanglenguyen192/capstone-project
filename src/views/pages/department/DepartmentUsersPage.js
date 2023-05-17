@@ -158,19 +158,6 @@ export default function DepartmentUsersPage(props) {
 
   const adminColumn = [
     {
-      title: "Trạng thái",
-      key: "status",
-      dataIndex: "status",
-      render: (status) => {
-        let color = status.length % 2 == 0 ? "green" : "red";
-        return (
-          <Tag color={color} key={status}>
-            {status}
-          </Tag>
-        );
-      },
-    },
-    {
       title: "Tác vụ",
       dataIndex: "id",
       key: "id",

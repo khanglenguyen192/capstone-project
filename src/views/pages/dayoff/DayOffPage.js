@@ -7,10 +7,10 @@ import React, { useEffect, useState } from "react";
 import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";
 import "./DayOff.css";
 import { Checkbox, Input, Table, Tag, message } from "antd";
-import {
+import Constants, {
   typeDayOff,
   specialDayType,
-  dayOffStatus,
+  specialDayStatus,
 } from "../../../common/constants/Constants";
 import DayOffService from "../../../services/DayOffService";
 import { useSelector } from "react-redux";
@@ -37,18 +37,20 @@ export default function DayOffPage() {
   });
 
   async function fetchData() {
-    await DayOffService.getSpecialDays(user.userId, "DayOff", user.token).then((res) => {
-      const data = res.data;
-      // console.log("data: ", data);
-      if (data.payload != null) {
-        const init = data.payload.map((item) => ({
-          title: typeDayOff.find((x) => x.option === item.option).type,
-          start: item.dateTime,
-          id: item.id,
-        }));
-        setInitEvents(init);
-      } else setInitEvents(null);
-    });
+    await DayOffService.getSpecialDays(user.userId, "DayOff", user.token).then(
+      (res) => {
+        const data = res.data;
+        // console.log("data: ", data);
+        if (data.payload != null) {
+          const init = data.payload.map((item) => ({
+            title: typeDayOff.find((x) => x.option === item.option).type,
+            start: item.dateTime,
+            id: item.id,
+          }));
+          setInitEvents(init);
+        } else setInitEvents(null);
+      }
+    );
   }
 
   useEffect(() => {
@@ -58,26 +60,30 @@ export default function DayOffPage() {
   function onViewListDayOff() {
     fetchData();
     setShowList(!isShowList);
-    DayOffService.getSpecialDays(user.userId, "DayOff", user.token).then((res) => {
-      const response = res.data;
+    DayOffService.getSpecialDays(user.userId, "DayOff", user.token).then(
+      (res) => {
+        const response = res.data;
 
-      if (response.payload != null) {
-        var dayoff = response.payload.map((item) => {
-          return {
-            id: item.id,
-            reason: item.reason,
-            date: new Date(item.dateTime).toLocaleDateString("vi-VN"),
-            type: typeDayOff.find((x) => x.option == item.option).type,
-            status: {
-              key: item.dayOffStatus,
-              value: dayOffStatus.find((x) => x.value === item.dayOffStatus).status,
-            },
-          };
-        });
+        if (response.payload != null) {
+          var dayoff = response.payload.map((item) => {
+            return {
+              id: item.id,
+              reason: item.reason,
+              date: new Date(item.dateTime).toLocaleDateString("vi-VN"),
+              type: typeDayOff.find((x) => x.option == item.option).type,
+              status: {
+                key: item.dayOffStatus,
+                value: specialDayStatus.find(
+                  (x) => x.value === item.dayOffStatus
+                ).status,
+              },
+            };
+          });
 
-        setlistDayOff(dayoff);
+          setlistDayOff(dayoff);
+        }
       }
-    });
+    );
   }
 
   function onCancelPopup() {
@@ -172,19 +178,19 @@ export default function DayOffPage() {
       title: "Lý do",
       dataIndex: "reason",
       key: "reason",
-      render: (text) => <a>{ text }</a>,
+      render: (text) => <a>{text}</a>,
     },
     {
       title: "Ngày xin nghỉ",
       dataIndex: "date",
       key: "date",
-      render: (text) => <a>{ text }</a>,
+      render: (text) => <a>{text}</a>,
     },
     {
       title: "Hình thức",
       dataIndex: "type",
       key: "type",
-      render: (type) => <a>{ Utils.getDayOffTypeString(type) }</a>,
+      render: (type) => <a>{Utils.getDayOffTypeString(type)}</a>,
     },
     {
       title: "Trạng thái",
@@ -197,7 +203,11 @@ export default function DayOffPage() {
           case 2:
             return <span class="badge badge-warning">Chờ duyệt</span>;
           case 3:
-            return <span class="badge badge-secondary" style={ { width: "65px" } }>Từ chối</span>;
+            return (
+              <span class="badge badge-secondary" style={{ width: "65px" }}>
+                Từ chối
+              </span>
+            );
           default:
             return <span class="badge badge-warning">Chờ duyệt</span>;
         }
@@ -213,7 +223,7 @@ export default function DayOffPage() {
             title="Xóa"
             class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-danger"
             type="button"
-            onClick={ () => deleteEvent(id) }
+            onClick={() => deleteEvent(id)}
           >
             <i class="mdi mdi-delete-circle"></i>
           </button>
@@ -288,7 +298,7 @@ export default function DayOffPage() {
     let color = typeDayOff.find((e) => e.type === eventInfo.event.title);
     return (
       <div
-        style={ {
+        style={{
           display: "flex",
           width: "-webkit-fill-available",
           borderRadius: "2px",
@@ -298,9 +308,9 @@ export default function DayOffPage() {
           justifyContent: "center",
           cursor: "auto",
           backgroundColor: color.bgColor,
-        } }
+        }}
       >
-        <i className="text-light text-center">{ eventInfo.event.title }</i>
+        <i className="text-light text-center">{eventInfo.event.title}</i>
       </div>
     );
   };
@@ -345,16 +355,16 @@ export default function DayOffPage() {
   return (
     <div class="row">
       <ConfirmDialog
-        isShow={ showPopupConfirm }
+        isShow={showPopupConfirm}
         title="Xin nghỉ phép"
-        onCancel={ onCancelPopup }
+        onCancel={onCancelPopup}
         mainButtonText="Xác nhận"
         subButtonText="Đóng"
-        mainButtonClick={ onConfirmDayOff }
-        subButtonClick={ onCancelPopup }
+        mainButtonClick={onConfirmDayOff}
+        subButtonClick={onCancelPopup}
       >
         <form onSubmit="submitWorkRemoteDate()" autocomplete="off">
-          <div class="modal-body" style={ { padding: "0 0 10px 0" } }>
+          <div class="modal-body" style={{ padding: "0 0 10px 0" }}>
             <div class="row">
               <label class="col-sm-12 col-form-label">Lý do</label>
               <div class="col-sm-12">
@@ -363,14 +373,14 @@ export default function DayOffPage() {
                     class="form-group"
                     size="large"
                     required="true"
-                    onChange={ (e) => {
+                    onChange={(e) => {
                       setReason(e.target.value);
                       e.target.value = reason;
-                    } }
+                    }}
                   ></Input>
                 </div>
                 <div className="pt-3 float-right">
-                  <Checkbox onChange={ onChange }>Xin nghỉ khẩn cấp</Checkbox>
+                  <Checkbox onChange={onChange}>Xin nghỉ khẩn cấp</Checkbox>
                 </div>
               </div>
             </div>
@@ -381,43 +391,43 @@ export default function DayOffPage() {
       <div class="col-12 grid-margin">
         <div class="card">
           <div class="card-body">
-            { isShowList ? (
+            {isShowList ? (
               <div>
                 <button
                   type="button"
                   class="fc-viewListLeaving-button fc-button fc-button-primary float-right"
-                  onClick={ onViewListDayOff }
+                  onClick={onViewListDayOff}
                 >
                   <i class="mdi mdi-calendar-today"></i>
                 </button>
                 <h4 class="card-title mb-4">Danh sách xin nghỉ</h4>
 
                 <div class="table-data">
-                  <Table columns={ columns } dataSource={ listDayOff }></Table>
+                  <Table columns={columns} dataSource={listDayOff}></Table>
                 </div>
               </div>
             ) : (
               <FullCalendar
-                ref={ calendarRef }
-                plugins={ options.plugins }
-                headerToolbar={ options.header }
-                footerToolbar={ options.footer }
-                eventLimitText={ options.eventLimitText }
-                editable={ options.editable }
-                selectable={ true }
-                selectMirror={ true }
-                dayMaxEvents={ true }
-                weekends={ true }
-                events={ initEvents }
-                select={ selectHandle }
-                customButtons={ options.customButtons }
-                buttonText={ options.buttonText }
-                eventContent={ renderEventContent } // custom render function
-                eventClick={ handleEventClick }
-                height={ 800 }
-                locale={ viLocale }
+                ref={calendarRef}
+                plugins={options.plugins}
+                headerToolbar={options.header}
+                footerToolbar={options.footer}
+                eventLimitText={options.eventLimitText}
+                editable={options.editable}
+                selectable={true}
+                selectMirror={true}
+                dayMaxEvents={true}
+                weekends={true}
+                events={initEvents}
+                select={selectHandle}
+                customButtons={options.customButtons}
+                buttonText={options.buttonText}
+                eventContent={renderEventContent} // custom render function
+                eventClick={handleEventClick}
+                height={800}
+                locale={viLocale}
               />
-            ) }
+            )}
           </div>
         </div>
       </div>

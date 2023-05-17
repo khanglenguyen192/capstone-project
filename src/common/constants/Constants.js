@@ -233,19 +233,39 @@ const specialDayType = [
   },
 ];
 
-const dayOffStatus = [
+const specialDayStatus = [
   {
-    status: "Chấp nhận",
+    value: null,
+    label: "Tất cả",
+  },
+  {
+    label: "Chấp nhận",
     value: 1,
   },
   {
-    status: "Chờ xét duyệt",
+    label: "Chờ xét duyệt",
     value: 2,
   },
   {
-    status: "Từ chối",
+    label: "Từ chối",
     value: 3,
   },
 ];
 
-export { typeDayOff, specialDayType, dayOffStatus };
+const specialDayTypeOptionFilter = [
+  {
+    label: "Nghỉ phép",
+    value: 1,
+  },
+  {
+    label: "Làm việc từ xa",
+    value: 5,
+  },
+];
+
+export {
+  typeDayOff,
+  specialDayType,
+  specialDayTypeOptionFilter,
+  specialDayStatus,
+};

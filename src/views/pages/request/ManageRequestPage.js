@@ -4,12 +4,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Checkbox, Input, Select, Table, Tag, message } from "antd";
 import Utils from "../../../common/utils/Utils";
 import DayOffService from "../../../services/DayOffService";
-import {
+import Constants, {
   typeDayOff,
-  specialDayType,
-  dayOffStatus,
+  specialDayStatus,
+  specialDayTypeOptionFilter,
 } from "../../../common/constants/Constants";
-import NoImage from "../../../assets/images/no-image.jpg";
 
 export default function ManageRequestPage(props) {
   useDispatch()({
@@ -117,32 +116,21 @@ export default function ManageRequestPage(props) {
     },
   ];
 
-  const optionFilter = [
-    {
-      value: null,
-      label: "Tất cả",
-    },
-    {
-      value: 1,
-      label: "Chấp nhận",
-    },
-    {
-      value: 2,
-      label: "Chờ xét duyệt",
-    },
-    {
-      value: 3,
-      label: "Từ chối",
-    },
-  ];
+  const statusOptionFilter = specialDayStatus;
 
-  const [listDayOff, setlistDayOff] = useState([]);
+  const typeOptionFilter = specialDayTypeOptionFilter;
+
+  const [listRequest, setListRequest] = useState([]);
+  const [selectedDayType, setSelectedDayType] = useState(1);
+  const [selectedStatus, setSelectedStatus] = useState(null);
 
   const fetchData = () => {
     let searchModel = {};
     if (params.departmentId != undefined) {
       searchModel = {
         departmentId: params.departmentId,
+        type: selectedDayType,
+        status: selectedStatus,
         pageIndex: 0,
         pageSize: 100,
       };
@@ -166,7 +154,7 @@ export default function ManageRequestPage(props) {
           };
         });
 
-        setlistDayOff(result);
+        setListRequest(result);
       }
     });
   };
@@ -188,10 +176,12 @@ export default function ManageRequestPage(props) {
     });
   };
 
-  const selectFilter = (status) => {
+  const selectStatusFilter = (status) => {
+    setSelectedStatus(status);
     let searchModel = {
       departmentId: params.departmentId,
       dayOffStatus: status,
+      type: selectedDayType,
       pageIndex: 0,
       pageSize: 100,
     };
@@ -214,7 +204,40 @@ export default function ManageRequestPage(props) {
           };
         });
 
-        setlistDayOff(result);
+        setListRequest(result);
+      }
+    });
+  };
+
+  const selectTypeFilter = (type) => {
+    setSelectedDayType(type);
+    let searchModel = {
+      departmentId: params.departmentId,
+      status: selectedStatus,
+      type: type,
+      pageIndex: 0,
+      pageSize: 100,
+    };
+
+    DayOffService.searchDayOff(searchModel, user.token).then((res) => {
+      const response = res.data;
+
+      if (response.payload != null && response.payload.data != null) {
+        var result = response.payload.data.map((item) => {
+          return {
+            id: item.id,
+            user: {
+              name: item.userName,
+              avatar: item.userAvatar,
+            },
+            reason: item.reason,
+            date: new Date(item.dateTime).toLocaleDateString("vi-VN"),
+            type: typeDayOff.find((x) => x.option == item.option).type,
+            status: item.dayOffStatus,
+          };
+        });
+
+        setListRequest(result);
       }
     });
   };
@@ -232,19 +255,31 @@ export default function ManageRequestPage(props) {
                 <div class="float-right mr-4">
                   <Select
                     labelInValue
-                    defaultValue={optionFilter[0]}
+                    defaultValue={statusOptionFilter[0]}
                     style={{
                       width: 150,
                       marginBottom: 20,
                     }}
-                    onChange={(e) => selectFilter(e.value)}
-                    options={optionFilter}
+                    onChange={(e) => selectStatusFilter(e.value)}
+                    options={statusOptionFilter}
+                  />
+                </div>
+                <div class="float-right mr-4">
+                  <Select
+                    labelInValue
+                    defaultValue={typeOptionFilter[0]}
+                    style={{
+                      width: 150,
+                      marginBottom: 20,
+                    }}
+                    onChange={(e) => selectTypeFilter(e.value)}
+                    options={typeOptionFilter}
                   />
                 </div>
               </div>
             </div>
             <div class="table-data">
-              <Table columns={columns} dataSource={listDayOff}></Table>
+              <Table columns={columns} dataSource={listRequest}></Table>
             </div>
           </div>
         </div>

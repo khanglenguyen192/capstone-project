@@ -9,7 +9,7 @@ import "./WorkRemotePage.css";
 import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  dayOffStatus,
+  specialDayStatus,
   specialDayType,
   typeDayOff,
 } from "../../../common/constants/Constants";
@@ -79,7 +79,7 @@ export default function WorkRemotePage(props) {
             type: typeDayOff.find((x) => x.option == item.option).type,
             status: {
               key: item.dayOffStatus,
-              value: dayOffStatus.find((x) => x.value === item.dayOffStatus)
+              value: specialDayStatus.find((x) => x.value === item.dayOffStatus)
                 .status,
             },
           };
