@@ -1,0 +1,49 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: React CI/CD
+
+on:
+  push:
+    branches: ["release/uat"]
+  pull_request:
+    branches: ["release/uat"]
+
+env:
+  dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+  dockerhub_password: ${{ secrets.DOCKERHUB_PASSWORD }}
+  IMAGE_VERSION: "1.0.0-${{ github.sha }}"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: |
+          docker build \
+          -t khanglenguyen192/backend:${{ env.IMAGE_VERSION }} . ;
+
+      - name: Push Docker Image
+        run:
+          docker login --username=${dockerhub_username} --password=${dockerhub_password};
+          docker push khanglenguyen192/backend:${{ env.IMAGE_VERSION }};
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: executing remote ssh to ${{ secrets.SERVER_HOST }} commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script:
+            docker pull khanglenguyen192/capstone-fe:${{ env.IMAGE_VERSION }};
+            docker rm -f capstone-fe;
+            docker run --name capstone-fe -p 44334:80 khanglenguyen192/backend:${{ env.IMAGE_VERSION }};
+            docker system prune -a -f;
+            docker images;
