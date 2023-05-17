@@ -9,6 +9,7 @@ import Constants, {
   specialDayStatus,
   specialDayTypeOptionFilter,
 } from "../../../common/constants/Constants";
+import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";
 
 export default function ManageRequestPage(props) {
   useDispatch()({
@@ -25,6 +26,8 @@ export default function ManageRequestPage(props) {
     fetchData();
   }, []);
 
+  const [clickedBtn, setClickedBtn] = useState({});
+
   const columns = [
     {
       title: "Nhân viên",
@@ -34,13 +37,13 @@ export default function ManageRequestPage(props) {
         return (
           <div>
             <img
-              src={Utils.getImageUrl(user.avatar)}
+              src={ Utils.getImageUrl(user.avatar) }
               alt="contact-img"
               title="contact-img"
               class="rounded-circle"
-              style={{ width: "35px", height: "35px" }}
+              style={ { width: "35px", height: "35px" } }
             />
-            <span class="ml-2">{user.name}</span>
+            <span class="ml-2">{ user.name }</span>
           </div>
         );
       },
@@ -49,19 +52,19 @@ export default function ManageRequestPage(props) {
       title: "Lý do",
       dataIndex: "reason",
       key: "reason",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a>{ text }</a>,
     },
     {
       title: "Ngày xin nghỉ",
       dataIndex: "date",
       key: "date",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a>{ text }</a>,
     },
     {
       title: "Hình thức",
       dataIndex: "type",
       key: "type",
-      render: (type) => <a>{Utils.getDayOffTypeString(type)}</a>,
+      render: (type) => <a>{ Utils.getDayOffTypeString(type) }</a>,
     },
     {
       title: "Trạng thái",
@@ -75,7 +78,7 @@ export default function ManageRequestPage(props) {
             return <span class="badge badge-warning">Chờ duyệt</span>;
           case 3:
             return (
-              <span class="badge badge-secondary" style={{ width: "65px" }}>
+              <span class="badge badge-secondary" style={ { width: "65px" } }>
                 Từ chối
               </span>
             );
@@ -98,7 +101,13 @@ export default function ManageRequestPage(props) {
               title="Chấp nhận"
               class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-success"
               type="button"
-              onClick={() => onSubmit(id, 1)}
+              onClick={ () => {
+                setClickedBtn({
+                  dayId: id,
+                  status: 1,
+                });
+                setShowConfirm(!showConfirm);
+              } }
             >
               <i class="mdi mdi-check-circle-outline"></i>
             </button>
@@ -106,7 +115,13 @@ export default function ManageRequestPage(props) {
               title="Từ chối"
               class="remove-dayoff-bt btn btn-icon btn-sm waves-effect waves-light btn-danger"
               type="button"
-              onClick={() => onSubmit(id, 3)}
+              onClick={ () => {
+                setClickedBtn({
+                  dayId: id,
+                  status: 3,
+                });
+                setShowConfirm(!showConfirm);
+              } }
             >
               <i class="mdi mdi-close-circle-outline"></i>
             </button>
@@ -123,6 +138,7 @@ export default function ManageRequestPage(props) {
   const [listRequest, setListRequest] = useState([]);
   const [selectedDayType, setSelectedDayType] = useState(1);
   const [selectedStatus, setSelectedStatus] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const fetchData = () => {
     let searchModel = {};
@@ -159,11 +175,16 @@ export default function ManageRequestPage(props) {
     });
   };
 
-  const onSubmit = (dayId, status) => {
+  const onCancelPopup = () => {
+    setShowConfirm(!showConfirm);
+  };
+
+  const onSubmit = () => {
+    setShowConfirm(!showConfirm);
     DayOffService.handleRequest(
       {
-        ID: dayId,
-        dayOffStatus: status,
+        ID: clickedBtn.dayId,
+        dayOffStatus: clickedBtn.status,
       },
       user.token
     ).then((res) => {
@@ -255,32 +276,50 @@ export default function ManageRequestPage(props) {
                 <div class="float-right mr-4">
                   <Select
                     labelInValue
-                    defaultValue={statusOptionFilter[0]}
-                    style={{
+                    defaultValue={ statusOptionFilter[0] }
+                    style={ {
                       width: 150,
                       marginBottom: 20,
-                    }}
-                    onChange={(e) => selectStatusFilter(e.value)}
-                    options={statusOptionFilter}
+                    } }
+                    onChange={ (e) => selectStatusFilter(e.value) }
+                    options={ statusOptionFilter }
                   />
                 </div>
                 <div class="float-right mr-4">
                   <Select
                     labelInValue
-                    defaultValue={typeOptionFilter[0]}
-                    style={{
+                    defaultValue={ typeOptionFilter[0] }
+                    style={ {
                       width: 150,
                       marginBottom: 20,
-                    }}
-                    onChange={(e) => selectTypeFilter(e.value)}
-                    options={typeOptionFilter}
+                    } }
+                    onChange={ (e) => selectTypeFilter(e.value) }
+                    options={ typeOptionFilter }
                   />
                 </div>
               </div>
             </div>
             <div class="table-data">
-              <Table columns={columns} dataSource={listRequest}></Table>
+              <Table columns={ columns } dataSource={ listRequest }></Table>
             </div>
+            <ConfirmDialog
+              isShow={ showConfirm }
+              onCancel={ onCancelPopup }
+              mainButtonText="Xác nhận"
+              subButtonText="Đóng"
+              mainButtonClick={ onSubmit }
+              subButtonClick={ onCancelPopup }
+            >
+              <div class="custom-alert">
+                <div class="icon-wrapper">
+                  <span class="icon">!</span>
+                </div>
+                <div class="message">
+                  Bạn chắc chứ ?!
+                </div>
+                <i>Sau khi nhấn xác nhận, bạn sẽ không thể hoàn tác</i>
+              </div>
+            </ConfirmDialog>
           </div>
         </div>
       </div>

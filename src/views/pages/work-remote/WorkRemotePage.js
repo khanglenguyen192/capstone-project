@@ -75,7 +75,7 @@ export default function WorkRemotePage(props) {
           return {
             id: item.id,
             reason: item.reason,
-            date: new Date(item.dateTime).toLocaleDateString("vi-VN"),
+            remoteDate: new Date(item.dateTime).toLocaleDateString("vi-VN"),
             type: typeDayOff.find((x) => x.option == item.option).type,
             status: {
               key: item.dayOffStatus,

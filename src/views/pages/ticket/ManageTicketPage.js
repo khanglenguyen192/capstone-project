@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Tag, Dropdown, Menu, message } from "antd";
+import { Table, Tag, Dropdown, Menu, message, Select } from "antd";
 import { useSelector } from "react-redux";
 import NoImage from "../../../assets/images/no-image.jpg";
 import TicketService from "../../../services/TicketService";
@@ -110,10 +110,10 @@ export default function ManageTicketPage(props) {
     if (params.departmentId != undefined && params.userId != undefined) {
       navigate(
         "/department/" +
-          params.departmentId +
-          "/user/" +
-          params.userId +
-          "/add-ticket"
+        params.departmentId +
+        "/user/" +
+        params.userId +
+        "/add-ticket"
       );
     }
   };
@@ -137,29 +137,29 @@ export default function ManageTicketPage(props) {
   };
 
   const menuItems = (
-    <Menu onClick={onMenuItemClick}>
+    <Menu onClick={ onMenuItemClick }>
       <Menu.Item key="view">
         <div class="dropdown-item" id="ticket-menu-id-1">
           <i class=" mdi mdi-eye mr-2 text-muted font-18 vertical-middle"></i>
           View Ticket
         </div>
       </Menu.Item>
-      {showAssignTickets && (
+      { showAssignTickets && (
         <Menu.Item key="close">
           <div class="dropdown-item" id="ticket-menu-id-2">
             <i class="mdi mdi-close-circle-outline mr-2 text-muted font-18 vertical-middle"></i>
             Close Ticket
           </div>
         </Menu.Item>
-      )}
-      {!showAssignTickets && (
+      ) }
+      { !showAssignTickets && (
         <Menu.Item key="create-report">
           <div class="dropdown-item" id="ticket-menu-id-3">
             <i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>
             Create Report
           </div>
         </Menu.Item>
-      )}
+      ) }
     </Menu>
   );
 
@@ -185,18 +185,22 @@ export default function ManageTicketPage(props) {
     }
   };
 
+  const handleChange = (value) => {
+    console.log(value);
+  };
+
   const columns = [
     {
       title: "ID",
       dataIndex: "id",
       key: "id",
-      render: (text) => <b>#{text}</b>,
+      render: (text) => <b>#{ text }</b>,
     },
     {
       title: "Tiêu đề",
       dataIndex: "title",
       key: "title",
-      render: (title) => <div>{title}</div>,
+      render: (title) => <div>{ title }</div>,
     },
     {
       title: "Người yêu cầu",
@@ -206,12 +210,12 @@ export default function ManageTicketPage(props) {
         return (
           <div>
             <img
-              src={NoImage}
+              src={ NoImage }
               alt="contact-img"
               title="contact-img"
               class="rounded-circle"
             />
-            <span class="ml-2">{assignorName}</span>
+            <span class="ml-2">{ assignorName }</span>
           </div>
         );
       },
@@ -223,12 +227,12 @@ export default function ManageTicketPage(props) {
       render: (assigneeName) => (
         <div>
           <img
-            src={NoImage}
+            src={ NoImage }
             alt="contact-img"
             title="contact-img"
             class="rounded-circle"
           />
-          <span class="ml-2">{assigneeName}</span>
+          <span class="ml-2">{ assigneeName }</span>
         </div>
       ),
     },
@@ -256,7 +260,7 @@ export default function ManageTicketPage(props) {
       title: "Ngày khởi tạo",
       dataIndex: "created",
       key: "created",
-      render: (created) => <div>{dateFormat(created, "dd/mm/yyyy")}</div>,
+      render: (created) => <div>{ dateFormat(created, "dd/mm/yyyy") }</div>,
     },
     {
       title: "Tác vụ",
@@ -265,9 +269,9 @@ export default function ManageTicketPage(props) {
       render: (id) => {
         return (
           <Dropdown
-            trigger={["click"]}
-            overlay={menuItems}
-            onClick={() => setSelectedTicketId(id)}
+            trigger={ ["click"] }
+            overlay={ menuItems }
+            onClick={ () => setSelectedTicketId(id) }
           >
             <div class="btn-group dropdown">
               <div class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm">
@@ -277,6 +281,25 @@ export default function ManageTicketPage(props) {
           </Dropdown>
         );
       },
+    },
+  ];
+
+  const opts = [
+    {
+      value: 1,
+      data: {
+        assigneeId: user.userId,
+        assignoirId: null,
+      },
+      label: 'Công việc được giao',
+    },
+    {
+      value: 2,
+      data: {
+        assigneeId: null,
+        assignoirId: user.userId,
+      },
+      label: 'Công việc đã giao',
     },
   ];
 
@@ -292,7 +315,7 @@ export default function ManageTicketPage(props) {
                 <div class="col-md-6 col-xl-3">
                   <div class="card-box card-normal widget-flat border-custom bg-custom text-white">
                     <i class="fi-head"></i>
-                    <h3 class="m-b-10">{totalTicket}</h3>
+                    <h3 class="m-b-10">{ totalTicket }</h3>
                     <p class="text-uppercase m-b-5 font-13 font-600">
                       Tổng Số Công Việc
                     </p>
@@ -301,7 +324,7 @@ export default function ManageTicketPage(props) {
                 <div class="col-md-6 col-xl-3">
                   <div class="card-box card-normal bg-primary widget-flat border-primary text-white">
                     <i class="fi-head"></i>
-                    <h3 class="m-b-10">{totalInProgress}</h3>
+                    <h3 class="m-b-10">{ totalInProgress }</h3>
                     <p class="text-uppercase m-b-5 font-13 font-600">
                       Đang thực hiện
                     </p>
@@ -310,7 +333,7 @@ export default function ManageTicketPage(props) {
                 <div class="col-md-6 col-xl-3">
                   <div class="card-box card-normal widget-flat border-success bg-success text-white">
                     <i class="fi-head"></i>
-                    <h3 class="m-b-10">{totalPending}</h3>
+                    <h3 class="m-b-10">{ totalPending }</h3>
                     <p class="text-uppercase m-b-5 font-13 font-600">
                       Tạm dừng
                     </p>
@@ -319,7 +342,7 @@ export default function ManageTicketPage(props) {
                 <div class="col-md-6 col-xl-3">
                   <div class="card-box card-normal bg-danger widget-flat border-danger text-white">
                     <i class="fi-head"></i>
-                    <h3 class="m-b-10">{totalClose}</h3>
+                    <h3 class="m-b-10">{ totalClose }</h3>
                     <p class="text-uppercase m-b-5 font-13 font-600">
                       Hoàn thành
                     </p>
@@ -333,17 +356,17 @@ export default function ManageTicketPage(props) {
                 <div
                   id="datatable_filter"
                   className="dataTables_filter"
-                  style={{ textAlign: "left" }}
+                  style={ { textAlign: "left" } }
                 >
                   <label
-                    style={{
+                    style={ {
                       display: "inline-flex",
                       alignItems: "center",
-                    }}
+                    } }
                   >
                     Tìm
                     <input
-                      style={{ marginLeft: "10px" }}
+                      style={ { marginLeft: "10px" } }
                       type="search"
                       className="form-control form-control-sm"
                       placeholder="Mã công việc..."
@@ -351,13 +374,13 @@ export default function ManageTicketPage(props) {
                   </label>
                 </div>
               </div>
-              {showAddButton ? (
+              { showAddButton ? (
                 <div className="col-sm-12 col-md-6">
                   <button
                     type="button"
                     class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
-                    onClick={handleAddTicketUser}
-                    style={{ width: "170px" }}
+                    onClick={ handleAddTicketUser }
+                    style={ { width: "170px" } }
                   >
                     <i class="mdi mdi-plus-circle"></i>Tạo công việc
                   </button>
@@ -365,24 +388,23 @@ export default function ManageTicketPage(props) {
               ) : (
                 showToggle && (
                   <div className="col-sm-12 col-md-6">
-                    <button
-                      type="button"
-                      class="btn btn-custom btn-rounded w-md waves-effect waves-light mb-4 float-right"
-                      onClick={changeTicketList}
-                      style={{ width: "170px" }}
-                    >
-                      {!showAssignTickets
-                        ? "Công việc của tôi"
-                        : "Công việc được giao"}
-                    </button>
+                    <div class="w-md waves-effect waves-light mb-4 float-right mr-4">
+                      <Select
+                        labelInValue
+                        defaultValue={ opts[0] }
+                        style={ { width: 180, } }
+                        onChange={ changeTicketList }
+                        options={ opts }
+                      />
+                    </div>
                   </div>
                 )
-              )}
+              ) }
             </div>
 
             <Table
-              columns={columns}
-              dataSource={tickets}
+              columns={ columns }
+              dataSource={ tickets }
               className="tickets-list"
             ></Table>
           </div>

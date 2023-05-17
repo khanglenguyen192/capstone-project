@@ -11,7 +11,7 @@ export default function ConfirmDialog(props) {
       {props.mainButtonText}
     </button>,
     <button
-      class="btn btn-light waves-effect btn-fw"
+      class="btn btn-light waves-effect btn-fw ml-3"
       type="button"
       onClick={props.subButtonClick}
     >

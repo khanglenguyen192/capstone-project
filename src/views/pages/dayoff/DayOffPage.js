@@ -63,19 +63,17 @@ export default function DayOffPage() {
     DayOffService.getSpecialDays(user.userId, "DayOff", user.token).then(
       (res) => {
         const response = res.data;
-
         if (response.payload != null) {
           var dayoff = response.payload.map((item) => {
+            var tus = item.dayOffStatus;
             return {
-              id: item.id,
+              id: (tus !== 2) ? null : item.id,
               reason: item.reason,
               date: new Date(item.dateTime).toLocaleDateString("vi-VN"),
               type: typeDayOff.find((x) => x.option == item.option).type,
               status: {
                 key: item.dayOffStatus,
-                value: specialDayStatus.find(
-                  (x) => x.value === item.dayOffStatus
-                ).status,
+                value: specialDayStatus.find(x => x.value === tus).status,
               },
             };
           });
@@ -127,7 +125,6 @@ export default function DayOffPage() {
   }
 
   const deleteEvent = (id) => {
-    // console.log("Id: ", id);
     DayOffService.deleteDayOff(id, user.token).then((res) => {
       const response = res.data;
       if (response.status === 200) {
@@ -217,7 +214,7 @@ export default function DayOffPage() {
       title: "Tác vụ",
       dataIndex: "id",
       key: "id",
-      render: (id) => (
+      render: (id) => (id === null || id === undefined) ? null : (
         <div className="opt-button">
           <button
             title="Xóa"

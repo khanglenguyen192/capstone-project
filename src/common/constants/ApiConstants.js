@@ -1,4 +1,4 @@
-export const BASE_URL = "http://45.119.87.175:44334";
+export const BASE_URL = "https://localhost:44334";
 
 export const API_BASE_URL = BASE_URL + "/api";
 

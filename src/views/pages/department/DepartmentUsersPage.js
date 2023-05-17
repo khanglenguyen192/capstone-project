@@ -14,6 +14,8 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import DepartmentService from "../../../services/DepartmentService";
 import Utils from "../../../common/utils/Utils";
+import ConfirmDialog from "../../dialogs/confirm/ConfirmDialog";
+import './Department.css';
 
 export default function DepartmentUsersPage(props) {
   const params = useParams();
@@ -41,6 +43,7 @@ export default function DepartmentUsersPage(props) {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(0);
   const [departmentName, setDepartmentName] = useState("");
   const [departmentDescription, setDepartmentDescription] = useState("");
+  const [isShowConfirmPopup, setShowConfirmPopup] = useState(false);
   const [ownerName, setOwnerName] = useState("Lê Nguyên Khang");
 
   const handleAddTicketUser = (userId) => {
@@ -117,6 +120,42 @@ export default function DepartmentUsersPage(props) {
     navigate("/department/" + params.departmentId + "/requests/");
   };
 
+  const onCancelPopup = () => {
+    setShowConfirmPopup(!isShowConfirmPopup);
+  };
+
+  const confirmRemove = () => {
+    setShowConfirmPopup(!isShowConfirmPopup);
+    if (user.userId === parseInt(selectedEmployeeId))
+    {
+      message.error("Bạn không thể tự xóa chính mình");
+      return;
+    }
+    var body = {
+      departmentId: params.departmentId,
+      userId: parseInt(selectedEmployeeId),
+      roleId: 2,
+    };
+    DepartmentService.removeUser(body, user.token)
+      .then((res) => {
+        var response = res.data;
+        if (response == null || response == undefined) {
+          message.error("Có lỗi xảy ra, vui lòng thử lại!!!");
+          return;
+        }
+
+        if (response.status == 200) {
+          message.info("Xóa thành công");
+          getDepartmentUsers();
+        } else {
+          message.error("Lỗi: " + response.error.message);
+        }
+      })
+      .catch((res) => {
+        message.error("Có lỗi xảy ra, vui lòng thử lại!!!");
+      });
+  };
+
   const projectStatusModels = ["Active"];
 
   const columns = [
@@ -129,7 +168,7 @@ export default function DepartmentUsersPage(props) {
       title: "Họ và tên",
       dataIndex: "name",
       key: "name",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a>{ text }</a>,
     },
     {
       title: "Vị trí",
@@ -148,8 +187,8 @@ export default function DepartmentUsersPage(props) {
       render: (status) => {
         let color = status.length % 2 == 0 ? "green" : "red";
         return (
-          <Tag color={color} key={status}>
-            {status}
+          <Tag color={ color } key={ status }>
+            { status }
           </Tag>
         );
       },
@@ -163,11 +202,11 @@ export default function DepartmentUsersPage(props) {
       key: "id",
       render: (id) => (
         <Dropdown
-          trigger={["click"]}
-          overlay={itemMenu}
-          onClick={() => {
+          trigger={ ["click"] }
+          overlay={ itemMenu }
+          onClick={ () => {
             setSelectedEmployeeId(id);
-          }}
+          } }
         >
           <div class="btn-group dropdown">
             <div class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm">
@@ -216,32 +255,7 @@ export default function DepartmentUsersPage(props) {
           });
         break;
       case "remove":
-        if (user.userId != 1) {
-          return;
-        }
-        var body = {
-          departmentId: params.departmentId,
-          userId: parseInt(selectedEmployeeId),
-          roleId: 2,
-        };
-        DepartmentService.removeUser(body, user.token)
-          .then((res) => {
-            var response = res.data;
-            if (response == null || response == undefined) {
-              message.error("Có lỗi xảy ra, vui lòng thử lại!!!");
-              return;
-            }
-
-            if (response.status == 200) {
-              message.info("Xóa thành công");
-              getDepartmentUsers();
-            } else {
-              message.error("Lỗi: " + response.error.message);
-            }
-          })
-          .catch((res) => {
-            message.error("Có lỗi xảy ra, vui lòng thử lại!!!");
-          });
+        setShowConfirmPopup(!isShowConfirmPopup);
         break;
     }
   };
@@ -261,7 +275,7 @@ export default function DepartmentUsersPage(props) {
   };
 
   const itemMenu = (
-    <Menu onClick={onItemMenuClick}>
+    <Menu onClick={ onItemMenuClick }>
       <Menu.Item key="user-info">
         <div class="dropdown-item" id="ticket-menu-id-1">
           <i class="mdi mdi-account-circle menu-icon mr-2 text-muted font-18 vertical-middle"></i>
@@ -286,25 +300,43 @@ export default function DepartmentUsersPage(props) {
           Yêu cầu
         </div>
       </Menu.Item>
-      {user.userId == 1 && (
+      { user.userId == 1 && (
         <Menu.Item key="add-permission">
           <div class="dropdown-item" id="ticket-menu-id-1">
             <i class="mdi mdi-account-key menu-icon mr-2 text-muted font-18 vertical-middle"></i>
             Cấp quyền
           </div>
         </Menu.Item>
-      )}
+      ) }
       <Menu.Item key="remove">
         <div class="dropdown-item" id="ticket-menu-id-1">
           <i class=" mdi mdi-close-circle-outline menu-icon mr-2 text-muted font-18 vertical-middle"></i>
           Xóa
         </div>
       </Menu.Item>
+      <ConfirmDialog
+        isShow={ isShowConfirmPopup }
+        onCancel={ onCancelPopup }
+        mainButtonText="Xác nhận"
+        subButtonText="Đóng"
+        mainButtonClick={ confirmRemove }
+        subButtonClick={ onCancelPopup }
+      >
+        <div class="custom-alert">
+          <div class="icon-wrapper">
+            <span class="icon">!</span>
+          </div>
+          <div class="message">
+            Bạn chắc chứ ?!
+          </div>
+          <i>Nhân viên này sẽ bị xóa khỏi phòng ban.</i>
+        </div>
+      </ConfirmDialog>
     </Menu>
   );
 
   const mainMenu = (
-    <Menu onClick={onMainMenuItemClick}>
+    <Menu onClick={ onMainMenuItemClick }>
       <Menu.Item key="managers">
         <div class="dropdown-item" id="ticket-menu-id-1">
           <i class="mdi mdi-account-multiple-outline menu-icon mr-2 text-muted font-18 vertical-middle"></i>
@@ -343,13 +375,13 @@ export default function DepartmentUsersPage(props) {
                   <div class="form-group row d-flex justify-content-center align-items-center">
                     <div class="thumb-xxl member-thumb m-b-10">
                       <img
-                        src={NoImage}
+                        src={ NoImage }
                         class="img-cover rounded-circle img-thumbnail no-border"
                       ></img>
                     </div>
                   </div>
 
-                  {isAdmin && (
+                  { isAdmin && (
                     <div class="form-group row d-flex justify-content-center align-items-center">
                       <div class="vertical-center">
                         <input
@@ -369,12 +401,12 @@ export default function DepartmentUsersPage(props) {
                           <span class="input-group-append">
                             <button
                               class="btn-info disabled"
-                              style={{
+                              style={ {
                                 width: "5rem",
                                 borderTopRightRadius: "6px",
                                 borderBottomRightRadius: "6px",
                                 cursor: "pointer",
-                              }}
+                              } }
                               type="button"
                             >
                               Tải Lên
@@ -383,7 +415,7 @@ export default function DepartmentUsersPage(props) {
                         </div>
                       </div>
                     </div>
-                  )}
+                  ) }
                 </div>
 
                 <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
@@ -393,9 +425,9 @@ export default function DepartmentUsersPage(props) {
                       <Input
                         class="app-text"
                         size="large"
-                        value={departmentName}
-                        onChange={(e) => setDepartmentName(e.target.value)}
-                        disabled={!isEdit}
+                        value={ departmentName }
+                        onChange={ (e) => setDepartmentName(e.target.value) }
+                        disabled={ !isEdit }
                       ></Input>
                     </div>
                   </div>
@@ -406,7 +438,7 @@ export default function DepartmentUsersPage(props) {
                         class="app-text"
                         size="large"
                         name=""
-                        value={ownerName}
+                        value={ ownerName }
                         disabled
                       ></Input>
                     </div>
@@ -416,12 +448,12 @@ export default function DepartmentUsersPage(props) {
                     <div class="col-sm-12">
                       <Cascader
                         size="large"
-                        disabled={!isEdit}
-                        style={{
+                        disabled={ !isEdit }
+                        style={ {
                           width: "100%",
-                        }}
-                        value={"Đang hoạt động"}
-                        options={projectStatusModels}
+                        } }
+                        value={ "Đang hoạt động" }
+                        options={ projectStatusModels }
                       />
                     </div>
                   </div>
@@ -434,25 +466,25 @@ export default function DepartmentUsersPage(props) {
                     class="form-group col-md-12 textArea"
                     name="jobDescription"
                     rows="3"
-                    value={departmentDescription}
-                    onChange={(e) => setDepartmentDescription(e.target.value)}
-                    disabled={!isEdit}
+                    value={ departmentDescription }
+                    onChange={ (e) => setDepartmentDescription(e.target.value) }
+                    disabled={ !isEdit }
                   ></textarea>
                 </div>
               </div>
 
-              {isAdmin && (
+              { isAdmin && (
                 <div class="row">
                   <div className="col-12">
                     <div class="head-action">
                       <Dropdown
-                        trigger={["click"]}
-                        overlay={mainMenu}
+                        trigger={ ["click"] }
+                        overlay={ mainMenu }
                         placement="bottomRight"
                       >
                         <Button
                           size="medium"
-                          style={{
+                          style={ {
                             width: "110px",
                             height: "40px",
                             float: "right",
@@ -460,11 +492,11 @@ export default function DepartmentUsersPage(props) {
                             marginLeft: "10px",
                             borderColor: "#e3eaef",
                             backgroundColor: "#f8f9fa",
-                          }}
+                          } }
                         >
                           <i
                             class="mdi mdi-format-list-bulleted-type menu-icon"
-                            style={{ marginRight: "5px" }}
+                            style={ { marginRight: "5px" } }
                           ></i>
                           Tác vụ
                         </Button>
@@ -473,14 +505,14 @@ export default function DepartmentUsersPage(props) {
                       <button
                         type="button"
                         class="btn btn-success btn-fw ml-2 float-right"
-                        onClick={handleAddUserClick}
+                        onClick={ handleAddUserClick }
                       >
                         <i class="mdi mdi-account-plus"></i> Thêm mới
                       </button>
                     </div>
                   </div>
                 </div>
-              )}
+              ) }
 
               <div class="row">
                 <br />
@@ -488,8 +520,8 @@ export default function DepartmentUsersPage(props) {
 
               <Table
                 size="large"
-                columns={isAdmin ? columns.concat(adminColumn) : columns}
-                dataSource={employees}
+                columns={ isAdmin ? columns.concat(adminColumn) : columns }
+                dataSource={ employees }
               ></Table>
             </div>
           </form>
