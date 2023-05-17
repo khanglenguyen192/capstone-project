@@ -90,7 +90,7 @@ const LoginPage = () => {
               <div className="form-group" style={{ margin: "3rem" }}>
                 <div className="form-group m-b-20 row">
                   <div className="col-12">
-                    <label htmlFor="emailaddress">Email address</label>
+                    <label htmlFor="emailaddress">Tên đăng nhập</label>
                     <input
                       className="form-control"
                       type="email"
@@ -98,7 +98,7 @@ const LoginPage = () => {
                       required
                       pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
                       title="Tài khoản gmail cá nhân đã được cung cấp"
-                      placeholder="Enter your email"
+                      placeholder="Nhập email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -107,7 +107,7 @@ const LoginPage = () => {
 
                 <div className="form-group row m-b-20">
                   <div className="col-12">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">Mật khẩu</label>
                     <div id="container-password">
                       <input
                         className="form-control"
@@ -116,7 +116,7 @@ const LoginPage = () => {
                         id="password"
                         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                         title="Mật khẩu phải chứa ít nhất 8 kí tự, bao gồm: kí tự hoa, kí tự thường, chữ số và kí tự đặc biệt"
-                        placeholder="Enter your password"
+                        placeholder="Nhập mật khẩu"
                         value={passCode}
                         onChange={(e) => setPassCode(e.target.value)}
                       />
@@ -127,7 +127,7 @@ const LoginPage = () => {
                       href="forgot-password"
                       className="text-muted float-right"
                     >
-                      <small>Forgot your password?</small>
+                      <small>Quên mật khẩu?</small>
                     </a>
                   </div>
                 </div>
@@ -139,7 +139,7 @@ const LoginPage = () => {
                       className="btn btn-block btn-custom waves-effect waves-light"
                       onClick={handleLogin}
                     >
-                      Sign In
+                      Đăng nhập
                     </button>
                   </div>
                 </div>
