@@ -24,12 +24,12 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-          -t khanglenguyen192/backend:${{ env.IMAGE_VERSION }} . ;
+          -t khanglenguyen192/capstone-fe:${{ env.IMAGE_VERSION }} . ;
 
       - name: Push Docker Image
         run:
           docker login --username=${dockerhub_username} --password=${dockerhub_password};
-          docker push khanglenguyen192/backend:${{ env.IMAGE_VERSION }};
+          docker push khanglenguyen192/capstone-fe:${{ env.IMAGE_VERSION }};
 
   deploy:
     runs-on: ubuntu-latest
