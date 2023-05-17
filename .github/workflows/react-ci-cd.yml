@@ -44,6 +44,6 @@ jobs:
           script:
             docker pull khanglenguyen192/capstone-fe:${{ env.IMAGE_VERSION }};
             docker rm -f capstone-fe;
-            docker run --name capstone-fe -p 44334:80 khanglenguyen192/capstone-fe:${{ env.IMAGE_VERSION }};
+            docker run --name capstone-fe -p 3000:3000 khanglenguyen192/capstone-fe:${{ env.IMAGE_VERSION }};
             docker system prune -a -f;
             docker images;
