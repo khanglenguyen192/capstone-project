@@ -1,6 +1,5 @@
 import axios from "axios";
 import { API_BASE_URL } from "../common/constants/ApiConstants";
-import fileDownload from "js-file-download";
 
 const TICKERT_URL = API_BASE_URL + "/ticket";
 
@@ -30,18 +29,31 @@ const getTicket = (ticketId, token) => {
   });
 };
 
-const downloadFile = (fileName, savedFileName, token) => {
+function downloadFile(fileName, savedFileName, token) {
   return axios
     .get(TICKERT_URL + "/download-file", {
       params: { fileName: fileName },
+      responseType: "arraybuffer",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
     .then((res) => {
-      fileDownload(res.data, savedFileName);
+      const blob = new Blob([res.data], { type: "application/octet-stream" });
+      const url = URL.createObjectURL(blob);
+
+      const downloadLink = document.createElement("a");
+      downloadLink.href = url;
+      downloadLink.download = savedFileName;
+
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+
+      // Cleanup
+      document.body.removeChild(downloadLink);
+      URL.revokeObjectURL(url);
     });
-};
+}
 
 const createReport = (formData, token) => {
   return axios.post(TICKERT_URL + "/create-report", formData, {
