@@ -91,12 +91,10 @@ function convertToDayJs(dateTimeStr, format = "DD/MM/YYYY") {
       dateTimeStr == undefined ||
       dateTimeStr.length == 0
     ) {
-      return dayjs();
+      return null;
     }
 
     var newDateStr = dateFormat(Date.parse(dateTimeStr), "dd/mm/yyyy");
-    console.log(newDateStr);
-
     var result = dayjs(newDateStr, format);
     return result;
   } catch (e) {

@@ -1,7 +1,4 @@
 import React from "react";
-import NoImage from "../../assets/images/no-image.jpg";
-import LogoLight from "../../assets/images/logo_light.png";
-import LogoSm from "../../assets/images/logo_sm.png";
 import Logo from "../../assets/images/logo_light_bg.png";
 import "./LeftSideBar.css";
 import { Link, useNavigate } from "react-router-dom";

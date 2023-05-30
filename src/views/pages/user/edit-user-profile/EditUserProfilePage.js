@@ -84,7 +84,7 @@ export default function EditUserProfilePage(props) {
       }
     });
   };
-
+  
   const handleAvatarChange = (e) => {
     setAvatarImg(e.target.files[0]);
     var imgURL = URL.createObjectURL(e.target.files[0]);
@@ -108,7 +108,7 @@ export default function EditUserProfilePage(props) {
   };
 
   const handleSelectBirthday = (date, dateString) => {
-    setBirthday(dateString);
+    setBirthday(date);
   };
 
   const handleSelectIdIssueDate = (date, dateString) => {
@@ -180,8 +180,8 @@ export default function EditUserProfilePage(props) {
                     <div class="form-group row d-flex justify-content-center align-items-center">
                       <div class="thumb-xxl member-thumb m-b-10">
                         <img
-                          src={avatarDisplay}
-                          style={{ width: "175px", height: "175px" }}
+                          src={ avatarDisplay }
+                          style={ { width: "175px", height: "175px" } }
                           class="img-cover rounded-circle img-thumbnail no-border"
                         ></img>
                       </div>
@@ -189,9 +189,9 @@ export default function EditUserProfilePage(props) {
 
                     <div class="form-group row d-flex justify-content-center align-items-center">
                       <div class="row justify-content-center align-items-center">
-                        {isSelfEditting ? (
+                        { isSelfEditting ? (
                           <label class="col-form-label font-weight-bold">
-                            Mã nhân viên: #{userCode}
+                            Mã nhân viên: #{ userCode }
                           </label>
                         ) : (
                           <div class="col-form-label font-weight-bold">
@@ -199,11 +199,11 @@ export default function EditUserProfilePage(props) {
                               class="app-text"
                               size="large"
                               name="userCode"
-                              value={userCode}
-                              onChange={(e) => setUserCode(e.target.value)}
+                              value={ userCode }
+                              onChange={ (e) => setUserCode(e.target.value) }
                             ></Input>
                           </div>
-                        )}
+                        ) }
                       </div>
                     </div>
 
@@ -212,9 +212,9 @@ export default function EditUserProfilePage(props) {
                         <button
                           type="button"
                           class="btn btn-custom btn-file w-md waves-effect waves-light float-left"
-                          style={{
+                          style={ {
                             marginLeft: "20px",
-                          }}
+                          } }
                         >
                           <span>
                             <i class="mdi mdi-upload"></i> Hình đại diện
@@ -225,14 +225,14 @@ export default function EditUserProfilePage(props) {
                               type="file"
                               accept="image/*"
                               class="btn btn-custom w-md waves-effect waves-light float-left"
-                              onChange={handleAvatarChange}
-                              style={{
+                              onChange={ handleAvatarChange }
+                              style={ {
                                 position: "absolute",
                                 top: "0",
                                 right: "0",
                                 margin: "0",
                                 opacity: "0",
-                              }}
+                              } }
                             />
                           </span>
                         </button>
@@ -245,45 +245,45 @@ export default function EditUserProfilePage(props) {
                   <div class="col-md-6">
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Họ và tên</label>
-                      {isSelfEditting ? (
+                      { isSelfEditting ? (
                         <div class="col-sm-8">
                           <Input
                             size="large"
-                            value={fullName}
-                            onChange={(e) => setFullName(e.target.value)}
+                            value={ fullName }
+                            onChange={ (e) => setFullName(e.target.value) }
                           ></Input>
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          {fullName}
+                          { fullName }
                         </label>
-                      )}
+                      ) }
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Email</label>
-                      {isSelfEditting ? (
+                      { isSelfEditting ? (
                         <div class="col-sm-8">
                           <Input
                             size="large"
                             type="email"
                             pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            style={{ fontWeight: "700" }}
+                            value={ email }
+                            onChange={ (e) => setEmail(e.target.value) }
+                            style={ { fontWeight: "700" } }
                           ></Input>
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          {email}
+                          { email }
                         </label>
-                      )}
+                      ) }
                     </div>
                   </div>
                 </div>
 
-                {isAdmin && (
+                { isAdmin && (
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
@@ -293,10 +293,10 @@ export default function EditUserProfilePage(props) {
                         <div class="col-sm-8">
                           <Cascader
                             size="large"
-                            style={{
+                            style={ {
                               width: "100%",
-                            }}
-                            options={salaryTypeModels}
+                            } }
+                            options={ salaryTypeModels }
                             placeholder="Loại lương"
                           />
                         </div>
@@ -307,25 +307,25 @@ export default function EditUserProfilePage(props) {
                         <label class="col-sm-4 col-form-label">
                           Số người phụ thuộc
                         </label>
-                        {isSelfEditting ? (
+                        { isSelfEditting ? (
                           <label class="col-sm-8 col-form-label font-weight-bold">
-                            {numberOfDenpendents}
+                            { numberOfDenpendents }
                           </label>
                         ) : (
                           <div class="col-sm-8">
                             <Input
                               size="large"
-                              value={numberOfDenpendents}
-                              onChange={(e) =>
+                              value={ numberOfDenpendents }
+                              onChange={ (e) =>
                                 setNumberOfDenpendents(e.target.value)
                               }
                             ></Input>
                           </div>
-                        )}
+                        ) }
                       </div>
                     </div>
                   </div>
-                )}
+                ) }
 
                 <div class="row">
                   <div class="col-md-6">
@@ -333,21 +333,21 @@ export default function EditUserProfilePage(props) {
                       <label class="col-sm-4 col-form-label">
                         Tài khoản ngân hàng
                       </label>
-                      {isSelfEditting ? (
+                      { isSelfEditting ? (
                         <div class="form-group col-sm-8">
                           <Input
                             size="large"
                             type="number"
-                            value={bankAccount}
-                            onChange={(e) => setBankAccount(e.target.value)}
-                            style={{ fontWeight: "700" }}
+                            value={ bankAccount }
+                            onChange={ (e) => setBankAccount(e.target.value) }
+                            style={ { fontWeight: "700" } }
                           ></Input>
                         </div>
                       ) : (
                         <label class="form-group col-sm-8 col-form-label font-weight-bold">
-                          {bankAccount}
+                          { bankAccount }
                         </label>
-                      )}
+                      ) }
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -355,21 +355,21 @@ export default function EditUserProfilePage(props) {
                       <label class="col-sm-4 col-form-label">
                         Số điện thoại
                       </label>
-                      {isSelfEditting ? (
+                      { isSelfEditting ? (
                         <div class="col-sm-8">
                           <Input
                             size="large"
                             pattern="(0)([0-9]{9,10})"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            style={{ fontWeight: "700" }}
+                            value={ phone }
+                            onChange={ (e) => setPhone(e.target.value) }
+                            style={ { fontWeight: "700" } }
                           ></Input>
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          {phone}
+                          { phone }
                         </label>
-                      )}
+                      ) }
                     </div>
                   </div>
                 </div>
@@ -382,50 +382,50 @@ export default function EditUserProfilePage(props) {
                         <Cascader
                           size="large"
                           name="genderModel"
-                          style={{
+                          style={ {
                             width: "100%",
                             height: "100%",
-                          }}
+                          } }
                           placement="bottomRight"
-                          options={genderModels}
-                          onChange={handleSelectGender}
-                          value={Utils.getGenderString(gender)}
-                          disabled={!isSelfEditting}
+                          options={ genderModels }
+                          onChange={ handleSelectGender }
+                          value={ Utils.getGenderString(gender) }
+                          disabled={ !isSelfEditting }
                           placeholder="Chọn"
                         />
                       </div>
                     </div>
                   </div>
-                  {!isAdmin && (
+                  { !isAdmin && (
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Ngày sinh</label>
-                        {isSelfEditting ? (
+                        { isSelfEditting ? (
                           <div class="col-sm-8">
                             <div class="input-group">
                               <DatePicker
-                                locale={viVN}
-                                format={datePicketFormat}
-                                defaultValue={Utils.convertToDayJs(
+                                locale={ viVN }
+                                format={ datePicketFormat }
+                                defaultValue={ Utils.convertToDayJs(
                                   birthday,
                                   "DD/MM/YYY"
-                                )}
+                                ) }
                                 size="large"
-                                style={{ width: "100%" }}
+                                style={ { width: "100%" } }
                                 placeholder="Ngày sinh"
-                                onChange={handleSelectBirthday}
+                                onChange={ handleSelectBirthday }
                               ></DatePicker>
                             </div>
                           </div>
                         ) : (
                           <label class="col-sm-8 col-form-label font-weight-bold">
-                            {birthday}
+                            { birthday }
                           </label>
-                        )}
+                        ) }
                       </div>
                     </div>
-                  )}
-                  {isAdmin && (
+                  ) }
+                  { isAdmin && (
                     <div class="col-md-6">
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label">
@@ -434,17 +434,21 @@ export default function EditUserProfilePage(props) {
                         <div class="col-sm-8">
                           <div class="input-group">
                             <DatePicker
-                              locale={viVN}
+                              locale={ viVN }
                               format="DD/MM/YYYY"
                               size="large"
-                              style={{ width: "100%" }}
+                              style={ { width: "100%" } }
+                              // defaultValue={ Utils.convertToDayJs(
+                              //   ,
+                              //   "DD/MM/YYY"
+                              // ) }
                               placeholder="DD/MM/YYYY"
                             ></DatePicker>
                           </div>
                         </div>
                       </div>
                     </div>
-                  )}
+                  ) }
                 </div>
 
                 <div class="row">
@@ -453,22 +457,22 @@ export default function EditUserProfilePage(props) {
                       <label class="col-sm-4 col-form-label">
                         Tài khoản LinkedIn
                       </label>
-                      {isSelfEditting ? (
+                      { isSelfEditting ? (
                         <div class="col-sm-8">
                           <Input
                             size="large"
                             type="text"
                             class="form-control"
                             name="linkedId"
-                            value={linkedId}
-                            onChange={(e) => setLinkedId(e.target.value)}
+                            value={ linkedId }
+                            onChange={ (e) => setLinkedId(e.target.value) }
                           />
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          {linkedId}
+                          { linkedId }
                         </label>
-                      )}
+                      ) }
                     </div>
                   </div>
 
@@ -477,22 +481,22 @@ export default function EditUserProfilePage(props) {
                       <label class="col-sm-4 col-form-label">
                         Tài khoản Facebook
                       </label>
-                      {isSelfEditting ? (
+                      { isSelfEditting ? (
                         <div class="col-sm-8">
                           <Input
                             size="large"
                             type="text"
                             class="form-control"
                             name="facebookId"
-                            value={facebookId}
-                            onChange={(e) => setFacebookId(e.target.value)}
+                            value={ facebookId }
+                            onChange={ (e) => setFacebookId(e.target.value) }
                           />
                         </div>
                       ) : (
                         <label class="col-sm-8 col-form-label font-weight-bold">
-                          {facebookId}
+                          { facebookId }
                         </label>
-                      )}
+                      ) }
                     </div>
                   </div>
                 </div>
@@ -502,14 +506,14 @@ export default function EditUserProfilePage(props) {
                 <button
                   class="btn btn-custom submit-btn waves-effect waves-light mr-2"
                   type="button"
-                  onClick={handleUpdateUser}
+                  onClick={ handleUpdateUser }
                 >
                   Xác Nhận
                 </button>
                 <button
                   class="btn btn-icon waves-effect waves-light btn-danger"
                   type="button"
-                  onClick={handleCancel}
+                  onClick={ handleCancel }
                 >
                   Hủy bỏ
                 </button>
@@ -525,20 +529,20 @@ export default function EditUserProfilePage(props) {
             <form onsubmit="editUserIdentity(form)" autocomplete="on">
               <div class="card">
                 <div class="card-body">
-                  {isSelfEditting ? (
+                  { isSelfEditting ? (
                     <h4 class="card-title">CẬP NHẬT THÔNG TIN CCCD</h4>
                   ) : (
                     <h4 class="card-title">THÔNG TIN CCCD</h4>
-                  )}
+                  ) }
 
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row d-flex justify-content-center align-items-center flex-column containerImage">
                         <img
                           class="d-flex justify-content-center align-items-end col-form-label-lg img-cover img-fluid imageId"
-                          src={idFrontImageDisplay}
+                          src={ idFrontImageDisplay }
                           altImg="image"
-                          style={{ width: "200px", height: "200px" }}
+                          style={ { width: "200px", height: "200px" } }
                         ></img>
                         <div class="col-sm-8">
                           <div class="form-group row d-flex justify-content-center align-items-center">
@@ -546,9 +550,9 @@ export default function EditUserProfilePage(props) {
                               <button
                                 type="button"
                                 class="btn btn-custom btn-file w-md waves-effect waves-light float-left"
-                                style={{
+                                style={ {
                                   marginLeft: "20px",
-                                }}
+                                } }
                               >
                                 <span>
                                   <i class="mdi mdi-upload"></i> Mặt trước CCCD
@@ -558,15 +562,15 @@ export default function EditUserProfilePage(props) {
                                     name="file"
                                     type="file"
                                     accept="image/*"
-                                    onChange={handleFontImageChange}
+                                    onChange={ handleFontImageChange }
                                     class="btn btn-custom w-md waves-effect waves-light float-left"
-                                    style={{
+                                    style={ {
                                       position: "absolute",
                                       top: "0",
                                       right: "0",
                                       margin: "0",
                                       opacity: "0",
-                                    }}
+                                    } }
                                   />
                                 </span>
                               </button>
@@ -579,9 +583,9 @@ export default function EditUserProfilePage(props) {
                       <div class="form-group row d-flex justify-content-center align-items-center flex-column containerImage">
                         <img
                           class="d-flex justify-content-center align-items-end col-form-label-lg img-cover img-fluid imageId"
-                          src={idBackImageDisplay}
+                          src={ idBackImageDisplay }
                           altImg="image"
-                          style={{ width: "200px", height: "200px" }}
+                          style={ { width: "200px", height: "200px" } }
                         ></img>
                         <div class="col-sm-8">
                           <div class="form-group row d-flex justify-content-center align-items-center">
@@ -589,9 +593,9 @@ export default function EditUserProfilePage(props) {
                               <button
                                 type="button"
                                 class="btn btn-custom btn-file w-md waves-effect waves-light float-left"
-                                style={{
+                                style={ {
                                   marginLeft: "20px",
-                                }}
+                                } }
                               >
                                 <span>
                                   <i class="mdi mdi-upload"></i> Mặt sau CCCD
@@ -602,14 +606,14 @@ export default function EditUserProfilePage(props) {
                                     type="file"
                                     accept="image/*"
                                     class="btn btn-custom w-md waves-effect waves-light float-left"
-                                    onChange={handleBackImageChange}
-                                    style={{
+                                    onChange={ handleBackImageChange }
+                                    style={ {
                                       position: "absolute",
                                       top: "0",
                                       right: "0",
                                       margin: "0",
                                       opacity: "0",
-                                    }}
+                                    } }
                                   />
                                 </span>
                               </button>
@@ -630,10 +634,10 @@ export default function EditUserProfilePage(props) {
                             class="form-control"
                             name="userIdentity"
                             type="number"
-                            disabled={!isSelfEditting}
-                            value={userIdentity}
-                            onChange={(e) => setUserIdentity(e.target.value)}
-                            style={{ fontWeight: "700" }}
+                            disabled={ !isSelfEditting }
+                            value={ userIdentity }
+                            onChange={ (e) => setUserIdentity(e.target.value) }
+                            style={ { fontWeight: "700" } }
                           />
                         </div>
                       </div>
@@ -644,12 +648,16 @@ export default function EditUserProfilePage(props) {
                         <div class="col-sm-8">
                           <div class="input-group">
                             <DatePicker
-                              locale={viVN}
+                              locale={ viVN }
                               format="DD/MM/YYYY"
                               size="large"
-                              style={{ width: "100%" }}
+                              style={ { width: "100%" } }
                               placeholder="DD/MM/YYYY"
-                              onChange={handleSelectIdIssueDate}
+                              defaultValue={ Utils.convertToDayJs(
+                                idIssueDate,
+                                "DD/MM/YYY"
+                              ) }
+                              onChange={ handleSelectIdIssueDate }
                             ></DatePicker>
                           </div>
                         </div>
@@ -667,33 +675,33 @@ export default function EditUserProfilePage(props) {
                             type="text"
                             class="form-control"
                             name="address"
-                            disabled={!isSelfEditting}
-                            value={idIssuePlace}
-                            onChange={(e) => setIdIssuePlace(e.target.value)}
+                            disabled={ !isSelfEditting }
+                            value={ idIssuePlace }
+                            onChange={ (e) => setIdIssuePlace(e.target.value) }
                           />
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                {isSelfEditting && (
+                { isSelfEditting && (
                   <div class="form-group text-right m-b-0">
                     <button
                       class="btn btn-custom submit-btn waves-effect waves-light mr-2"
                       type="button"
-                      onClick={handleUpdateUserIdentity}
+                      onClick={ handleUpdateUserIdentity }
                     >
                       Xác Nhận
                     </button>
                     <button
                       class="btn btn-icon waves-effect waves-light btn-danger"
                       type="button"
-                      onClick={handleCancel}
+                      onClick={ handleCancel }
                     >
                       Hủy bỏ
                     </button>
                   </div>
-                )}
+                ) }
               </div>
             </form>
           </div>
