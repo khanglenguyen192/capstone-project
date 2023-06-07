@@ -161,21 +161,25 @@ export default function DepartmentUsersPage(props) {
       title: "Tác vụ",
       dataIndex: "id",
       key: "id",
-      render: (id) => (
-        <Dropdown
-          trigger={["click"]}
-          overlay={itemMenu}
-          onClick={() => {
-            setSelectedEmployeeId(id);
-          }}
-        >
-          <div class="btn-group dropdown">
-            <div class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm">
-              <i class="mdi mdi-format-list-bulleted-type"></i>
-            </div>
-          </div>
-        </Dropdown>
-      ),
+      render: (id) => {
+        if (isAdmin && id != 1 && id == user.userId) return <div></div>;
+        else
+          return (
+            <Dropdown
+              trigger={["click"]}
+              overlay={itemMenu}
+              onClick={() => {
+                setSelectedEmployeeId(id);
+              }}
+            >
+              <div class="btn-group dropdown">
+                <div class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm">
+                  <i class="mdi mdi-format-list-bulleted-type"></i>
+                </div>
+              </div>
+            </Dropdown>
+          );
+      },
     },
   ];
 
@@ -243,6 +247,9 @@ export default function DepartmentUsersPage(props) {
             message.error("Có lỗi xảy ra, vui lòng thử lại!!!");
           });
         break;
+      case "requests":
+        navigate("/user/" + selectedEmployeeId + "/requests");
+        break;
     }
   };
 
@@ -256,6 +263,9 @@ export default function DepartmentUsersPage(props) {
         break;
       case "overtime":
         navigate("/department/" + params.departmentId + "/overtime/");
+        break;
+      case "managers":
+        navigate("/department/" + params.departmentId + "/managers/");
         break;
     }
   };
@@ -280,7 +290,7 @@ export default function DepartmentUsersPage(props) {
           Tạo công việc
         </div>
       </Menu.Item>
-      <Menu.Item key="view-request">
+      <Menu.Item key="requests">
         <div class="dropdown-item" id="ticket-menu-id-1">
           <i class=" mdi mdi-calendar-today menu-icon mr-2 text-muted font-18 vertical-middle"></i>
           Yêu cầu

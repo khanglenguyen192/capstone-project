@@ -30,6 +30,7 @@ import AddDepartmentUserPage from "./views/pages/department/AddDepartmentUser";
 import ComingSoonPage from "./views/pages/general/ComingSoonPage";
 import ManageRequestPage from "./views/pages/request/ManageRequestPage";
 import ManageOverTimePage from "./views/pages/overtime/ManageOverTimePage";
+import ChildDepartmentManagerPage from "./views/pages/department/ChildDepartmentManagerPage";
 
 const App = () => {
   const isLoggedIn = useSelector((state) => {
@@ -77,7 +78,7 @@ const App = () => {
                 path="/edit-user-profile"
                 element={<EditUserProfilePage />}
               />
-              <Route path="/projects" element={<ListProjectPage />} />
+              <Route path="/projects" element={<ComingSoonPage />} />
               <Route path="/add-project" element={<ComingSoonPage />} />
               <Route path="/notification" element={<NotificationPage />} />
               <Route
@@ -119,6 +120,14 @@ const App = () => {
                 element={<ManageRequestPage />}
               />
               <Route path="/manage-overtime" element={<ManageOverTimePage />} />
+              <Route
+                path="department/:departmentId/managers"
+                element={<ChildDepartmentManagerPage />}
+              />
+              <Route
+                path="/user/:userId/requests"
+                element={<ManageRequestPage />}
+              />
             </Route>
             {/* <Route path="/test" element={<LoginPage />}></Route> */}
           </Routes>

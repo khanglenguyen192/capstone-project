@@ -37,6 +37,15 @@ const getDepartmentEmployees = (departmentId, token) => {
   });
 };
 
+const getDepartmentManagers = (departmentId, token) => {
+  return axios.get(DEPARTMENT_URL + "/get-department-managers", {
+    params: { departmentId: departmentId },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 const getChildren = (departmentId, token) => {
   return axios.get(DEPARTMENT_URL + "/get-children", {
     params: { departmentId: departmentId },
@@ -101,6 +110,7 @@ export default {
   createDepartment,
   getDepartmentsForEmployee,
   getDepartmentEmployees,
+  getDepartmentManagers,
   getChildren,
   getRootDepartments,
   getUsersToAdd,

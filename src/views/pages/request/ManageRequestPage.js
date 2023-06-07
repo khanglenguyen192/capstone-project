@@ -125,15 +125,18 @@ export default function ManageRequestPage(props) {
   const [selectedStatus, setSelectedStatus] = useState(null);
 
   const fetchData = () => {
-    let searchModel = {};
+    let searchModel = {
+      type: selectedDayType,
+      status: selectedStatus,
+      pageIndex: 0,
+      pageSize: 100,
+    };
     if (params.departmentId != undefined) {
-      searchModel = {
-        departmentId: params.departmentId,
-        type: selectedDayType,
-        status: selectedStatus,
-        pageIndex: 0,
-        pageSize: 100,
-      };
+      searchModel.departmentId = params.departmentId;
+      searchModel.ignoreDepartmentManager = true;
+    }
+    if (params.userId != undefined) {
+      searchModel.userId = params.userId;
     }
 
     DayOffService.searchDayOff(searchModel, user.token).then((res) => {
@@ -179,12 +182,19 @@ export default function ManageRequestPage(props) {
   const selectStatusFilter = (status) => {
     setSelectedStatus(status);
     let searchModel = {
-      departmentId: params.departmentId,
       dayOffStatus: status,
       type: selectedDayType,
       pageIndex: 0,
       pageSize: 100,
     };
+
+    if (params.departmentId != undefined) {
+      searchModel.departmentId = params.departmentId;
+      searchModel.ignoreDepartmentManager = true;
+    }
+    if (params.userId != undefined) {
+      searchModel.userId = params.userId;
+    }
 
     DayOffService.searchDayOff(searchModel, user.token).then((res) => {
       const response = res.data;
@@ -212,12 +222,19 @@ export default function ManageRequestPage(props) {
   const selectTypeFilter = (type) => {
     setSelectedDayType(type);
     let searchModel = {
-      departmentId: params.departmentId,
       status: selectedStatus,
       type: type,
       pageIndex: 0,
       pageSize: 100,
     };
+
+    if (params.departmentId != undefined) {
+      searchModel.departmentId = params.departmentId;
+      searchModel.ignoreDepartmentManager = true;
+    }
+    if (params.userId != undefined) {
+      searchModel.userId = params.userId;
+    }
 
     DayOffService.searchDayOff(searchModel, user.token).then((res) => {
       const response = res.data;
