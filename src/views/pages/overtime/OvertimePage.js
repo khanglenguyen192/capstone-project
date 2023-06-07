@@ -49,7 +49,7 @@ export default function OvertimePage(props) {
   };
 
   const handleSelectEndTime = (time, timeString) => {
-    setStartTime(timeString);
+    setEndTime(timeString);
   };
 
   const handleSubmitOvertime = () => {
