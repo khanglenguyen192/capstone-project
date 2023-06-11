@@ -21,21 +21,25 @@ export default function DepartmentUsersPage(props) {
   const user = useSelector((state) => {
     return state.AuthReducer.user;
   });
+  const isAdmin = useSelector((state) => {
+    console.log(state.AuthReducer);
+    return state.AuthReducer.isAdmin;
+  });
 
   useDispatch()({
     type: "department",
   });
 
   useEffect(() => {
-    if (user.userId == 1) {
-      setIsAdmin(true);
+    if (isAdmin) {
+      setIsDepartmentAdmin(true);
     }
 
     getDepartmentUsers();
     getDepartment();
   }, []);
 
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isDepartmentAdmin, setIsDepartmentAdmin] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [employees, setEmployees] = useState([]);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(0);
@@ -68,7 +72,7 @@ export default function DepartmentUsersPage(props) {
             item.id == user.userId &&
             (item.departmentRole == 1 || item.departmentRole == 2)
           ) {
-            setIsAdmin(true);
+            setIsDepartmentAdmin(true);
           }
 
           var model = {
@@ -162,7 +166,8 @@ export default function DepartmentUsersPage(props) {
       dataIndex: "id",
       key: "id",
       render: (id) => {
-        if (isAdmin && id != 1 && id == user.userId) return <div></div>;
+        if (isDepartmentAdmin && id != 1 && id == user.userId)
+          return <div></div>;
         else
           return (
             <Dropdown
@@ -296,7 +301,7 @@ export default function DepartmentUsersPage(props) {
           Yêu cầu
         </div>
       </Menu.Item>
-      {user.userId == 1 && (
+      {isAdmin && (
         <Menu.Item key="add-permission">
           <div class="dropdown-item" id="ticket-menu-id-1">
             <i class="mdi mdi-account-key menu-icon mr-2 text-muted font-18 vertical-middle"></i>
@@ -359,7 +364,7 @@ export default function DepartmentUsersPage(props) {
                     </div>
                   </div>
 
-                  {isAdmin && (
+                  {isDepartmentAdmin && (
                     <div class="form-group row d-flex justify-content-center align-items-center">
                       <div class="vertical-center">
                         <input
@@ -451,7 +456,7 @@ export default function DepartmentUsersPage(props) {
                 </div>
               </div>
 
-              {isAdmin && (
+              {isDepartmentAdmin && (
                 <div class="row">
                   <div className="col-12">
                     <div class="head-action">
@@ -498,7 +503,9 @@ export default function DepartmentUsersPage(props) {
 
               <Table
                 size="large"
-                columns={isAdmin ? columns.concat(adminColumn) : columns}
+                columns={
+                  isDepartmentAdmin ? columns.concat(adminColumn) : columns
+                }
                 dataSource={employees}
               ></Table>
             </div>

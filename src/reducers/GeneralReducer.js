@@ -70,6 +70,7 @@ export default function GeneralReducer(state = initialState, action) {
         title: "Báo cáo công việc",
       };
     case "coming-soon":
+    case "unauthorize":
       return {
         ...state,
         title: "",

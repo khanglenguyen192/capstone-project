@@ -31,6 +31,7 @@ import ComingSoonPage from "./views/pages/general/ComingSoonPage";
 import ManageRequestPage from "./views/pages/request/ManageRequestPage";
 import ManageOverTimePage from "./views/pages/overtime/ManageOverTimePage";
 import ChildDepartmentManagerPage from "./views/pages/department/ChildDepartmentManagerPage";
+import UnauthorizePage from "./views/pages/general/UnauthorizePage";
 
 const App = () => {
   const isLoggedIn = useSelector((state) => {
@@ -39,6 +40,10 @@ const App = () => {
 
   const userName = useSelector((state) => {
     return state.AuthReducer.fullName;
+  });
+
+  const isAdmin = useSelector((state) => {
+    return state.AuthReducer.isAdmin;
   });
 
   if (isLoggedIn) {
@@ -108,7 +113,10 @@ const App = () => {
                 element={<CreateReportPage />}
               />
               <Route path="/report/:reportId" element={<CreateReportPage />} />
-              <Route path="/add-user" element={<AddUserPage />} />
+              <Route
+                path="/add-user"
+                element={isAdmin ? <AddUserPage /> : <UnauthorizePage />}
+              />
               <Route
                 path="department/:departmentId/add-users"
                 element={<AddDepartmentUserPage />}
@@ -128,6 +136,8 @@ const App = () => {
                 path="/user/:userId/requests"
                 element={<ManageRequestPage />}
               />
+              <Route path="/user/:userId" element={<AddUserPage />} />
+              <Route path="/unauthorize" element={<UnauthorizePage />} />
             </Route>
             {/* <Route path="/test" element={<LoginPage />}></Route> */}
           </Routes>

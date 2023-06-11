@@ -1,29 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NoImage from "../../../assets/images/no-image.jpg";
 import "./SalaryDetailPage.css";
 import { useSelector, useDispatch } from "react-redux";
+import dateFormat from "dateformat";
+import SalaryService from "../../../services/SalaryService";
 
 export default function SalaryDetailPage(props) {
   const isAdmin = useSelector((state) => {
     return state.AuthReducer.isAdmin;
   });
 
+  const user = useSelector((state) => {
+    return state.AuthReducer.user;
+  });
+
   useDispatch()({
     type: "salary",
   });
 
-  var appNumber = "";
+  const [salary, setSalary] = useState({});
 
-  const salary = {
-    salaryType: "Gross",
-    isEmptySalary: false,
-    userModel: {
-      fullName: "Nguyễn Văn A",
-      avatar: { NoImage },
-      dateJoinCompany: "01/01/2022",
-    },
+  const date = dateFormat(new Date(), "mm/yyyy");
+
+  useEffect(() => {
+    getSalary();
+  }, []);
+
+  const getSalary = () => {
+    SalaryService.getSalary(user.userId, user.token).then((res) => {
+      var response = res.data;
+
+      if (response != null && response.payload != null) {
+        setSalary(response.payload);
+      }
+    });
   };
-  const date = "02/2023"; //"MM/yyyy"
 
   return (
     <div class="row">
@@ -98,11 +109,9 @@ export default function SalaryDetailPage(props) {
                       marginBottom: "-2px",
                     }}
                   >
-                    {salary.userModel.fullName}
+                    {user.fullName}
                   </p>
-                  <p class="text-dark font-13 text-uppercase">
-                    Thành viên từ {salary.userModel.dateJoinCompany}
-                  </p>
+                  <p class="text-dark font-13 text-uppercase">{user.role}</p>
                 </span>
               </span>
             </div>
@@ -112,178 +121,178 @@ export default function SalaryDetailPage(props) {
                 <tbody>
                   <tr>
                     <th colspan="2">Lương cơ bản</th>
-                    <td>{salary.basicSalary | appNumber}</td>
+                    <td>{salary.basicSalary}</td>
                   </tr>
 
                   <tr>
                     <th rowspan="4">Phụ cấp không đóng BH</th>
                     <th>Ăn trưa</th>
-                    <td>{salary.lunchMoney | appNumber}</td>
+                    <td>{salary.lunchMoney}</td>
                   </tr>
 
                   <tr>
                     <th>Điện thoại</th>
-                    <td>{salary.telephoneFee | appNumber}</td>
+                    <td>{salary.telephoneFee}</td>
                   </tr>
 
                   <tr>
                     <th>Xăng xe</th>
-                    <td>{salary.petrolMoney | appNumber}</td>
+                    <td>{salary.petrolMoney}</td>
                   </tr>
 
                   <tr>
                     <th>Nhà ở</th>
-                    <td>{salary.housingSupport | appNumber}</td>
+                    <td>{salary.housingSupport}</td>
                   </tr>
 
                   <tr>
                     <th colspan="2">Hiệu suất làm việc</th>
-                    <td>{salary.salaryPerformance | appNumber}</td>
+                    <td>{salary.salaryPerformance}</td>
                   </tr>
 
                   <tr>
                     <th colspan="2">Tiền thưởng lễ</th>
-                    <td>{salary.holidayBonus | appNumber}</td>
+                    <td>{salary.holidayBonus}</td>
                   </tr>
 
                   <tr>
                     <th rowspan="3">Chi tiết tăng ca</th>
                     <th>Tổng số giờ đã tăng ca</th>
-                    <td>{salary.totalOTHours | appNumber}</td>
+                    <td>{salary.totalOTHours}</td>
                   </tr>
 
                   <tr>
                     <th>Số tiền quy đổi cho một giờ tăng ca</th>
-                    <td>{salary.otRate | appNumber}</td>
+                    <td>{salary.otRate}</td>
                   </tr>
 
                   <tr>
                     <th>Tổng tiền tăng ca</th>
-                    <td>{salary.otSalary | appNumber}</td>
+                    <td>{salary.otSalary}</td>
                   </tr>
 
                   <tr>
                     <th colspan="2">Tổng phụ cấp, thưởng</th>
-                    <td>{salary.totalAllowance | appNumber}</td>
+                    <td>{salary.totalAllowance}</td>
                   </tr>
 
                   <tr class="minus-salary">
                     <th>Khấu trừ ngày nghỉ</th>
-                    <td>{salary.paidDayOff | appNumber}</td>
+                    <td>{salary.paidDayOff}</td>
                   </tr>
 
                   <tr>
                     <th colspan="2">Tổng thu nhập</th>
-                    <td>{salary.totalIncome | appNumber}</td>
+                    <td>{salary.totalIncome}</td>
                   </tr>
 
                   <tr>
                     <th colspan="2">Lương tính đóng BHXH, BHYT</th>
-                    <td>{salary.salaryCalculatedForBHXHnBHYT | appNumber}</td>
+                    <td>{salary.salaryCalculatedForBHXHnBHYT}</td>
                   </tr>
 
                   <tr>
                     <th colspan="2">Lương tính đóng BHTN</th>
-                    <td>{salary.salaryCalculatedForBHTN | appNumber}</td>
+                    <td>{salary.salaryCalculatedForBHTN}</td>
                   </tr>
 
                   <tr>
                     <th rowspan="5">Khoản trích tính vào CP</th>
                     <th>BHXH</th>
-                    <td>{salary.bhxh | appNumber}</td>
+                    <td>{salary.bhxh}</td>
                   </tr>
                   <tr>
                     <th>BHYT</th>
-                    <td>{salary.bhyt | appNumber}</td>
+                    <td>{salary.bhyt}</td>
                   </tr>
                   <tr>
                     <th>BHTN</th>
-                    <td>{salary.bhtn | appNumber}</td>
+                    <td>{salary.bhtn}</td>
                   </tr>
                   <tr>
                     <th>KPCĐ</th>
-                    <td>{salary.kpcd | appNumber}</td>
+                    <td>{salary.kpcd}</td>
                   </tr>
                   <tr>
                     <th>Cộng</th>
-                    <td>{salary.totalCP | appNumber}</td>
+                    <td>{salary.totalCP}</td>
                   </tr>
 
                   <tr>
                     <th rowspan="4">Bảo hiểm bắt buộc</th>
                     <th>BHXH</th>
-                    <td>{salary.bhxhCompulsory | appNumber}</td>
+                    <td>{salary.bhxhCompulsory}</td>
                   </tr>
 
                   <tr>
                     <th>BHYT</th>
-                    <td>{salary.bhytCompulsory | appNumber}</td>
+                    <td>{salary.bhytCompulsory}</td>
                   </tr>
 
                   <tr>
                     <th>BHTN</th>
-                    <td>{salary.bhtnCompulsory | appNumber}</td>
+                    <td>{salary.bhtnCompulsory}</td>
                   </tr>
 
                   <tr>
                     <th>Cộng</th>
-                    <td>{salary.totalCompulsoryInsurance | appNumber}</td>
+                    <td>{salary.totalCompulsoryInsurance}</td>
                   </tr>
 
                   <tr>
                     <th rowspan="9"></th>
                     <th>Giảm trừ bản thân</th>
-                    <td>{salary.reduceYourself | appNumber}</td>
+                    <td>{salary.reduceYourself}</td>
                   </tr>
 
                   <tr>
                     <th>Thu nhập miễn thuế TNCN</th>
-                    <td>{salary.net | appNumber}</td>
+                    <td>{salary.net}</td>
                   </tr>
 
                   <tr>
                     <th>TNCN chưa bao gồm tiền thuê nhà</th>
-                    <td>{salary.pitExcludingRent | appNumber}</td>
+                    <td>{salary.pitExcludingRent}</td>
                   </tr>
 
                   <tr>
                     <th>TN làm căn cứ quy đổi(bao gồm tiền thuê nhà)</th>
-                    <td>{salary.tnConversionIncludingRent | appNumber}</td>
+                    <td>{salary.tnConversionIncludingRent}</td>
                   </tr>
 
                   <tr>
                     <th>Thu nhập tính thuế</th>
-                    <td>{salary.taxableIncome | appNumber}</td>
+                    <td>{salary.taxableIncome}</td>
                   </tr>
 
                   <tr>
                     <th>Thuế TNCN</th>
-                    <td>{salary.pit | appNumber}</td>
+                    <td>{salary.pit}</td>
                   </tr>
 
                   <tr class="minus-salary">
                     <th>Thuế TNCN khấu trừ từ tăng ca</th>
-                    <td>{salary.pitByEmployee | appNumber}</td>
+                    <td>{salary.pitByEmployee}</td>
                   </tr>
 
                   <tr>
                     <th>Tổng thu nhập chịu thuế</th>
-                    <td>{salary.totalTaxableIncome | appNumber}</td>
+                    <td>{salary.totalTaxableIncome}</td>
                   </tr>
 
                   <tr class="minus-salary">
                     <th>Tạm ứng</th>
-                    <td>{salary.cashAdvance | appNumber}</td>
+                    <td>{salary.cashAdvance}</td>
                   </tr>
 
                   <tr>
                     <th colspan="2">Tổng cộng</th>
-                    <td>{salary.totalTax | appNumber}</td>
+                    <td>{salary.totalTax}</td>
                   </tr>
 
                   <tr>
                     <th colspan="2">Thực lĩnh</th>
-                    <td>{salary.realSalary | appNumber}</td>
+                    <td>{salary.realSalary}</td>
                   </tr>
                 </tbody>
               </table>

@@ -21,6 +21,10 @@ export default function ChildDepartmentManagerPage(props) {
   const user = useSelector((state) => {
     return state.AuthReducer.user;
   });
+  const isAdmin = useSelector((state) => {
+    console.log(state.AuthReducer);
+    return state.AuthReducer.isAdmin;
+  });
 
   useDispatch()({
     type: "department",
@@ -215,7 +219,7 @@ export default function ChildDepartmentManagerPage(props) {
           Yêu cầu
         </div>
       </Menu.Item>
-      {user.userId == 1 && (
+      {isAdmin && (
         <Menu.Item key="remove-permission">
           <div class="dropdown-item" id="ticket-menu-id-1">
             <i class="mdi mdi-account-key menu-icon mr-2 text-muted font-18 vertical-middle"></i>

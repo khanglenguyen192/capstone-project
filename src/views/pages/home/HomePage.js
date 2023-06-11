@@ -11,6 +11,10 @@ export default function HomePage() {
     return state.AuthReducer.user;
   });
 
+  const isAdmin = useSelector((state) => {
+    return state.AuthReducer.isAdmin;
+  });
+
   useDispatch()({
     type: "home",
   });
@@ -34,18 +38,14 @@ export default function HomePage() {
             Date.parse(userData.dateJoinCompany),
             "dd/mm/yyyy"
           ),
+          totalDayOffRemainInYear: userData.totalDayOffRemainInYear,
+          totalDayOffInYear: userData.totalDayOffInYear,
         };
 
         setUserModel(model);
       }
     });
   }, []);
-
-  const userIndex = {
-    totalProjects: "1",
-    dayOffInYear: "1",
-    totalDayOffInYear: "11",
-  };
 
   return (
     <div class="row">
@@ -157,7 +157,7 @@ export default function HomePage() {
             <div class="col-md-6 col-xl-4">
               <div class="card-box card-normal bg-primary widget-flat border-primary text-white">
                 <i class="fi-stack-2"></i>
-                <h3 class="m-b-10">{userIndex.totalProjects}</h3>
+                <h3 class="m-b-10">0</h3>
                 <p class="text-uppercase m-b-5 font-13 font-600">
                   Dự án đã và đang làm
                 </p>
@@ -166,7 +166,7 @@ export default function HomePage() {
             <div class="col-md-6 col-xl-4">
               <div class="card-box card-normal widget-flat border-success bg-success text-white">
                 <i class="fi-sun"></i>
-                <h3 class="m-b-10">{userIndex.dayOffInYear}</h3>
+                <h3 class="m-b-10">{userModel.totalDayOffInYear}</h3>
                 <p class="text-uppercase m-b-5 font-13 font-600">
                   Số ngày đã nghỉ
                 </p>
@@ -175,7 +175,7 @@ export default function HomePage() {
             <div class="col-md-6 col-xl-4">
               <div class="card-box card-normal bg-danger widget-flat border-danger text-white">
                 <i class="fi-sun"></i>
-                <h3 class="m-b-10">{userIndex.totalDayOffInYear}</h3>
+                <h3 class="m-b-10">{userModel.totalDayOffRemainInYear}</h3>
                 <p class="text-uppercase font-13 font-600">
                   Số ngày nghỉ còn lại
                 </p>

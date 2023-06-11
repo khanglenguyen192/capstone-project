@@ -141,14 +141,14 @@ export default function ManageTicketPage(props) {
       <Menu.Item key="view">
         <div class="dropdown-item" id="ticket-menu-id-1">
           <i class=" mdi mdi-eye mr-2 text-muted font-18 vertical-middle"></i>
-          View Ticket
+          Xem công việc
         </div>
       </Menu.Item>
       {showAssignTickets && (
         <Menu.Item key="close">
           <div class="dropdown-item" id="ticket-menu-id-2">
             <i class="mdi mdi-close-circle-outline mr-2 text-muted font-18 vertical-middle"></i>
-            Close Ticket
+            Đóng công việc
           </div>
         </Menu.Item>
       )}
@@ -156,7 +156,7 @@ export default function ManageTicketPage(props) {
         <Menu.Item key="create-report">
           <div class="dropdown-item" id="ticket-menu-id-3">
             <i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>
-            Create Report
+            Tạo báo cáo
           </div>
         </Menu.Item>
       )}

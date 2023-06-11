@@ -16,6 +16,11 @@ const LeftSideBar = () => {
     return state.AuthReducer.user;
   });
 
+  const isAdmin = useSelector((state) => {
+    console.log(state.AuthReducer);
+    return state.AuthReducer.isAdmin;
+  });
+
   function viewProfile() {
     navigate("/edit-user-profile");
   }
@@ -32,11 +37,11 @@ const LeftSideBar = () => {
       routerLink: "/home",
       title: "Trang chủ",
     },
-    {
-      icon: "mdi mdi-note-multiple-outline menu-icon",
-      routerLink: "/projects",
-      title: "Dự án",
-    },
+    // {
+    //   icon: "mdi mdi-note-multiple-outline menu-icon",
+    //   routerLink: "/projects",
+    //   title: "Dự án",
+    // },
     {
       icon: "mdi mdi-sitemap menu-icon",
       routerLink: "/departments",
@@ -47,11 +52,11 @@ const LeftSideBar = () => {
       routerLink: "/tickets",
       title: "Công việc",
     },
-    {
-      icon: "mdi mdi-message-video menu-icon",
-      routerLink: "meeting",
-      title: "Hội họp",
-    },
+    // {
+    //   icon: "mdi mdi-message-video menu-icon",
+    //   routerLink: "meeting",
+    //   title: "Hội họp",
+    // },
     {
       icon: "mdi mdi-calendar-today menu-icon",
       routerLink: "/day-off",
@@ -67,11 +72,11 @@ const LeftSideBar = () => {
       routerLink: "/manage-overtime",
       title: "Tăng ca",
     },
-    {
-      icon: "mdi mdi-cash-multiple menu-icon",
-      routerLink: "/advanced-salary",
-      title: "Ứng lương",
-    },
+    // {
+    //   icon: "mdi mdi-cash-multiple menu-icon",
+    //   routerLink: "/advanced-salary",
+    //   title: "Ứng lương",
+    // },
     {
       icon: "mdi mdi-file-document-box menu-icon",
       routerLink: "/salary-detail",
@@ -126,7 +131,7 @@ const LeftSideBar = () => {
                 </Link>
               </li>
             ))}
-            {user.userId == 1 && (
+            {isAdmin && (
               <li className="menu-item">
                 <Link to="/add-user">
                   <i className="mdi mdi-account-plus menu-icon"> </i>
@@ -134,13 +139,13 @@ const LeftSideBar = () => {
                 </Link>
               </li>
             )}
-            <div className="user-box" id="logout" onClick={logOut}>
-              <h5>
-                <a> Đăng xuất </a>
-              </h5>
-            </div>
           </ul>
         </div>
+      </div>
+      <div className="user-box" id="logout" onClick={logOut}>
+        <h5>
+          <a> Đăng xuất </a>
+        </h5>
       </div>
     </div>
   );

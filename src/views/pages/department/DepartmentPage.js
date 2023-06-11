@@ -13,6 +13,11 @@ export default function DepartmentPage(props) {
     return state.AuthReducer.user;
   });
 
+  const isAdmin = useSelector((state) => {
+    console.log(state.AuthReducer);
+    return state.AuthReducer.isAdmin;
+  });
+
   useDispatch()({
     type: "department",
   });
@@ -205,7 +210,7 @@ export default function DepartmentPage(props) {
             )}
           </div>
 
-          {user.userId == 1 && (
+          {isAdmin && (
             <div className="col-6">
               <button
                 type="button"
