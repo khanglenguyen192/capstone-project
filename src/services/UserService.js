@@ -38,9 +38,25 @@ const updateUserIdentity = (userId, formData, token) => {
   });
 };
 
+const changePassword = (currentPassword, newPassword, token) => {
+  return axios.post(
+    USER_URL + "/change-password",
+    {
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
 export default {
   getUser,
   createUser,
   updateUser,
   updateUserIdentity,
+  changePassword,
 };

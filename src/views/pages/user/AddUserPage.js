@@ -49,6 +49,11 @@ export default function AddUserPage(props) {
       return;
     }
 
+    if (!Utils.isValidEmail(email)) {
+      message.error("Email không hợp lệ", 1.5);
+      return;
+    }
+
     if (gender == null || gender.length == 0) {
       message.error("Vui lòng chọn giới tính", 1.5);
       return;
@@ -65,7 +70,6 @@ export default function AddUserPage(props) {
     var body = {
       userId: 0,
       email: email,
-      userName: email,
       userName: email,
       phone: phone,
       userCode: userCode,
@@ -86,9 +90,20 @@ export default function AddUserPage(props) {
     UserService.createUser(body, user.token).then((res) => {
       var response = res.data;
 
-      if (response != null && response.status == 200) {
-        message.info("Thêm nhân viên thành công");
-        navigate("/home");
+      if (
+        response != null &&
+        response.status == 200 &&
+        response.payload != null
+      ) {
+        if (response.payload.status == 200) {
+          message.info("Thêm nhân viên thành công");
+          navigate("/home");
+        } else {
+          if (response.payload.error != null)
+            message.error(response.payload.error.message);
+          else
+            message.error("Thêm nhân viên thất bại, vui lòng thử lại !!!", 1);
+        }
       } else {
         message.error("Thêm nhân viên thất bại, vui lòng thử lại !!!", 1);
       }

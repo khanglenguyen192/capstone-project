@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  Input,
+  Cascader,
+  Table,
+  Tag,
+  Menu,
+  Dropdown,
+  message,
+  Button,
+} from "antd";
 
 const TopBar = (props) => {
   const user = useSelector((state) => {
@@ -10,6 +20,48 @@ const TopBar = (props) => {
   const title = useSelector((state) => {
     return state.GeneralReducer.title;
   });
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onItemMenuClick = ({ key }) => {
+    switch (key) {
+      case "user-info":
+        navigate("/edit-user-profile");
+        break;
+      case "change-password":
+        navigate("/change-password");
+        break;
+      case "logout":
+        dispatch({
+          type: "LOGOUT",
+        });
+        break;
+    }
+  };
+
+  const itemMenu = (
+    <Menu onClick={onItemMenuClick}>
+      <Menu.Item key="user-info">
+        <div class="dropdown-item" id="ticket-menu-id-1">
+          <i class="fi-head menu-icon mr-2 text-muted font-18 vertical-middle"></i>
+          Thông tin cá nhân
+        </div>
+      </Menu.Item>
+      <Menu.Item key="change-password">
+        <div class="dropdown-item" id="ticket-menu-id-1">
+          <i class="fi-lock menu-icon mr-2 text-muted font-18 vertical-middle"></i>
+          Đổi mật khẩu
+        </div>
+      </Menu.Item>
+      <Menu.Item key="logout">
+        <div class="dropdown-item" id="ticket-menu-id-1">
+          <i class="fi-power menu-icon mr-2 text-muted font-18 vertical-middle"></i>
+          Đăng xuất
+        </div>
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <div class="topbar">
@@ -29,113 +81,24 @@ const TopBar = (props) => {
                 5
               </span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-lg">
-              <div class="dropdown-item noti-title">
-                <h5 class="m-0">
-                  <span class="float-right">
-                    <a click="markAsreadAddNotify()" class="text-dark pointer">
-                      <small>Đọc tất cả</small>
-                    </a>
-                  </span>
-                  Thông báo
-                </h5>
-              </div>
-
-              <div class="slimscroll">
-                <div>
-                  <div style={{ background: "#EDEDF5" }}>
-                    <a
-                      class="dropdown-item notify-item"
-                      click="notifyOnClickURL(notify.id)"
-                    >
-                      <div>
-                        <div class="notify-icon bg-info">
-                          <i class="mdi mdi-message"></i>
-                        </div>
-                        <div class="notify-icon bg-success">
-                          <i class="mdi mdi-account-circle"></i>
-                        </div>
-                        <div mclass="notify-icon bg-danger">
-                          <i class="mdi mdi-professional-hexagon"></i>
-                        </div>
-                        <div class="notify-icon bg-purple">
-                          <i class="mdi mdi-calendar-remove"></i>
-                        </div>
-                        <div class="notify-icon bg-warning">
-                          <i class="mdi mdi-timetable"></i>
-                        </div>
-                        <div class="notify-icon bg-primary">
-                          <i class="mdi mdi-cake"></i>
-                        </div>
-                        <div class="notify-icon bg-secondary">
-                          <i class="mdi mdi-cash-100"></i>
-                        </div>
-                        <div>
-                          <i class="mdi mdi-battery-unknown"></i>
-                        </div>
-                      </div>
-                      <p class="notify-details">
-                        <small class="text-muted"></small>
-                      </p>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <a
-                href="javascript:void(0);"
-                class="dropdown-item text-center text-primary notify-item notify-all"
-                routerLink="/notify-list"
-              >
-                Xem tất cả <i class="fi-arrow-right"></i>
-              </a>
-            </div>
           </li>
-
-          <li class="dropdown notification-list">
-            <a
-              class="nav-link dropdown-toggle nav-user"
-              data-toggle="dropdown"
-              href="/edit-user-profile"
-              role="button"
-              aria-haspopup="false"
-              aria-expanded="false"
-            >
-              <span class="ml-1">
-                {user.fullName}
-                <i class="mdi mdi-chevron-down"></i>{" "}
-              </span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown">
-              <div class="dropdown-item noti-title">
-                <h6 class="text-overflow m-0">Xin chào !</h6>
-              </div>
-
+          <Dropdown trigger={["click"]} overlay={itemMenu}>
+            <li class="dropdown notification-list">
               <a
-                href="javascript:void(0);"
-                class="dropdown-item notify-item"
-                routerLink="/user-profile"
+                class="nav-link dropdown-toggle nav-user"
+                data-toggle="dropdown"
+                href="/edit-user-profile"
+                role="button"
+                aria-haspopup="false"
+                aria-expanded="false"
               >
-                <i class="fi-head"></i> <span>Thông tin tài khoản</span>
+                <span class="ml-1">
+                  {user.fullName}
+                  <i class="mdi mdi-chevron-down"></i>{" "}
+                </span>
               </a>
-
-              <a
-                href="javascript:void(0);"
-                class="dropdown-item notify-item"
-                routerLink="/change-password"
-              >
-                <i class="fi-lock"></i> <span>Đổi mật khẩu</span>
-              </a>
-
-              <a
-                href="javascript:void(0);"
-                class="dropdown-item notify-item"
-                click="logOut()"
-              >
-                <i class="fi-power"></i> <span>Đăng xuất</span>
-              </a>
-            </div>
-          </li>
+            </li>
+          </Dropdown>
         </ul>
 
         <ul class="list-inline menu-left mb-0">

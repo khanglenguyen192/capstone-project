@@ -32,6 +32,7 @@ import ManageRequestPage from "./views/pages/request/ManageRequestPage";
 import ManageOverTimePage from "./views/pages/overtime/ManageOverTimePage";
 import ChildDepartmentManagerPage from "./views/pages/department/ChildDepartmentManagerPage";
 import UnauthorizePage from "./views/pages/general/UnauthorizePage";
+import ChangePasswordPage from "./views/pages/general/ChangePasswordPage";
 
 const App = () => {
   const isLoggedIn = useSelector((state) => {
@@ -139,7 +140,7 @@ const App = () => {
               <Route path="/user/:userId" element={<AddUserPage />} />
               <Route path="/unauthorize" element={<UnauthorizePage />} />
             </Route>
-            {/* <Route path="/test" element={<LoginPage />}></Route> */}
+            <Route path="/change-password" element={<ChangePasswordPage />} />
           </Routes>
         </Router>
       </div>

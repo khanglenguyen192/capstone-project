@@ -142,11 +142,6 @@ const LeftSideBar = () => {
           </ul>
         </div>
       </div>
-      <div className="user-box" id="logout" onClick={logOut}>
-        <h5>
-          <a> Đăng xuất </a>
-        </h5>
-      </div>
     </div>
   );
 };

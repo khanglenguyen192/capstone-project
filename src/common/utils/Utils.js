@@ -108,6 +108,12 @@ function formatISODateTime(dateTimeStr, format = "dd/mm/yyyy, hh:mm TT") {
   return dateFormat(dateTimeStr, format);
 }
 
+function isValidEmail(email) {
+  return email.match(
+    /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
+  );
+}
+
 export default {
   getDepartmentRoleString,
   getFileSizeFromBytes,
@@ -117,4 +123,5 @@ export default {
   getDayOffTypeString,
   convertToDayJs,
   formatISODateTime,
+  isValidEmail,
 };
