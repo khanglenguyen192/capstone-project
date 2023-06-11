@@ -84,19 +84,12 @@ const TopBar = (props) => {
           </li>
           <Dropdown trigger={["click"]} overlay={itemMenu}>
             <li class="dropdown notification-list">
-              <a
-                class="nav-link dropdown-toggle nav-user"
-                data-toggle="dropdown"
-                href="/edit-user-profile"
-                role="button"
-                aria-haspopup="false"
-                aria-expanded="false"
-              >
+              <div class="nav-link dropdown-toggle nav-user">
                 <span class="ml-1">
                   {user.fullName}
                   <i class="mdi mdi-chevron-down"></i>{" "}
                 </span>
-              </a>
+              </div>
             </li>
           </Dropdown>
         </ul>
